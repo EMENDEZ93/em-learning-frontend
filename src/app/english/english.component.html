@@ -4,12 +4,12 @@
   
     Content 2 
   
-    <form class="example-form">
+    <form class="example-form" #verbform="ngForm">
         <mat-form-field class="example-full-width">
-          <input (input)="somethingChanged($event.target.value)" matInput placeholder="{{present_verb}}">
+          <input matInput type="text" placeholder="{{present_verb}}" class="form-control" name="in" (input)="somethingChanged($event.target.value);" [(ngModel)]="entrada.verb" >
         </mat-form-field>
-      </form>
+    </form>
 
-  </mat-tab>
+  </mat-tab>  
   <mat-tab label="Third"> Content 3 </mat-tab>
 </mat-tab-group>

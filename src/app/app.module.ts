@@ -8,6 +8,8 @@ import { MatTabsModule } from '@angular/material';
 import { PresentService } from './english/service/verb/present/present.service';
 import { HttpClientModule } from '@angular/common/http';
 import {MatInputModule} from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
+
 
 @NgModule({
   declarations: [
@@ -20,7 +22,8 @@ import {MatInputModule} from '@angular/material/input';
     BrowserAnimationsModule,
     MatTabsModule,
     MatInputModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [PresentService],
   bootstrap: [AppComponent]
