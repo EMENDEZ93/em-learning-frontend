@@ -2,8 +2,16 @@
   <mat-tab label="First"> {{present_verb}} * </mat-tab>
   <mat-tab label="Second"> 
   
-    Content 2 
+    Content {{repeat_to_learned_verb_number}} 
   
+    <div class="example-button-row">
+      <button (click)="onAudioPlay()" mat-raised-button>Listen!!!</button>
+    </div>
+
+    <audio #audioOption>
+      <source src='assets/resources/english/verb/present/work.mp3' type="audio/mp3">
+    </audio>
+
     <form class="example-form" #verbform="ngForm">
         <mat-form-field class="example-full-width">
           <input matInput type="text" placeholder="{{present_verb}}" class="form-control" name="in" (input)="somethingChanged($event.target.value);" [(ngModel)]="entrada.verb" >

@@ -9,7 +9,8 @@ import { PresentService } from './english/service/verb/present/present.service';
 import { HttpClientModule } from '@angular/common/http';
 import {MatInputModule} from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
-
+import { SettingEnglishService } from './english/service/setting/settingenglish.service';
+import {MatButtonModule} from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -22,10 +23,11 @@ import { FormsModule } from '@angular/forms';
     BrowserAnimationsModule,
     MatTabsModule,
     MatInputModule,
+    MatButtonModule,
     HttpClientModule,
     FormsModule
   ],
-  providers: [PresentService],
+  providers: [PresentService, SettingEnglishService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
