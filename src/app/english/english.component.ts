@@ -24,16 +24,17 @@ export class EnglishComponent {
   verb: any;
   entrada = {} as InputVerb;
   verbo = {} as VerbModel;
+  audio: any;
 
   ngOnInit() {
     this.getRepeatToLearnedVerbNumber();
     this.getPresent();
   }
-
+  
 
   @ViewChild('audioOption') audioPlayerRef;
 
-  onAudioPlay(){
+  onAudioPlay(){  
     this.audioPlayerRef.nativeElement.play();
   }
   
