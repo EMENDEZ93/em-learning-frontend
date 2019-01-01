@@ -35,26 +35,26 @@ export class EnglishComponent {
   @ViewChild('audioOption') audioPlayerRef;
 
   onAudioPlay(){  
+    this.audioPlayerRef.nativeElement.load();
     this.audioPlayerRef.nativeElement.play();
   }
   
 
   somethingChanged(input){
-
-    this.onAudioPlay();
-
     if( input == this.verbo.present && this.verbo.verify_time == VerbConst.PRESENT ){
       this.repetitions_number ++;
       this.verbform.resetForm();
       this.getChangePresentLearned(this.verb.id);    
       this.present_verb = this.verb.past.verb;
       this.verbo.verify_time = VerbConst.PAST;
-      
+      this.onAudioPlay();
+
     } else if( input == this.verbo.past && this.verbo.verify_time == VerbConst.PAST ) {
       this.verbform.resetForm();
       this.present_verb = this.verb.pastPartiple.verb;
       this.verbo.verify_time = VerbConst.PAST_PARTICIPLE; 
-      
+      this.onAudioPlay();
+
     } else if( input == this.verbo.past_participle  && this.verbo.verify_time == VerbConst.PAST_PARTICIPLE) {
       
       if( this.repetitions_number == this.repeat_to_learned_verb_number ){
@@ -83,6 +83,8 @@ export class EnglishComponent {
         this.present_verb = this.verbo.present ;
         this.repetitions_number = 0;
         this.verbform.resetForm();
+        this.onAudioPlay();
+      
       },
       (error) => {
       }

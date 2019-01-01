@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class SettingEnglishService {
 
-  private endpoint = 'http://localhost:9000/api/english/setting/';
+  private endpoint = 'http://192.168.1.55:9000/api/english/setting/';
 
   constructor(private http: HttpClient) { }
 

@@ -8,8 +8,10 @@
       <button (click)="onAudioPlay()" mat-raised-button>Listen!!!</button>
     </div>
 
+    <h1>{{verbo.present}} ** </h1>
+
     <audio #audioOption>
-      <source src='assets/resources/english/verb/present/work.mp3' type="audio/mp3">
+      <source src='assets/resources/english/verb/present/{{verbo.present}}/{{present_verb}}.mp3' type="audio/mp3">
     </audio>
 
     <form class="example-form" #verbform="ngForm">
