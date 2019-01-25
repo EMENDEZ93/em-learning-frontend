@@ -10,7 +10,7 @@ export class PresentService {
 
   constructor(private http: HttpClient) { }
 
-  endpoint = 'http://192.168.1.55:9000/api/practice/';
+  endpoint = 'http://localhost:9000/api/practice/';
 
   private extractData(res: Response) { 
     let body = res;

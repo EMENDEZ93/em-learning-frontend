@@ -8,6 +8,10 @@
       <button (click)="onAudioPlay()" mat-raised-button>Listen!!!</button>
     </div>
 
+    <div class="example-button-row">
+      <button (click)="next()" mat-raised-button>next!!!</button>
+    </div>
+
     <h1>{{verbo.present}} ** </h1>
 
     <audio #audioOption>
@@ -15,8 +19,8 @@
     </audio>
 
     <form class="example-form" #verbform="ngForm">
-        <mat-form-field class="example-full-width">
-          <input matInput type="text" placeholder="{{present_verb}}" class="form-control" name="in" (input)="somethingChanged($event.target.value);" [(ngModel)]="entrada.verb" >
+        <mat-form-field class="example-full-width" style="width: 1000px;" id="verb_input">
+          <input #inpput matInput type="text" placeholder="{{present_verb}}" class="form-control" name="in" (input)="somethingChanged($event.target.value);" [(ngModel)]="entrada.verb" >
         </mat-form-field>
     </form>
 
