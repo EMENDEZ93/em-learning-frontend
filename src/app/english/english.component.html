@@ -1,28 +1,33 @@
 <mat-tab-group>
-  <mat-tab label="First"> {{present_verb}} * </mat-tab>
+  <mat-tab label="First">
+  
+      Content  {{verb.present}}
+  
+      <div class="example-button-row">
+        <button (click)="onAudioPlay()" mat-raised-button>Listen!!!</button>
+      </div>
+  
+      <div class="example-button-row">
+        <button mat-raised-button>next!!!</button>
+      </div>
+  
+      <h1> * {{verb.present}} * {{setting_present.repeatToLearnedVerbNumber}} </h1>
+  
+      <audio #audioOption>
+        <source src='{{verb.mp3Path}}' type="audio/mp3">
+      </audio>
+  
+      <form class="example-form" #verbform="ngForm">
+          <mat-form-field class="example-full-width" style="width: 1000px;" id="verb_input">
+            <input #inpput matInput type="text" placeholder="" class="form-control" name="in" (input)="inputWord($event.target.value);" [(ngModel)]="input.verb" >
+          </mat-form-field>
+      </form>
+  
+
+  </mat-tab>
   <mat-tab label="Second"> 
   
-    Content {{repeat_to_learned_verb_number}} 
-  
-    <div class="example-button-row">
-      <button (click)="onAudioPlay()" mat-raised-button>Listen!!!</button>
-    </div>
-
-    <div class="example-button-row">
-      <button (click)="next()" mat-raised-button>next!!!</button>
-    </div>
-
-    <h1>{{verbo.present}} ** </h1>
-
-    <audio #audioOption>
-      <source src='assets/resources/english/verb/present/{{verbo.present}}/{{present_verb}}.mp3' type="audio/mp3">
-    </audio>
-
-    <form class="example-form" #verbform="ngForm">
-        <mat-form-field class="example-full-width" style="width: 1000px;" id="verb_input">
-          <input #inpput matInput type="text" placeholder="{{present_verb}}" class="form-control" name="in" (input)="somethingChanged($event.target.value);" [(ngModel)]="entrada.verb" >
-        </mat-form-field>
-    </form>
+    Content 2 {{verb.present}}
 
   </mat-tab>  
   <mat-tab label="Third"> Content 3 </mat-tab>

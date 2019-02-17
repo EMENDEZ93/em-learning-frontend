@@ -1,10 +1,8 @@
 export class VerbModel {
-
+  id: string;
   present: string;
-  past: string;
-  past_participle: string;
-  verify_time: string;
-  present_example: any;
-  example_number: number;
-
+  learned: false
+  examples: any;
+  mp3Path: string;
+  repeatToLearnedVerbNumber: any;
 }
