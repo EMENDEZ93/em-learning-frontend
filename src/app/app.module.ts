@@ -11,6 +11,7 @@ import {MatInputModule} from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { SettingEnglishService } from './english/service/setting/settingenglish.service';
 import {MatButtonModule} from '@angular/material/button';
+import { PresentExampleService } from './english/service/verb/present/present-example.service';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,7 @@ import {MatButtonModule} from '@angular/material/button';
     HttpClientModule,
     FormsModule
   ],
-  providers: [PresentService, SettingEnglishService],
+  providers: [PresentService, SettingEnglishService, PresentExampleService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
