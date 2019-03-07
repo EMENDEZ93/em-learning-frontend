@@ -10,6 +10,7 @@ import { tick } from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
 import { SettingModel } from './model/verb/setting';
 import { PresentExampleService } from './service/verb/present/present-example.service';
+import { TokenStorageService } from '../security/auth/token-storage.service';
 
 
 @Component({
@@ -19,6 +20,8 @@ import { PresentExampleService } from './service/verb/present/present-example.se
 })
 export class EnglishComponent {
 
+  info: any;
+
   @ViewChild('verbform') verbform;
   @ViewChild('inpput') inpput: ElementRef;
   
@@ -27,11 +30,18 @@ export class EnglishComponent {
   setting_present = {} as SettingModel;
 
   constructor(public http: HttpClient, public presentService: PresentService, public settingEnglishService: SettingEnglishService,
-    public presentExampleService: PresentExampleService) { }
+    public presentExampleService: PresentExampleService, private token: TokenStorageService) { }
 
   ngOnInit() {
     this.getRepeatToLearnedVerbNumber();
     this.getPresent();
+
+    this.info = {
+      token: this.token.getToken(),
+      username: this.token.getUsername(),
+      authorities: this.token.getAuthorities()
+    };
+
   }
 
   @ViewChild('audioOption') audioPlayerRef;
@@ -140,6 +150,11 @@ export class EnglishComponent {
 
  getChangePresentExampleVerbLearned(auxiliaryId){
    this.presentExampleService.getChangePresentExampleVerbLearned(auxiliaryId).subscribe();
+ }
+
+ logout() {
+  this.token.signOut();
+  window.location.reload();
  }
 
 }

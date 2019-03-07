@@ -20,6 +20,7 @@ import { RegisterComponent } from './register/register.component';
 import { MenuComponent } from './english/menu/menu.component';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatListModule} from '@angular/material/list';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
     FormsModule,
     AppRoutingModule,
     MatSidenavModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatListModule
   ],
   providers: [PresentService, SettingEnglishService, PresentExampleService],
   bootstrap: [AppComponent]
