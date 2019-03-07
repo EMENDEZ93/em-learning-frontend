@@ -95,6 +95,12 @@ export class EnglishComponent {
     )
   }
 
+  getRepeatToLearnedPresentExampleVerbNumber(){
+    this.settingEnglishService.getRepeatToLearnedPresentExampleVerbNumber().subscribe(
+     (RepeatToLearnedPresentExampleVerbNumber) => {/*this.setting_present.*/}
+    );
+  }
+
   validateRepetitions(){
     if(this.verb.repeatToLearnedVerbNumber == this.setting_present.repeatToLearnedVerbNumber) {
       this.getChangePresentLearned(this.verb.id);

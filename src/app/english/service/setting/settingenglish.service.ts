@@ -14,4 +14,8 @@ export class SettingEnglishService {
     return this.http.get(this.endpoint + 'repeat/verb/learned')
   }
 
+  public getRepeatToLearnedPresentExampleVerbNumber(){
+    return this.http.get(this.endpoint + 'repeat/present/example/verb/learned')
+  }
+
 }

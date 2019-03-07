@@ -12,11 +12,17 @@ import { FormsModule } from '@angular/forms';
 import { SettingEnglishService } from './english/service/setting/settingenglish.service';
 import {MatButtonModule} from '@angular/material/button';
 import { PresentExampleService } from './english/service/verb/present/present-example.service';
+import { HomeComponent } from './home/home.component';
+import { AppRoutingModule } from './app-routing/app-routing.module';
+import {MatMenuModule} from '@angular/material/menu';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    HomeComponent,
     EnglishComponent,
+    LoginComponent
 
   ],
   imports: [
@@ -25,8 +31,10 @@ import { PresentExampleService } from './english/service/verb/present/present-ex
     MatTabsModule,
     MatInputModule,
     MatButtonModule,
+    MatMenuModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    AppRoutingModule
   ],
   providers: [PresentService, SettingEnglishService, PresentExampleService],
   bootstrap: [AppComponent]
