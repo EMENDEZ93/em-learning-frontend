@@ -7,7 +7,7 @@ import { EnglishComponent } from './english/english.component';
 import { MatTabsModule } from '@angular/material';
 import { PresentService } from './english/service/verb/present/present.service';
 import { HttpClientModule } from '@angular/common/http';
-import {MatInputModule} from '@angular/material/input';
+import { MatInputModule} from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { SettingEnglishService } from './english/service/setting/settingenglish.service';
 import {MatButtonModule} from '@angular/material/button';
@@ -17,6 +17,9 @@ import { AppRoutingModule } from './app-routing/app-routing.module';
 import {MatMenuModule} from '@angular/material/menu';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { MenuComponent } from './english/menu/menu.component';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatFormFieldModule} from '@angular/material/form-field';
 
 @NgModule({
   declarations: [
@@ -24,7 +27,8 @@ import { RegisterComponent } from './register/register.component';
     HomeComponent,
     EnglishComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    MenuComponent
 
   ],
   imports: [
@@ -36,7 +40,9 @@ import { RegisterComponent } from './register/register.component';
     MatMenuModule,
     HttpClientModule,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    MatSidenavModule,
+    MatFormFieldModule
   ],
   providers: [PresentService, SettingEnglishService, PresentExampleService],
   bootstrap: [AppComponent]
