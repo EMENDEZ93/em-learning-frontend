@@ -25,8 +25,8 @@ export class PresentService {
     };
   }
 
-  public getPresent(){
-    return this.http.get(this.endpoint + 'present');
+  public getPresent(userId){
+    return this.http.get(this.endpoint + 'present/' + userId);
   }
 
   public getChangePresentLearned(id){

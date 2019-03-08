@@ -34,7 +34,7 @@ export class EnglishComponent {
 
   ngOnInit() {
     this.getRepeatToLearnedVerbNumber();
-    this.getPresent();
+    this.getPresent(this.token.getUsername());
 
     this.info = {
       token: this.token.getToken(),
@@ -55,8 +55,8 @@ export class EnglishComponent {
     this.compareToInputAndVerb(input);
   } 
 
-  getPresent(){
-    this.presentService.getPresent().subscribe(
+  getPresent(username){
+    this.presentService.getPresent(username).subscribe(
       (randomVerb) => {
         this.toAssignToVerb(randomVerb);
         this.onAudioPlay()
@@ -132,7 +132,7 @@ export class EnglishComponent {
   this.presentExampleService.getRandomExampleVerb(verb).subscribe(
     (ramdonExampleVerb) => {
       if(ramdonExampleVerb == null) {
-        this.getPresent();
+        this.getPresent(this.token.getUsername());
       } else {
         this.toAssignToRamdonExampleVerToExample(ramdonExampleVerb);
       }
