@@ -1,18 +1,16 @@
 <mat-drawer-container class="example-container" *ngIf="info.token; else loggedOut" >
   <mat-drawer class="drawer-container" mode="side" opened>
       <mat-list>
-          <mat-list-item (click)="content('Pepper')"> Pepper </mat-list-item>
+          <mat-list-item (click)="content('Present')"> Present </mat-list-item>
           <mat-list-item (click)="content('Salt')"> Salt </mat-list-item>
           <mat-list-item (click)="content('Paprika')"> Paprika </mat-list-item>
       </mat-list>  
   </mat-drawer>
-  <mat-drawer-content *ngIf="name_content == 'Pepper'" >
-      Main content 1 
-      <app-english></app-english>
+  <mat-drawer-content *ngIf="name_content == 'Present'" >
+    <app-english></app-english>
   </mat-drawer-content>
 
   <mat-drawer-content *ngIf="name_content == 'Salt'" > 
-      Main content 2
   </mat-drawer-content>
 
   <mat-drawer-content *ngIf="name_content == 'Paprika' " >

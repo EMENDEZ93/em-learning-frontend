@@ -1,0 +1,24 @@
+Review Content -> {{verb.review_present}}
+<div class="example-button-row">
+    <button (click)="getReviewPresent()" mat-raised-button>Iniciar!!!</button>
+</div>
+
+<div class="example-button-row">
+    <button (click)="onReviewPresentAudioPlay()" mat-raised-button>Listen!!!</button>
+</div>
+
+<div class="example-button-row">
+    <button mat-raised-button>next!!!</button>
+</div>
+
+<h1> * {{verb.review_present}} *</h1>
+
+<audio #reviewPresentAudioOption>
+    <source src='{{verb.mp3Path}}' type="audio/mp3">
+</audio>
+
+<form class="example-form" #review_verb_form="ngForm">
+    <mat-form-field class="example-full-width" style="width: 1000px;" id="verb_input">
+      <input #inpput matInput type="text" placeholder="" class="form-control" name="in" (input)="inputReviewVerbWord($event.target.value);" [(ngModel)]="input.verb" >
+    </mat-form-field>
+</form>

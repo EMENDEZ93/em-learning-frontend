@@ -21,6 +21,7 @@ import { MenuComponent } from './english/menu/menu.component';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatListModule} from '@angular/material/list';
+import { ReviewComponent } from './english/present/review/review.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import {MatListModule} from '@angular/material/list';
     EnglishComponent,
     LoginComponent,
     RegisterComponent,
-    MenuComponent
+    MenuComponent,
+    ReviewComponent
 
   ],
   imports: [

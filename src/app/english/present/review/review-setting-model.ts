@@ -1,4 +1,3 @@
-export class SettingModel {
+export class ReviewSettingModel {
     repeatToLearnedVerbNumber: any;
 }
-  

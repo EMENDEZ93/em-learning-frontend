@@ -1,5 +1,5 @@
 <mat-tab-group>
-  <mat-tab label="First">
+  <mat-tab label="Present">
   
       Content  {{verb.present}}
   
@@ -23,13 +23,14 @@
             <input #inpput matInput type="text" placeholder="" class="form-control" name="in" (input)="inputWord($event.target.value);" [(ngModel)]="input.verb" >
           </mat-form-field>
       </form>
-  
-
   </mat-tab>
-  <mat-tab label="Second"> 
-  
-    Content 2 {{verb.present}}
 
+  <mat-tab label="Review"> 
+      <app-review></app-review>
   </mat-tab>  
-  <mat-tab label="Third"> Content 3 </mat-tab>
+  
+  <mat-tab label="Third"> 
+  
+  </mat-tab>
+
 </mat-tab-group>
