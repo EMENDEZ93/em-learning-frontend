@@ -5,6 +5,6 @@ export class ReviewVerbModel {
     examples: any;
     auxiliary_id: string;
     mp3Path: string;
-    repeatToLearnedVerbNumber: any;
+    repeatToReviewVerbNumber: any;
     current_status: string;
 }

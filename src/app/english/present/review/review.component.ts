@@ -7,6 +7,7 @@ import { ReviewPresenService } from './service/review-presen.service';
 import { HttpClient } from '@angular/common/http';
 import { VerbConst } from '../../constant/verb/verbconst';
 import { PresentReviewCommand } from './command/present-review-command';
+import { SettingEnglishService } from '../../service/setting/settingenglish.service';
 
 @Component({
   selector: 'app-review',
@@ -29,9 +30,11 @@ export class ReviewComponent implements OnInit {
   presentReviewCommand = {} as PresentReviewCommand;
 
 
-  constructor(public http: HttpClient,private token: TokenStorageService, private reviewPresenService: ReviewPresenService) { }
+  constructor(public http: HttpClient,private token: TokenStorageService, private reviewPresenService: ReviewPresenService, public settingEnglishService: SettingEnglishService) { }
 
   ngOnInit() {
+    this.getRepeatToReviewVerbNumber();
+
     this.info = {
       token: this.token.getToken(),
       username: this.token.getUsername(),
@@ -63,6 +66,7 @@ export class ReviewComponent implements OnInit {
     this.verb.review_present = reviewPresent["verb"];
     this.verb.current_status = VerbConst.PRESENT;
     this.verb.mp3Path = this.toAssignMp3ToVerb(this.verb.review_present);
+    this.verb.repeatToReviewVerbNumber = 0;
   }
 
   toAssignMp3ToVerb(verb): string {
@@ -91,12 +95,18 @@ export class ReviewComponent implements OnInit {
   } 
 
   validateRepetitions(){
-    //if(this.verb.repeatToLearnedVerbNumber == this.setting_present.repeatToLearnedVerbNumber) {
+  
+    console.log("************************** >")
+    console.log(this.verb.repeatToReviewVerbNumber)
+    console.log(this.setting_review_present.repeatToReviewVerbNumber)
+    
+    if(this.verb.repeatToReviewVerbNumber == this.setting_review_present.repeatToReviewVerbNumber) {
       this.changeReviewPresentLearned();
-    //  this.getRandomExampleVerb(this.verb.present);
-    //}
-    //this.onAudioPlay()    
-    //this.verb.repeatToLearnedVerbNumber ++;
+      this.getReviewPresent()
+    } else {
+      this.onReviewPresentAudioPlay();    
+      this.verb.repeatToReviewVerbNumber ++;
+    }
   }
   
   changeReviewPresentLearned(){
@@ -110,6 +120,15 @@ export class ReviewComponent implements OnInit {
   resetReview(){
     this.reviewPresenService.resetReviewByUsername(this.info.username).subscribe(
       (suc)=> {}, (error) => {}
+    )
+  }
+
+  getRepeatToReviewVerbNumber() {
+    this.settingEnglishService.getRepeatToReviewPresentVerbNumber().subscribe(
+      (repeatToReviewVerbNumber) => {
+        this.setting_review_present.repeatToReviewVerbNumber = repeatToReviewVerbNumber; 
+      }, (error) => {
+      }
     )
   }
 
