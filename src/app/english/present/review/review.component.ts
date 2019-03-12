@@ -107,5 +107,10 @@ export class ReviewComponent implements OnInit {
     this.reviewPresenService.postChangeReviewPresentLearned(this.presentReviewCommand);
   }
 
+  resetReview(){
+    this.reviewPresenService.resetReviewByUsername(this.info.username).subscribe(
+      (suc)=> {}, (error) => {}
+    )
+  }
 
 }

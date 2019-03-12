@@ -28,4 +28,8 @@ export class ReviewPresenService {
  
   }
 
+  resetReviewByUsername(username) {
+    return this.http.get(this.endpoint + "reset/" + username );
+  }
+
 }
