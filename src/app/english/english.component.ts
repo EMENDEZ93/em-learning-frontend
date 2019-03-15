@@ -111,7 +111,8 @@ export class EnglishComponent {
   validateRepetitions(){
     if(this.verb.repeatToLearnedVerbNumber == this.setting_present.repeatToLearnedVerbNumber) {
       this.getChangePresentLearned(this.verb.id);
-      this.getRandomExampleVerb(this.verb.present);
+      //this.getRandomExampleVerb(this.verb.present);
+      this.getPresent(this.token.getUsername());
     }
     this.onAudioPlay()    
     this.verb.repeatToLearnedVerbNumber ++;
