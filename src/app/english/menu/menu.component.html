@@ -2,7 +2,7 @@
   <mat-drawer class="drawer-container" mode="side" opened>
       <mat-list>
           <mat-list-item (click)="content('Present')"> Present </mat-list-item>
-          <mat-list-item (click)="content('Salt')"> Salt </mat-list-item>
+          <mat-list-item (click)="content('Past')"> Past </mat-list-item>
           <mat-list-item (click)="content('Paprika')"> Paprika </mat-list-item>
       </mat-list>  
   </mat-drawer>
@@ -10,7 +10,8 @@
     <app-english></app-english>
   </mat-drawer-content>
 
-  <mat-drawer-content *ngIf="name_content == 'Salt'" > 
+  <mat-drawer-content *ngIf="name_content == 'Past'" > 
+    <app-past></app-past>
   </mat-drawer-content>
 
   <mat-drawer-content *ngIf="name_content == 'Paprika' " >

@@ -22,6 +22,8 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatListModule} from '@angular/material/list';
 import { ReviewComponent } from './english/present/review/review.component';
+import { PastComponent } from './english/past/past.component';
+import { PastService } from './english/past/past.service';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,8 @@ import { ReviewComponent } from './english/present/review/review.component';
     LoginComponent,
     RegisterComponent,
     MenuComponent,
-    ReviewComponent
+    ReviewComponent,
+    PastComponent
 
   ],
   imports: [
@@ -48,7 +51,7 @@ import { ReviewComponent } from './english/present/review/review.component';
     MatFormFieldModule,
     MatListModule
   ],
-  providers: [PresentService, SettingEnglishService, PresentExampleService],
+  providers: [PresentService, SettingEnglishService, PresentExampleService, PastService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

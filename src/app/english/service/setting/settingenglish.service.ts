@@ -22,4 +22,7 @@ export class SettingEnglishService {
     return this.http.get(this.endpoint + 'repeat/review/present/verb/learned')
   }
 
+  public getRepeatToPastVerbNumber(){
+    return this.http.get(this.endpoint + 'repeat/past/verb/learned')
+  }
 }
