@@ -1,0 +1,18 @@
+.example-container {
+    width: 99%;
+    height: 700px;
+    margin: 10px;
+    border: 1px solid rgb(143, 136, 136);
+  }
+  
+  .example-header {
+    width: 99%;
+    height: 70px;
+    margin: 10px;
+    border: 1px solid rgb(143, 136, 136);
+  }
+
+  .drawer-container {
+      width: 10%;
+  }
+  

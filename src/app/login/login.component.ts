@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthLoginInfo } from '../security/auth/auth-login-info';
-import { AuthService } from '../security/auth/auth.service';
-import { TokenStorageService } from '../security/auth/token-storage.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { AutenticacionService } from './autenticacion.service';
+import { Autenticacion } from './autenticacion';
+import { InformacionSesionService } from '../sesion/informacion-sesion.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -9,50 +10,46 @@ import { TokenStorageService } from '../security/auth/token-storage.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  form: any = {};
+
+  @ViewChild('formulario', {static: false}) formulario;
+
+  private autenticacion: Autenticacion;
   isLoggedIn = false;
   isLoginFailed = false;
-  errorMessage = '';
-  roles: string[] = [];  
-  private loginInfo: AuthLoginInfo;
 
-  constructor(private authService: AuthService, private tokenStorage: TokenStorageService) { }
+  constructor(private router: Router, private autenticacionService: AutenticacionService, private informacionSesionService: InformacionSesionService) { }
 
   ngOnInit() {
-    if (this.tokenStorage.getToken()) {
-      this.isLoggedIn = true;
-      this.roles = this.tokenStorage.getAuthorities();
-    }
+    this.isLoggedIn = false;
   }
 
-  onSubmit() {
-    console.log(this.form);
+  autenticar(){
+    this.autenticacion = new Autenticacion(this.formulario.correo, this.formulario.contrasena);
+    this.autenticacionService.autenticar(this.autenticacion).subscribe(
+      (informacionSesion) =>{ 
+        this.actualizarInformacionSesion(informacionSesion, this.autenticacion);
 
-    this.loginInfo = new AuthLoginInfo(
-      this.form.username,
-      this.form.password);
+        console.log('****************informacionSesion******************')        
+        console.log(informacionSesion)
 
-    this.authService.attemptAuth(this.loginInfo).subscribe(
-      data => {
-        this.tokenStorage.saveToken(data.accessToken);
-        this.tokenStorage.saveUsername(data.username);
-        this.tokenStorage.saveAuthorities(data.authorities);
 
-        this.isLoginFailed = false;
-        this.isLoggedIn = true;
-        this.roles = this.tokenStorage.getAuthorities();
-        this.reloadPage();
-      },
-      error => {
-        console.log(error);
-        this.errorMessage = error.error.message;
-        this.isLoginFailed = true;
-      }
-    );
+        this.OnClickFunction();
+      }, (error) => {
+        console.log('****************error******************')        
+        console.log(error)
+       }        
+    )
   }
 
-  reloadPage() {
-    window.location.reload();
+  actualizarInformacionSesion(informacionSesion, autenticacion) {
+   this.informacionSesionService.guardarToken(informacionSesion['valor']);
+   this.informacionSesionService.guardarCorreo(autenticacion.correo)
+   this.isLoginFailed = false;
+   this.isLoggedIn = true; 
+  }
+
+  OnClickFunction(){
+    this.router.navigate(['/home']);
   }
 
 }

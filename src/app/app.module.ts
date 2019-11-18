@@ -1,43 +1,38 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { EnglishComponent } from './english/english.component';
 import { MatTabsModule } from '@angular/material';
-import { PresentService } from './english/service/verb/present/present.service';
 import { HttpClientModule } from '@angular/common/http';
 import { MatInputModule} from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
-import { SettingEnglishService } from './english/service/setting/settingenglish.service';
 import {MatButtonModule} from '@angular/material/button';
-import { PresentExampleService } from './english/service/verb/present/present-example.service';
-import { HomeComponent } from './home/home.component';
-import { AppRoutingModule } from './app-routing/app-routing.module';
 import {MatMenuModule} from '@angular/material/menu';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
-import { MenuComponent } from './english/menu/menu.component';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatListModule} from '@angular/material/list';
-import { ReviewComponent } from './english/present/review/review.component';
-import { PastComponent } from './english/past/past.component';
-import { PastService } from './english/past/past.service';
+import { PresentVerbComponent } from './present-verb/present-verb.component';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { PrincipalComponent } from './principal/principal.component';
+import { PresentVerbAprenderComponent } from './present-verb-aprender/present-verb-aprender.component';
+import { LoginComponent } from './login/login.component';
+import {MatDialogModule} from '@angular/material/dialog';
+import { AlertModule } from 'ngx-bootstrap';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
-    EnglishComponent,
+    PresentVerbComponent,
+    PrincipalComponent,
+    PresentVerbAprenderComponent,
     LoginComponent,
-    RegisterComponent,
-    MenuComponent,
-    ReviewComponent,
-    PastComponent
-
   ],
   imports: [
+    BrowserModule,
+    AppRoutingModule,
     BrowserModule,
     BrowserAnimationsModule,
     MatTabsModule,
@@ -46,12 +41,14 @@ import { PastService } from './english/past/past.service';
     MatMenuModule,
     HttpClientModule,
     FormsModule,
-    AppRoutingModule,
     MatSidenavModule,
     MatFormFieldModule,
-    MatListModule
+    MatListModule,
+    MatProgressBarModule,
+    MatDialogModule,
+    AlertModule.forRoot()
   ],
-  providers: [PresentService, SettingEnglishService, PresentExampleService, PastService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

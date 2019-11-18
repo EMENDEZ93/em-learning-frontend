@@ -1,0 +1,21 @@
+<button (click)="obtenerRutina()" mat-button>* Iniciar Rutina *</button>
+<button (click)="reproducir()" mat-button>* Reproducir *</button>
+<button (click)="mostrarAyuda()" mat-button>* Ayuda *</button>
+
+<audio #audio>
+  <source src='{{rutaMp3}}' type="audio/mp3">
+</audio>
+
+<form class="example-form" #formulario="ngForm">
+    <mat-form-field class="example-full-width" style="width: 1000px;" id="verb_input">
+      <input autocomplete="off" matInput type="text" placeholder="" class="form-control" name="in" (input)="validarVerboEntredaConVerboRutina($event.target.value);" [(ngModel)]="verboEntrada" >
+    </mat-form-field>
+</form>
+
+<div *ngIf="activarAyuda" class="alert alert-warning">
+  <strong>{{palabraActual}}</strong>
+</div>
+
+<div class="progress">
+  <div class="progress-bar" style="width:{{barraProgreso}}%"></div>
+</div>
