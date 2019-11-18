@@ -20,12 +20,15 @@ export class PresentVerbAprenderComponent implements OnInit {
   @Input() hojaTemaExcel: any;
   @ViewChild('formulario', {static: false}) formulario;
   T : any = [];
-  
+
+  verboEntrada : string;
+  repeticionesAltaComoAprendidoTemporal= 0;
+  barraProgreso = 0;
+  colorBarraProgreso = 'alert alert-danger';  
+
   constructor(public http: HttpClient, private presentVerbService: PresentVerbAprenderService, private informacionSesionService: InformacionSesionService,
     private audioService : AudioService, private informacionInicialSistema: InformacionInicialSistema) { }
   
-  verboEntrada : string;
-  repeticionesAltaComoAprendidoTemporal= 0;
   
   ngOnInit() {
     console.log("PresentVerbAprender hojaTemaExcel -> " + this.hojaTemaExcel)
@@ -104,6 +107,7 @@ export class PresentVerbAprenderComponent implements OnInit {
         if(this.esIgualrIndiceVerboRetrocesoTemporalIndiceVerboValidar()){
           if(this.esIgualRepeticionAlcaComoAprendioTemporalRepeticionAltaComoAprendido()){
             this.actualizarVerbosAprendidos();
+            this.actualizarBarraProgreso();
             this.informacionRutinaPresentVerb.indiceVerboValidar++;
             this.informacionRutinaPresentVerb.indiceVerboRetrocesoTemporal=0;
             this.repeticionesAltaComoAprendidoTemporal=0;
@@ -146,6 +150,10 @@ export class PresentVerbAprenderComponent implements OnInit {
 
   transformarDate(date){
     return new DatePipe('en-LA').transform(date, 'shortDate'); 
+  }
+
+  actualizarBarraProgreso(){
+    this.barraProgreso = (this.informacionRutinaPresentVerb.indicesVerbosAprendidos.length/this.informacionRutinaPresentVerb.numeroVerbosAprender) * 100;
   }
 
 }

@@ -26,6 +26,7 @@ export class PresentVerbComponent implements OnInit {
   
   verboEntrada : string;
   barraProgreso = 0;
+  colorBarraProgreso = 'alert alert-danger';  
 
   ngOnInit() {
     console.log("PresentVerb hojaTemaExcel -> " + this.hojaTemaExcel)
@@ -35,7 +36,6 @@ export class PresentVerbComponent implements OnInit {
   obtenerRutina(){
     this.presentVerbService.obtenerRutina(this.informacionSesionService.obtenerUltimoIndiceVerboAprendido(), this.hojaTemaExcel).subscribe(
       (rutina) =>{ 
-        //console.log(this.informacionSesionService.obtenerUltimoIndiceVerboAprendido())
         console.log(rutina)
         this.ingresarInformacionRutina(rutina)  
       }, (error) => { }

@@ -21,6 +21,7 @@
     "@angular/platform-browser": "~8.2.3",
     "@angular/platform-browser-dynamic": "~8.2.3",
     "@angular/router": "~8.2.3",
+    "@ng-bootstrap/ng-bootstrap": "^5.1.4",
     "angular-vertical-tabs": "github:SamuelMarks/angular-vertical-material-tabs",
     "bootstrap": "^4.3.1",
     "ngx-bootstrap": "^5.2.0",

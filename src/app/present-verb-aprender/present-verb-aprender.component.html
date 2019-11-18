@@ -1,5 +1,13 @@
-<button (click)="obtenerRutina()" mat-button>* Aprender Nuevas Palabras *</button>
+<mat-drawer-container class="em-tab">
 
+    <h1>{{barraProgreso}}%</h1>
+
+    <div class="progress">
+      <div class="{{colorBarraProgreso}}" [ngStyle]="{width: barraProgreso + '%'}"></div>
+    </div>  
+
+
+<button (click)="obtenerRutina()" mat-button>* Aprender Nuevas Palabras *</button>
 <button (click)="reproducir()" mat-button>* Reproducir *</button>
 
 <form *ngIf="hoyRealizoAprender()" class="example-form" #formulario="ngForm">
@@ -9,3 +17,5 @@
 </form>
 
 <p *ngIf="hoyRealizoAprender() == false" >Hoy ya realizaste esta Rutina -> {{hoyRealizoAprender()}}</p>
+
+</mat-drawer-container>

@@ -21,6 +21,7 @@ import { PresentVerbAprenderComponent } from './present-verb-aprender/present-ve
 import { LoginComponent } from './login/login.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import { AlertModule } from 'ngx-bootstrap';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { AlertModule } from 'ngx-bootstrap';
     MatListModule,
     MatProgressBarModule,
     MatDialogModule,
-    AlertModule.forRoot()
+    AlertModule.forRoot(),
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]

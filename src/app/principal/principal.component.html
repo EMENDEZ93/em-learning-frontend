@@ -1,27 +1,29 @@
-<mat-drawer-container class="example-header" >
-    <div class="form-group">
-        <button class="btn btn-primary" (click)="cerrarsesion()" >Logout</button>
-    </div>
-</mat-drawer-container>
+<mat-drawer-container>
+    <mat-drawer-container class="example-header">
+        <div class="form-group">
+            <button class="btn btn-primary" (click)="cerrarsesion()">Logout</button>
+        </div>
+    </mat-drawer-container>
 
-<mat-drawer-container class="example-container" >
-       <mat-drawer class="drawer-container" mode="side" opened>
+    <mat-drawer-container class="example-container">
+        <mat-drawer class="drawer-container" mode="side" opened>
             <mat-list *ngFor="let tema of temas">
                 <mat-list-item (click)="content(tema)">{{tema}}</mat-list-item>
-            </mat-list>  
+            </mat-list>
         </mat-drawer>
 
         <div *ngFor="let tema of temas; let hojaTemaExcel = index">
-            <mat-drawer-content *ngIf="tabSeleccionado == tema"  >
+            <mat-drawer-content *ngIf="tabSeleccionado == tema">
                 <mat-tab-group>
                     <mat-tab label="Rutina | {{tema}}">
-                            <app-present-verb [hojaTemaExcel]="hojaTemaExcel"></app-present-verb>    
+                        <app-present-verb [hojaTemaExcel]="hojaTemaExcel"></app-present-verb>
                     </mat-tab>
-                    <mat-tab label="Aprender | {{tema}}"> 
-                            <app-present-verb-aprender [hojaTemaExcel]="hojaTemaExcel" ></app-present-verb-aprender>
+                    <mat-tab label="Aprender | {{tema}}">
+                        <app-present-verb-aprender [hojaTemaExcel]="hojaTemaExcel"></app-present-verb-aprender>
                     </mat-tab>
-                  </mat-tab-group>
-            </mat-drawer-content>    
+                </mat-tab-group>
+            </mat-drawer-content>
         </div>
 
+    </mat-drawer-container>
 </mat-drawer-container>
