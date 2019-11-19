@@ -15,25 +15,20 @@ export class PresentVerbAprenderService {
 
   public obtenerRutina(ultimoIndiceVerboAprendido, numeroVerbosPorAprenderDiario, hojaTemaExcel):  Observable<string[]> { 
 
-    console.log("obtenerRutinaobtenerRutinaobtenerRutina")
-    console.log(numeroVerbosPorAprenderDiario)
-
     return this.http.get<string[]>(this.endpoint+"/api/present/verb/verbosporaprender/" + ultimoIndiceVerboAprendido + "/" + numeroVerbosPorAprenderDiario+"/" + hojaTemaExcel);
   }
 
-  public obtenerPerfil(email, hojaTemaExcel):  Observable<InformacionPresentVerb> { 
+  public obtenerPerfil(email, hojaTemaExcel) { 
     return this.http.get<InformacionPresentVerb>(this.endpoint+"/api/present/verb/perfil/" + email+ "/" + hojaTemaExcel);
   }
 
   public actualizarPerfil(actualizarPerfilPresentVerb: ActualizarPerfilPresentVerb){
-    console.log('*********** ///// *************')
-    console.log(JSON.stringify(actualizarPerfilPresentVerb))
     const httpOptions = { headers: new HttpHeaders({'Content-Type': 'application/json; charset=utf-8'})};
     return this.http.post(this.endpoint+"/api/present/verb/perfil", JSON.stringify(actualizarPerfilPresentVerb), httpOptions);
   }
 
 
-  public obtenerPreguntas(ultimoIndiceVerboAprendido, numeroVerbosPorAprenderDiario, hojaTemaExcel):  Observable<string[]> { 
+  public obtenerPreguntas(ultimoIndiceVerboAprendido, numeroVerbosPorAprenderDiario, hojaTemaExcel){ 
     return this.http.get<string[]>(this.endpoint+"/api/present/verb/preguntas/" + ultimoIndiceVerboAprendido + "/" + numeroVerbosPorAprenderDiario+"/" + hojaTemaExcel);
   }
 

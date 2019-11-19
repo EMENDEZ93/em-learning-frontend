@@ -15,12 +15,8 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log("aqui debe ir ****")
-
     this.temasService.obtenerTemas().subscribe(
       (temas) => {
-        console.log("************************")
-        console.log(temas)
         this.informacionInicialSistema.guardarTemas(temas);
       }, (error) => {
 

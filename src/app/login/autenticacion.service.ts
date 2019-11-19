@@ -15,9 +15,6 @@ export class AutenticacionService {
 
   public autenticar(autenticacion: Autenticacion): Observable<InformacionAutorizacion> {
     const httpOptions = { headers: new HttpHeaders({'Content-Type': 'application/json; charset=utf-8'})};
-    
-    console.log("-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_")
-    console.log(JSON.stringify(autenticacion))
     return this.http.post<InformacionAutorizacion>(this.autenticarseUrl, JSON.stringify(autenticacion), httpOptions);
   }
 

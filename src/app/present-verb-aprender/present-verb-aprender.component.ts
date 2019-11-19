@@ -25,6 +25,7 @@ export class PresentVerbAprenderComponent implements OnInit {
   repeticionesAltaComoAprendidoTemporal= 0;
   barraProgreso = 0;
   colorBarraProgreso = 'alert alert-danger';  
+  hoyYaRealizoAprender = false;
 
   constructor(public http: HttpClient, private presentVerbService: PresentVerbAprenderService, private informacionSesionService: InformacionSesionService,
     private audioService : AudioService, private informacionInicialSistema: InformacionInicialSistema) { }
@@ -32,11 +33,8 @@ export class PresentVerbAprenderComponent implements OnInit {
   
   ngOnInit() {
     this.T = JSON.parse(this.informacionInicialSistema.obtenerTemas());
-  }
-
-  obtenerRutina(){
     this.presentVerbService.obtenerPerfil(this.informacionSesionService.obtenerCorreo(), this.T[this.hojaTemaExcel]).subscribe(
-      (perfil) =>{ 
+      (perfil) => { 
         this.informacionSesionService.guardarUltimoIndiceVerboAprendido(perfil.ultimoIndiceAprendido);
         this.informacionSesionService.guardarNumeroVerbosPorAprenderDiario(perfil.numeroVerbosPorAprenderDiario);
         this.informacionSesionService.guardarRepeticionesAltaComoAprendido(perfil.repeticionesAltaComoAprendido);
@@ -44,7 +42,9 @@ export class PresentVerbAprenderComponent implements OnInit {
         this.informacionSesionService.guardarEsPreguntaRespuesta(perfil.esPreguntaRespuesta);
       }, (error) => { }      
     )
+  }
 
+  obtenerRutina(){
     this.presentVerbService.obtenerRutina(this.informacionSesionService.obtenerUltimoIndiceVerboAprendido(), this.informacionSesionService.obtenerNumeroVerbosPorAprenderDiario(), this.hojaTemaExcel).subscribe(
       (rutina) =>{ 
         this.ingresarInformacionAprender(rutina)  
@@ -63,16 +63,25 @@ export class PresentVerbAprenderComponent implements OnInit {
 
   validarVerboEntredaConVerboPorAprender(verboEntrada){    
     if(this.estaRutinaCompletada()){
-      this.actualizarPerfilPresentVerb = new ActualizarPerfilPresentVerb();
-      this.actualizarPerfilPresentVerb.nombre = this.T[this.hojaTemaExcel]; 
-      this.actualizarPerfilPresentVerb.correo = this.informacionSesionService.obtenerCorreo();
-      this.actualizarPerfilPresentVerb.ultimoIndiceAprendido = this.informacionSesionService.obtenerUltimoIndiceVerboAprendido() + this.informacionSesionService.obtenerNumeroVerbosPorAprenderDiario();
-      this.presentVerbService.actualizarPerfil(this.actualizarPerfilPresentVerb).subscribe(
-        
-      );
+      this.actualizacionPerfil();
+
     } else if(this.esIgualVerbEntradaVerboRutina(verboEntrada)){
       this.configuracionAprender();
+
+      if(this.estaRutinaCompletada()){
+        this.actualizacionPerfil();
+      }
+
     }
+  }
+
+  private actualizacionPerfil() {
+    this.actualizarPerfilPresentVerb = new ActualizarPerfilPresentVerb();
+    this.actualizarPerfilPresentVerb.nombre = this.T[this.hojaTemaExcel];
+    this.actualizarPerfilPresentVerb.correo = this.informacionSesionService.obtenerCorreo();
+    this.actualizarPerfilPresentVerb.ultimoIndiceAprendido = this.informacionSesionService.obtenerUltimoIndiceVerboAprendido() + this.informacionSesionService.obtenerNumeroVerbosPorAprenderDiario();
+    this.presentVerbService.actualizarPerfil(this.actualizarPerfilPresentVerb).subscribe();
+    this.hoyRealizoAprender();
   }
 
   private configuracionAprender() {
@@ -140,11 +149,16 @@ export class PresentVerbAprenderComponent implements OnInit {
   }
 
   reproducir(){
-    this.audioService.reproducir(this.informacionRutinaPresentVerb.verbos[this.informacionRutinaPresentVerb.indiceVerboRetrocesoTemporal]);
+    if(!this.hoyRealizoAprender()){
+      console.log("!this.hoyRealizoAprender()")
+      this.audioService.reproducir(this.informacionRutinaPresentVerb.verbos[this.informacionRutinaPresentVerb.indiceVerboRetrocesoTemporal]);
+    }
   }
 
   hoyRealizoAprender(): boolean{
-    return this.transformarDate(this.informacionSesionService.obtenerUltimaFechaAprendio()) < this.transformarDate(Date.now());
+    this.hoyYaRealizoAprender = this.estaRutinaCompletada() || this.transformarDate(this.informacionSesionService.obtenerUltimaFechaAprendio()) >= this.transformarDate(Date.now()) ;
+    console.log(this.hoyYaRealizoAprender)
+    return this.hoyYaRealizoAprender;
   } 
 
   transformarDate(date){

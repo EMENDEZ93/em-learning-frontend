@@ -28,16 +28,9 @@ export class LoginComponent implements OnInit {
     this.autenticacionService.autenticar(this.autenticacion).subscribe(
       (informacionSesion) =>{ 
         this.actualizarInformacionSesion(informacionSesion, this.autenticacion);
-
-        console.log('****************informacionSesion******************')        
-        console.log(informacionSesion)
-
-
         this.OnClickFunction();
       }, (error) => {
-        console.log('****************error******************')        
-        console.log(error)
-       }        
+      }        
     )
   }
 

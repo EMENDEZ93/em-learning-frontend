@@ -15,11 +15,11 @@
         <div *ngFor="let tema of temas; let hojaTemaExcel = index">
             <mat-drawer-content *ngIf="tabSeleccionado == tema">
                 <mat-tab-group>
-                    <mat-tab label="Rutina | {{tema}}">
-                        <app-present-verb [hojaTemaExcel]="hojaTemaExcel"></app-present-verb>
-                    </mat-tab>
                     <mat-tab label="Aprender | {{tema}}">
                         <app-present-verb-aprender [hojaTemaExcel]="hojaTemaExcel"></app-present-verb-aprender>
+                    </mat-tab>
+                    <mat-tab label="Rutina | {{tema}}">
+                        <app-present-verb [hojaTemaExcel]="hojaTemaExcel"></app-present-verb>
                     </mat-tab>
                 </mat-tab-group>
             </mat-drawer-content>

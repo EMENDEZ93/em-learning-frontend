@@ -10,12 +10,14 @@
 <button (click)="obtenerRutina()" mat-button>* Aprender Nuevas Palabras *</button>
 <button (click)="reproducir()" mat-button>* Reproducir *</button>
 
-<form *ngIf="hoyRealizoAprender()" class="example-form" #formulario="ngForm">
+<div *ngIf="hoyYaRealizoAprender == false">
+<form class="example-form" #formulario="ngForm">
     <mat-form-field class="example-full-width" style="width: 1000px;" id="verb_input">
         <input autocomplete="off" matInput type="text" placeholder="" class="form-control" name="in" (input)="validarVerboEntredaConVerboPorAprender($event.target.value);" [(ngModel)]="verboEntrada" >
     </mat-form-field>
 </form>
+</div>
 
-<p *ngIf="hoyRealizoAprender() == false" >Hoy ya realizaste esta Rutina -> {{hoyRealizoAprender()}}</p>
+<p *ngIf="hoyYaRealizoAprender == true" >Hoy ya realizaste esta Rutina -> {{hoyYaRealizoAprender}}</p>
 
 </mat-drawer-container>
