@@ -4,6 +4,7 @@ const ULTIMO_INDICE_VERBO_APRENDIDO = 'UltimoIndiceVerboAprendido';
 const NUMERO_VERBOS_POR_APRENDER_DIARIO = 'NumeroVerbosPorAprenderDiario';
 const REPETICIONES_ALTA_COMO_APRENDIDO = 'RepeticionesAltaComoAprendido';
 const ULTIMA_FECHA_APRENDIDO = 'UltimaFechaAprendio';
+const ES_PREGUNTA_RESPUESTA = 'EsPreguntaRespuesta';
 
 @Injectable({
   providedIn: 'root'
@@ -48,6 +49,13 @@ export class InformacionPresentVerbService {
     return sessionStorage.getItem(ULTIMA_FECHA_APRENDIDO); 
   }
 
+  public guardarEsPreguntaRespuesta(esPreguntaRespuesta: boolean){
+    window.sessionStorage.removeItem(ES_PREGUNTA_RESPUESTA);
+    window.sessionStorage.setItem(ES_PREGUNTA_RESPUESTA, String(esPreguntaRespuesta));
+  }
 
+  public obtenerEsPreguntaRespuesta(): boolean {
+    return sessionStorage.getItem(ES_PREGUNTA_RESPUESTA) == 'true'; 
+  }
 
 }

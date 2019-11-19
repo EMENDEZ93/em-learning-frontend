@@ -16,6 +16,9 @@ export class PresentVerbService {
     return this.http.get<string[]>(this.endpoint + '/api/present/verb/' + ultimoIndiceVerboAprendido + "/" + hojaTemaExcel);
   }
 
+  public obtenerPreguntasRutina(ultimoIndiceVerboAprendido, hojaTemaExcel):  Observable<string[]> { 
+    return this.http.get<string[]>(this.endpoint + '/api/present/verb/preguntas/' + ultimoIndiceVerboAprendido + "/" + hojaTemaExcel);
+  }
 
   public actualizarPerfil(actualizarUltimafecharutina: ActualizarUltimafecharutina){
     const httpOptions = { headers: new HttpHeaders({'Content-Type': 'application/json; charset=utf-8'})};

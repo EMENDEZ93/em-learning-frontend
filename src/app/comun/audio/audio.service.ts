@@ -12,19 +12,19 @@ export class AudioService {
   reproducir(verb){
     const audioGeneroAleatorio = this.obtenerAudioGeneroAleatorio();
     this.reproductor = new SpeechSynthesisUtterance(verb);
-    this.reproductor.default= speechSynthesis.getVoices()[audioGeneroAleatorio].default
-    this.reproductor.lang= speechSynthesis.getVoices()[audioGeneroAleatorio].lang
-    this.reproductor.localService= speechSynthesis.getVoices()[audioGeneroAleatorio].localService
-    this.reproductor.name= speechSynthesis.getVoices()[audioGeneroAleatorio].name
-    this.reproductor.voiceURI = speechSynthesis.getVoices()[audioGeneroAleatorio].voiceURI;
+    this.reproductor.default= false;
+    this.reproductor.lang= audioGeneroAleatorio == 1 ? "en-GB" : "en-US";
+    this.reproductor.localService = false;
+    this.reproductor.name= audioGeneroAleatorio == 1 ? "Google UK English Female" : "Microsoft Zira Desktop - English (United States)";
+    this.reproductor.voiceURI = audioGeneroAleatorio == 1 ? "Google UK English Female" : "Microsoft Zira Desktop - English (United States)";
+
     (<any>window).speechSynthesis.speak(this.reproductor);  
   }
 
 
   private obtenerAudioGeneroAleatorio(): number{
-    const voces = [1, 4];
     const indiceAleatoreo = Math.floor(Math.random() * 2) + 0 
-    return voces[indiceAleatoreo];
+    return indiceAleatoreo;
   }
 
 }

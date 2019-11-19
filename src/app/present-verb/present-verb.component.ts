@@ -6,6 +6,7 @@ import { InformacionSesionService } from '../sesion/informacion-sesion.service';
 import { ActualizarUltimafecharutinaTemasService } from '../servicios/actualizar-ultimafecharutina-temas.service';
 import { ActualizarUltimafecharutina } from '../servicios/actualizar-ultimafecharutina';
 import { InformacionInicialSistema } from '../informacion-inicial-sistema';
+import { PresentVerbAprenderService } from '../present-verb-aprender/present-verb-aprender.service';
 
 @Component({
   selector: 'app-present-verb',
@@ -22,30 +23,43 @@ export class PresentVerbComponent implements OnInit {
   @ViewChild('formulario', {static: false}) formulario;
   
   constructor(public http: HttpClient, private presentVerbService: PresentVerbService, private audioService : AudioService, private informacionSesionService: InformacionSesionService, 
-    private actualizarUltimafecharutinaTemasService: ActualizarUltimafecharutinaTemasService, private informacionInicialSistema: InformacionInicialSistema) { }
+    private presentVerbAprenderService: PresentVerbAprenderService, private informacionInicialSistema: InformacionInicialSistema) { }
   
   verboEntrada : string;
   barraProgreso = 0;
   colorBarraProgreso = 'alert alert-danger';  
 
   ngOnInit() {
-    console.log("PresentVerb hojaTemaExcel -> " + this.hojaTemaExcel)
     this.T = JSON.parse(this.informacionInicialSistema.obtenerTemas());
+    this.presentVerbAprenderService.obtenerPerfil(this.informacionSesionService.obtenerCorreo(), this.T[this.hojaTemaExcel]).subscribe(
+      (perfil) =>{ 
+        this.informacionSesionService.guardarUltimoIndiceVerboAprendido(perfil.ultimoIndiceAprendido);
+        this.informacionSesionService.guardarNumeroVerbosPorAprenderDiario(perfil.numeroVerbosPorAprenderDiario);
+        this.informacionSesionService.guardarRepeticionesAltaComoAprendido(perfil.repeticionesAltaComoAprendido);
+        this.informacionSesionService.guardarUltimaFechaAprendio(perfil.ultimaFechaAprendio);
+        this.informacionSesionService.guardarEsPreguntaRespuesta(perfil.esPreguntaRespuesta);
+      }, (error) => { }      
+    )
   }
 
   obtenerRutina(){
     this.presentVerbService.obtenerRutina(this.informacionSesionService.obtenerUltimoIndiceVerboAprendido(), this.hojaTemaExcel).subscribe(
       (rutina) =>{ 
-        console.log(rutina)
         this.ingresarInformacionRutina(rutina)  
       }, (error) => { }
     )
+
+    if(this.informacionSesionService.obtenerEsPreguntaRespuesta()){
+      this.presentVerbService.obtenerPreguntasRutina(this.informacionSesionService.obtenerUltimoIndiceVerboAprendido(), this.hojaTemaExcel).subscribe(
+        (respuestas) =>{ 
+          this.informacionRutinaPresentVerb.respuestas = respuestas;
+        }, (error) => { }
+        )
+    }
   }
 
   validarVerboEntredaConVerboRutina(verboEntrada){    
     if(this.estaRutinaCompletada()){
-      console.log('------- Rutina Completada Inicio --------') 
-
       this.actualizarUltimafecharutina = new ActualizarUltimafecharutina();
       this.actualizarUltimafecharutina.correo = this.informacionSesionService.obtenerCorreo(); 
       this.actualizarUltimafecharutina.nombre =  this.T[this.hojaTemaExcel];
@@ -56,11 +70,6 @@ export class PresentVerbComponent implements OnInit {
           console.log("error -> " +  error)
         }
       );
-  
-
-
-      console.log('------- Fin --------') 
-
 
     } else if(this.esIgualVerbEntradaVerboRutina(verboEntrada)){
       this.formulario.resetForm();
@@ -72,7 +81,11 @@ export class PresentVerbComponent implements OnInit {
   }
 
   private esIgualVerbEntradaVerboRutina(verboEntrada: any) {
-    return verboEntrada == this.informacionRutinaPresentVerb.verbos[this.informacionRutinaPresentVerb.indiceVerboValidar];
+    if(this.informacionSesionService.obtenerEsPreguntaRespuesta()){
+      return verboEntrada == this.informacionRutinaPresentVerb.respuestas[this.informacionRutinaPresentVerb.indiceVerboValidar];
+    } else {
+      return verboEntrada == this.informacionRutinaPresentVerb.verbos[this.informacionRutinaPresentVerb.indiceVerboValidar];
+    }
   }
 
   ingresarInformacionRutina(rutina) {

@@ -4,4 +4,5 @@ export class InformacionPresentVerb {
     ultimoIndiceAprendido : number;
     numeroVerbosPorAprenderDiario : number 
     ultimaFechaAprendio : Date;
+    esPreguntaRespuesta : boolean;
 }
