@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { PresentVerbAprenderService } from './present-verb-aprender.service';
 import { InformacionSesionService } from '../sesion/informacion-sesion.service';
@@ -6,6 +6,7 @@ import { ActualizarPerfilPresentVerb } from './actualizar-perfil-present-verb';
 import { DatePipe } from '@angular/common';
 import { AudioService } from '../comun/audio/audio.service';
 import { InformacionInicialSistema } from '../informacion-inicial-sistema';
+import { InformacionPresentVerbService } from '../sesion/informacion-present-verb.service';
 
 @Component({
   selector: 'app-present-verb-aprender',
@@ -18,6 +19,8 @@ export class PresentVerbAprenderComponent implements OnInit {
   actualizarPerfilPresentVerb: ActualizarPerfilPresentVerb;
   
   @Input() hojaTemaExcel: any;
+  @Output() ultimFechaAprendido = new EventEmitter<boolean>(); 
+
   @ViewChild('formulario', {static: false}) formulario;
   T : any = [];
 
@@ -28,10 +31,10 @@ export class PresentVerbAprenderComponent implements OnInit {
   hoyYaRealizoAprender = false;
 
   constructor(public http: HttpClient, private presentVerbService: PresentVerbAprenderService, private informacionSesionService: InformacionSesionService,
-    private audioService : AudioService, private informacionInicialSistema: InformacionInicialSistema) { }
-  
+    private audioService : AudioService, private informacionInicialSistema: InformacionInicialSistema, private informacionPresentVerbService: InformacionPresentVerbService) { }
   
   ngOnInit() {
+    this.ultimFechaAprendido.emit(this.informacionPresentVerbService.ultimaFechaAprendidaEsHoy());
     this.T = JSON.parse(this.informacionInicialSistema.obtenerTemas());
     this.presentVerbService.obtenerPerfil(this.informacionSesionService.obtenerCorreo(), this.T[this.hojaTemaExcel]).subscribe(
       (perfil) => { 
@@ -91,10 +94,11 @@ export class PresentVerbAprenderComponent implements OnInit {
   }
 
   private esIgualVerbEntradaVerboRutina(verboEntrada: any) {
+
     if(this.informacionSesionService.obtenerEsPreguntaRespuesta()){
-      return verboEntrada == this.informacionRutinaPresentVerb.preguntas[this.informacionRutinaPresentVerb.indiceVerboRetrocesoTemporal];
+      return verboEntrada.toUpperCase() == this.informacionRutinaPresentVerb.preguntas[this.informacionRutinaPresentVerb.indiceVerboRetrocesoTemporal].toUpperCase();
     } else {
-      return verboEntrada == this.informacionRutinaPresentVerb.verbos[this.informacionRutinaPresentVerb.indiceVerboRetrocesoTemporal];
+      return verboEntrada.toUpperCase() == this.informacionRutinaPresentVerb.verbos[this.informacionRutinaPresentVerb.indiceVerboRetrocesoTemporal].toUpperCase();
     }
   }
 
@@ -150,23 +154,35 @@ export class PresentVerbAprenderComponent implements OnInit {
 
   reproducir(){
     if(!this.hoyRealizoAprender()){
-      console.log("!this.hoyRealizoAprender()")
       this.audioService.reproducir(this.informacionRutinaPresentVerb.verbos[this.informacionRutinaPresentVerb.indiceVerboRetrocesoTemporal]);
     }
   }
 
+  reproducirSiguientePalabra() {
+    alert( this.informacionRutinaPresentVerb.verbos[this.informacionRutinaPresentVerb.indiceVerboRetrocesoTemporal].match(/\w+/g).length );
+  }
+
   hoyRealizoAprender(): boolean{
-    this.hoyYaRealizoAprender = this.estaRutinaCompletada() || this.transformarDate(this.informacionSesionService.obtenerUltimaFechaAprendio()) >= this.transformarDate(Date.now()) ;
-    console.log(this.hoyYaRealizoAprender)
+    this.hoyYaRealizoAprender = this.estaRutinaCompletada() || this.informacionPresentVerbService.ultimaFechaAprendidaEsHoy() ;
     return this.hoyYaRealizoAprender;
   } 
-
-  transformarDate(date){
-    return new DatePipe('en-LA').transform(date, 'shortDate'); 
-  }
 
   actualizarBarraProgreso(){
     this.barraProgreso = (this.informacionRutinaPresentVerb.indicesVerbosAprendidos.length/this.informacionRutinaPresentVerb.numeroVerbosAprender) * 100;
   }
+
+  activarAyuda = false
+  palabraActual = '';
+  mostrarAyuda() {
+
+    console.log(this.informacionPresentVerbService.obtenerUltimaFechaAprendio())
+
+    this.activarAyuda = true
+    this.palabraActual = this.informacionRutinaPresentVerb.verbos[this.informacionRutinaPresentVerb.indiceVerboValidar];
+    setTimeout(() => {
+      this.activarAyuda = false
+    }, 3000)
+  }
+
 
 }

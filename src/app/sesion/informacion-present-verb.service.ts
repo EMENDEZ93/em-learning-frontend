@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { DatePipe } from '@angular/common';
 
 const ULTIMO_INDICE_VERBO_APRENDIDO = 'UltimoIndiceVerboAprendido';
 const NUMERO_VERBOS_POR_APRENDER_DIARIO = 'NumeroVerbosPorAprenderDiario';
@@ -56,6 +57,15 @@ export class InformacionPresentVerbService {
 
   public obtenerEsPreguntaRespuesta(): boolean {
     return sessionStorage.getItem(ES_PREGUNTA_RESPUESTA) == 'true'; 
+  }
+
+
+  public ultimaFechaAprendidaEsHoy(): boolean {
+    return this.transformarDate(this.obtenerUltimaFechaAprendio()) >= this.transformarDate(Date.now());
+  }
+
+  private transformarDate(date){
+    return new DatePipe('en-LA').transform(date, 'shortDate'); 
   }
 
 }

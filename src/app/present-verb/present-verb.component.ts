@@ -113,13 +113,9 @@ export class PresentVerbComponent implements OnInit {
 
   private esIgualVerbEntradaVerboRutina(verboEntrada: any) {
     if(this.informacionSesionService.obtenerEsPreguntaRespuesta()){
-
-      console.log("this.informacionSesionService.obtenerEsPreguntaRespuesta()")
-      return verboEntrada == this.informacionRutinaPresentVerb.respuestas[this.informacionRutinaPresentVerb.indiceVerboValidar];
-    
+      return verboEntrada.toUpperCase() == this.informacionRutinaPresentVerb.respuestas[this.informacionRutinaPresentVerb.indiceVerboValidar].toUpperCase();
     } else {
-      console.log("this.informacionSesionService.obtenerEsPreguntaRespuesta() else ")
-      return verboEntrada == this.informacionRutinaPresentVerb.verbos[this.informacionRutinaPresentVerb.indiceVerboValidar];
+      return verboEntrada.toUpperCase() == this.informacionRutinaPresentVerb.verbos[this.informacionRutinaPresentVerb.indiceVerboValidar].toUpperCase();
     }
   }
 

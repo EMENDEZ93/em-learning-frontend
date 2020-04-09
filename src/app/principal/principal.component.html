@@ -5,10 +5,10 @@
         </div>
     </mat-drawer-container>
 
-    <mat-drawer-container class="example-container">
-        <mat-drawer class="drawer-container" mode="side" opened>
+    <mat-drawer-container class="main-container">
+        <mat-drawer class="menu-container" mode="side" opened>
             <mat-list *ngFor="let tema of temas">
-                <mat-list-item (click)="content(tema)">{{tema}}</mat-list-item>
+                <mat-list-item class="theme" (click)="content(tema)">{{tema}}</mat-list-item>
             </mat-list>
         </mat-drawer>
 
@@ -16,7 +16,7 @@
             <mat-drawer-content *ngIf="tabSeleccionado == tema">
                 <mat-tab-group>
                     <mat-tab label="Aprender | {{tema}}">
-                        <app-present-verb-aprender [hojaTemaExcel]="hojaTemaExcel"></app-present-verb-aprender>
+                        <app-present-verb-aprender [hojaTemaExcel]="hojaTemaExcel" (ultimFechaAprendido)='hoyRealizoAprender($event, tabSeleccionado)' ></app-present-verb-aprender>
                     </mat-tab>
                     <mat-tab label="Rutina | {{tema}}">
                         <app-present-verb [hojaTemaExcel]="hojaTemaExcel"></app-present-verb>

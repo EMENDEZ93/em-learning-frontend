@@ -1,4 +1,4 @@
-.example-container {
+.main-container {
     width: 99%;
     height: 700px;
     margin: 10px;
@@ -12,7 +12,14 @@
     border: 1px solid rgb(143, 136, 136);
   }
 
-  .drawer-container {
-      width: 10%;
+  .menu-container {
+      width: 20%;
+      background-color: cornflowerblue;
   }
   
+  .theme{
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+    width: 15%;
+  }
