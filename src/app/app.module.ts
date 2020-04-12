@@ -22,6 +22,7 @@ import { LoginComponent } from './login/login.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import { AlertModule } from 'ngx-bootstrap';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { MatSelectModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     MatProgressBarModule,
     MatDialogModule,
     AlertModule.forRoot(),
-    NgbModule
+    NgbModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]

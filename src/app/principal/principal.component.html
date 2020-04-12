@@ -1,11 +1,10 @@
-<mat-drawer-container>
     <mat-drawer-container class="example-header">
         <div class="form-group">
             <button class="btn btn-primary" (click)="cerrarsesion()">Logout</button>
         </div>
     </mat-drawer-container>
 
-    <mat-drawer-container class="main-container">
+    <mat-drawer-container class="main-container-em">
         <mat-drawer class="menu-container" mode="side" opened>
             <mat-list *ngFor="let tema of temas">
                 <mat-list-item class="theme" (click)="content(tema)">{{tema}}</mat-list-item>
@@ -13,17 +12,16 @@
         </mat-drawer>
 
         <div *ngFor="let tema of temas; let hojaTemaExcel = index">
-            <mat-drawer-content *ngIf="tabSeleccionado == tema">
-                <mat-tab-group>
-                    <mat-tab label="Aprender | {{tema}}">
+            <div class="tabs-em container" *ngIf="tabSeleccionado == tema">
+                <mat-tab-group class="em-group-tabs">
+                    <mat-tab class="em-aprender-tab" label="Aprender | {{tema}}">
                         <app-present-verb-aprender [hojaTemaExcel]="hojaTemaExcel" (ultimFechaAprendido)='hoyRealizoAprender($event, tabSeleccionado)' ></app-present-verb-aprender>
                     </mat-tab>
-                    <mat-tab label="Rutina | {{tema}}">
+                    <mat-tab class="em-rutina-tab" label="Rutina | {{tema}}">
                         <app-present-verb [hojaTemaExcel]="hojaTemaExcel"></app-present-verb>
                     </mat-tab>
                 </mat-tab-group>
-            </mat-drawer-content>
+            </div>
         </div>
 
     </mat-drawer-container>
-</mat-drawer-container>
