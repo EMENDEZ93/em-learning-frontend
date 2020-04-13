@@ -17,3 +17,76 @@
 .em-tab{
    width: 83%;
 }
+
+.tp-section {
+   display: flex;
+   align-content: center;
+   align-items: center;
+   height: 60px;
+}
+
+.tp-margin {
+   margin: 0 10px;
+}
+
+.example-form {
+  height: 149px;
+}
+
+.em-tab{
+   width: 83%;
+}
+
+.menu-container {
+  width: 20%;
+  background-color: cornflowerblue;
+}
+
+.theme{
+  color: #fff;
+  background-color: #007bff;
+  border-color: #007bff;
+  width: 15%;
+}
+
+.bar-container {
+  width: 75%;
+}
+
+.em-margin-input{
+  margin-top: 20px;
+}
+
+.validacionExitosa{
+  box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+  color: black;
+  transform: translateY(-7px);
+}
+
+.validacionError{
+  box-shadow: 0px 15px 20px #ffb3b3;
+  color: black;
+  transform: translateY(-7px);
+}
+
+.validacionVacia{
+  box-shadow: 0px 15px 20px #80bfff;
+  color: black;
+  transform: translateY(-7px);
+}
+
+.em-nav button {
+  margin: 5px;
+}
+
+.mat-tab-list {
+   background-color: #007bff !important;
+}
+
+.verbos-reproducir{
+   width: 60px;
+}
+
+.container-reproducir-siguiente{
+  display: -webkit-inline-box;
+}

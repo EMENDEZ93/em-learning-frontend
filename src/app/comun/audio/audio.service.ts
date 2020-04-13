@@ -18,9 +18,12 @@ export class AudioService {
     this.reproductor.name= audioGeneroAleatorio == 1 ? "Google UK English Female" : "Microsoft Zira Desktop - English (United States)";
     this.reproductor.voiceURI = audioGeneroAleatorio == 1 ? "Google UK English Female" : "Microsoft Zira Desktop - English (United States)";
 
+    //this.reproductor.pitch = 2; // velocidad de voz [0.1 - 10]
+    //this.reproductor.volume = 1; //
+    //this.reproductor.rate = 1;
+
     (<any>window).speechSynthesis.speak(this.reproductor);  
   }
-
 
   private obtenerAudioGeneroAleatorio(): number{
     const indiceAleatoreo = Math.floor(Math.random() * 2) + 0 

@@ -33,7 +33,7 @@ export class PresentVerbAprenderComponent implements OnInit {
   barraProgreso = 0;
   colorBarraProgreso = 'alert alert-danger';
   colorSegunValidacionClass = 'border border-primary validacionVacia';
-  hoyYaRealizoAprender = false;
+  hoyYaRealizoAprender = true;
   numeroPalabras = 0;
   cantidadVerbosReproducir = 0;
   patt1 = /\w+/g;

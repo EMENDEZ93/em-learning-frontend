@@ -28,6 +28,9 @@ export class PresentVerbComponent implements OnInit {
   verboEntrada : string;
   barraProgreso = 0;
   colorBarraProgreso = 'alert alert-danger';  
+  colorSegunValidacionClass = 'border border-primary validacionVacia';
+  cantidadVerbosReproducir = 0;
+  patt1 = /\w+/g;
 
   ngOnInit() {
     this.T = JSON.parse(this.informacionInicialSistema.obtenerTemas());
@@ -86,6 +89,7 @@ export class PresentVerbComponent implements OnInit {
     }
   }
 
+  
   validarVerboEntredaConVerboRutina(verboEntrada){    
     if(this.estaRutinaCompletada()){
       this.actualizarPerfil();
@@ -175,5 +179,57 @@ export class PresentVerbComponent implements OnInit {
       this.activarAyuda = false
     }, 3000)
   }
+
+
+  colorSegunValidacion(verboEntrada) {
+
+    console.log('>>>>>>>>> colorSegunValidacion <<<<<<<<<<<<<<<<<');
+    console.log(this.informacionRutinaPresentVerb.verbos[this.informacionRutinaPresentVerb.indiceVerboValidar].toUpperCase()  )
+    
+    if (verboEntrada.trim() == "") {
+      this.colorSegunValidacionClass = 'border border-primary validacionVacia';
+    } else if (this.informacionRutinaPresentVerb.verbos[this.informacionRutinaPresentVerb.indiceVerboValidar].toUpperCase().includes(verboEntrada.toUpperCase())) {
+      this.colorSegunValidacionClass = 'border border-success validacionExitosa';
+    } else {
+      this.colorSegunValidacionClass = 'border border-danger validacionError';
+    }
+  }
+
+  reproducirSiguientePalabra() {
+    this.audioService.reproducir(this.obtenerSiguientePalabra());
+  }
+
+  obtenerSiguientePalabra() {
+    var arrayEsperado = this.informacionRutinaPresentVerb.verbos[this.informacionRutinaPresentVerb.indiceVerboRetrocesoTemporal].match(this.patt1);
+    var arrayActual = this.verboEntrada == null || this.verboEntrada.trim() == '' ? [''] : this.verboEntrada.match(this.patt1);
+
+    let i;
+    let verbos = '';
+
+    for (i = 0; i < arrayEsperado.length; i++) {
+      if (i >= arrayActual.length) {
+        break;
+      }
+      if (arrayEsperado[i].toUpperCase() != arrayActual[i].toUpperCase()) {
+        break;
+      }
+    }
+
+    for (let x = i; x < (parseInt(i) + parseInt(this.cantidadVerbosReproducir.toString()) + 1); x++) {
+      verbos = verbos + arrayEsperado[x] + ' ';
+    }
+    return verbos;
+
+  }
+
+  mostrarSiguientePalabra() {
+    this.activarAyuda = true
+    this.palabraActual = this.obtenerSiguientePalabra();
+    setTimeout(() => {
+      this.activarAyuda = false
+    }, 3000)
+  }
+
+
 
 }

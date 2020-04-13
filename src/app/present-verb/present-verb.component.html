@@ -1,29 +1,69 @@
-<mat-drawer-container class="em-tab">
-
-    <h1>{{barraProgreso}}%</h1>
-
-    <div class="progress">
-      <div class="{{colorBarraProgreso}}" [ngStyle]="{width: barraProgreso + '%'}"></div>
-    </div>  
-    
-
-  <button (click)="obtenerRutina()" mat-button>* Iniciar Rutina *</button>
-  <button (click)="reproducir()" mat-button>* Reproducir *</button>
-  <button (click)="mostrarAyuda()" mat-button>* Ayuda *</button>
-
-  <audio #audio>
-    <source src='{{rutaMp3}}' type="audio/mp3">
-  </audio>
-
-  <form class="example-form" #formulario="ngForm">
-    <mat-form-field class="example-full-width" style="width: 1000px;" id="verb_input">
-      <input autocomplete="off" matInput type="text" placeholder="" class="form-control" name="in"
-        (input)="validarVerboEntredaConVerboRutina($event.target.value);" [(ngModel)]="verboEntrada">
-    </mat-form-field>
-  </form>
-
-  <div *ngIf="activarAyuda" class="alert alert-warning">
-    <strong>{{palabraActual}}</strong>
+<mat-drawer-container class="em-form">
+  <div>
+      <button (click)="obtenerRutina()" type="button" class="btn btn-primary"> Iniciar Rutina </button>
   </div>
-
+  <div class="container container-form-em">
+      <div class="container">
+          <div class="row">
+              <div class="col-sm">
+                  <div class="progress bar-container">
+                      <div class="progress-bar progress-bar-striped active" [ngStyle]="{width: barraProgreso + '%'}"
+                          role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"
+                          style="width:40%">
+                          {{barraProgreso}}%
+                      </div>
+                  </div>
+                  <form class="" #formulario="ngForm">
+                      <mat-form-field class="em-margin-input" style="width: 75%;" id="verb_input">
+                          <input autocomplete="off" matInput type="text" placeholder=""
+                              class="form-control {{colorSegunValidacionClass}}" name="in"
+                              (input)="validarVerboEntredaConVerboRutina($event.target.value); colorSegunValidacion($event.target.value);"
+                              [(ngModel)]="verboEntrada">
+                      </mat-form-field>
+                  </form>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-sm">
+                  <nav class="em-nav nav flex-column float-right">
+                      <button (click)="reproducir()" type="button" class="btn btn-primary">* Reproducir *</button>
+                      <div class="container-reproducir-siguiente">
+                          <button (click)="reproducirSiguientePalabra()" type="button"
+                              class="btn btn-primary">Reproducir</button>
+                          <select class="verbos-reproducir" id="exampleFormControlSelect1" [(ngModel)]="cantidadVerbosReproducir">
+                              <option *ngFor='let em of [].constructor(numeroPalabras); let i = index;'  [value]="i">{{i+1}}</option>
+                          </select>
+                      </div>
+                      <button (click)="mostrarSiguientePalabra()" type="button" class="btn btn-primary">* Ayuda
+                          Siguietne Palabra*</button>
+                      <button (click)="mostrarAyuda()" type="button" class="btn btn-primary">* Ayuda *</button>
+                  </nav>
+              </div>
+          </div>
+          <div *ngIf="activarAyuda" class="bar-container alert alert-warning">
+              <strong>{{palabraActual}}</strong>
+          </div>
+      </div>
+  </div>
+  <p *ngIf="hoyYaRealizoAprender == true">Hoy ya realizaste esta Rutina -> {{hoyYaRealizoAprender}}</p>
 </mat-drawer-container>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
