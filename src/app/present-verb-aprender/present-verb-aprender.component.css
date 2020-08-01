@@ -90,3 +90,7 @@ margin: 5px;
 .container-reproducir-siguiente{
 display: -webkit-inline-box;
 }
+
+p {
+  color: white;
+}

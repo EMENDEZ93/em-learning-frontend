@@ -29,7 +29,7 @@ export class PresentVerbAprenderComponent implements OnInit {
   T: any = [];
 
   verboEntrada: string;
-  repeticionesAltaComoAprendidoTemporal = 0;
+  repeticionesAltaComoAprendidoTemporal = 3;
   barraProgreso = 0;
   colorBarraProgreso = 'alert alert-danger';
   colorSegunValidacionClass = 'border border-primary validacionVacia';
@@ -46,6 +46,9 @@ export class PresentVerbAprenderComponent implements OnInit {
     this.T = JSON.parse(this.informacionInicialSistema.obtenerTemas());
     this.presentVerbService.obtenerPerfil(this.informacionSesionService.obtenerCorreo(), this.T[this.hojaTemaExcel]).subscribe(
       (perfil) => {
+
+        console.log("Edwin mendez -> " + perfil)
+
         this.informacionSesionService.guardarUltimoIndiceVerboAprendido(perfil.ultimoIndiceAprendido);
         this.informacionSesionService.guardarNumeroVerbosPorAprenderDiario(perfil.numeroVerbosPorAprenderDiario);
         this.informacionSesionService.guardarRepeticionesAltaComoAprendido(perfil.repeticionesAltaComoAprendido);
@@ -126,27 +129,38 @@ export class PresentVerbAprenderComponent implements OnInit {
 
   obtenerSiguienteIndice() {
     if (!this.estaRutinaCompletada()) {
+
       if (this.esIgualrIndiceVerboRetrocesoTemporalIndiceVerboValidar()) {
+      
         if (this.esIgualRepeticionAlcaComoAprendioTemporalRepeticionAltaComoAprendido()) {
           this.actualizarVerbosAprendidos();
           this.actualizarBarraProgreso();
           this.informacionRutinaPresentVerb.indiceVerboValidar++;
           this.informacionRutinaPresentVerb.indiceVerboRetrocesoTemporal = 0;
-          this.repeticionesAltaComoAprendidoTemporal = 0;
+          this.repeticionesAltaComoAprendidoTemporal = 3;
         } else {
           this.informacionRutinaPresentVerb.indiceVerboRetrocesoTemporal = 0;
           this.repeticionesAltaComoAprendidoTemporal++;
         }
+      
       } else {
         this.informacionRutinaPresentVerb.indiceVerboRetrocesoTemporal++;
       }
+
+
     } else {
       console.log('------- Rutina Completada 2 --------')
     }
   }
   private esIgualRepeticionAlcaComoAprendioTemporalRepeticionAltaComoAprendido() {
+
+    console.log("esIgualRepeticionAlcaComoAprendioTemporalRepeticionAltaComoAprendido")
+    console.log(this.informacionRutinaPresentVerb.repeticionesAltaComoAprendido)
+    console.log(this.repeticionesAltaComoAprendidoTemporal)
     return this.repeticionesAltaComoAprendidoTemporal == this.informacionRutinaPresentVerb.repeticionesAltaComoAprendido;
+
   }
+
 
   esIgualrIndiceVerboRetrocesoTemporalIndiceVerboValidar() {
     return this.informacionRutinaPresentVerb.indiceVerboRetrocesoTemporal == this.informacionRutinaPresentVerb.indiceVerboValidar;

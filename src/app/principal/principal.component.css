@@ -3,6 +3,7 @@
     height: 700px;
     margin: 10px;
     border: 1px solid rgb(143, 136, 136);
+    background-color: black;
   }
   
   .example-header {
@@ -10,11 +11,12 @@
     height: 70px;
     margin: 10px;
     border: 1px solid rgb(143, 136, 136);
+    background-color: black;
   }
 
   .menu-container {
       width: 20%;
-      background-color: cornflowerblue;
+      background-color: black;
   }
   
   .theme{
@@ -27,4 +29,7 @@
   .map-ripple-element{
     background-color: #007bff;
   }
-  
+
+  .tabs-em {
+    color: #fff;
+  }
