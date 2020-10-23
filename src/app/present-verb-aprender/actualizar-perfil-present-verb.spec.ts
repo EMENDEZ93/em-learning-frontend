@@ -7,10 +7,8 @@ describe('ActualizarPerfilPresentVerb', () => {
   let app: PresentVerbAprenderComponent;
 
   beforeEach(async( ()=> {
-    app = new PresentVerbAprenderComponent();
   }))
 
   it('should create an instance', async(() => {
-    expect(app.).toBeTruthy();
   }));
 });

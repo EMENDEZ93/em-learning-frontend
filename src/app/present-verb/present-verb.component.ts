@@ -26,6 +26,7 @@ export class PresentVerbComponent implements OnInit {
     private presentVerbAprenderService: PresentVerbAprenderService, private informacionInicialSistema: InformacionInicialSistema) { }
   
   verboEntrada : string;
+  spanishVerbo: string;
   barraProgreso = 0;
   colorBarraProgreso = 'alert alert-danger';  
   colorSegunValidacionClass = 'border border-primary validacionVacia';
@@ -124,9 +125,14 @@ export class PresentVerbComponent implements OnInit {
   }
 
   ingresarInformacionRutina(rutina) {
+
+    console.log("[ingresarInformacionRutina]")
+    console.log(rutina)
+
     this.informacionRutinaPresentVerb = {
-      verbos: rutina,
-      numeroVerbosRutina : rutina.length,
+      verbos: rutina["english"],
+      spanishVerbs: rutina["spanish"],
+      numeroVerbosRutina : rutina["english"].length,
       indiceVerboValidar : 0,
       indicesVerbosRepasados : []
     }
@@ -174,7 +180,7 @@ export class PresentVerbComponent implements OnInit {
   palabraActual = '';
   mostrarAyuda() {
     this.activarAyuda = true
-    this.palabraActual = this.informacionRutinaPresentVerb.verbos[this.informacionRutinaPresentVerb.indiceVerboValidar];
+    this.palabraActual = this.informacionRutinaPresentVerb.verbos[this.informacionRutinaPresentVerb.indiceVerboValidar] + " / "+ this.informacionRutinaPresentVerb.spanishVerbs[this.informacionRutinaPresentVerb.indiceVerboValidar] ;
     setTimeout(() => {
       this.activarAyuda = false
     }, 3000)

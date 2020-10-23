@@ -29,6 +29,8 @@ export class PresentVerbAprenderComponent implements OnInit {
   T: any = [];
 
   verboEntrada: string;
+  spanishVerbo: string;
+  englishVerbo: string;
   repeticionesAltaComoAprendidoTemporal = 3;
   barraProgreso = 0;
   colorBarraProgreso = 'alert alert-danger';
@@ -61,6 +63,8 @@ export class PresentVerbAprenderComponent implements OnInit {
   obtenerRutina() {
     this.presentVerbService.obtenerRutina(this.informacionSesionService.obtenerUltimoIndiceVerboAprendido(), this.informacionSesionService.obtenerNumeroVerbosPorAprenderDiario(), this.hojaTemaExcel).subscribe(
       (rutina) => {
+
+        console.log(rutina)
         this.ingresarInformacionAprender(rutina)
       }, (error) => { }
     )
@@ -116,9 +120,14 @@ export class PresentVerbAprenderComponent implements OnInit {
   }
 
   ingresarInformacionAprender(rutina) {
+
+    console.log("[ingresarInformacionAprender]")
+    console.log(rutina["english"])
+
     this.informacionRutinaPresentVerb = {
-      verbos: rutina,
-      numeroVerbosAprender: rutina.length,
+      verbos: rutina["english"],
+      spanishVerbs: rutina["spanish"],
+      numeroVerbosAprender: rutina["english"].length,
       indiceVerboValidar: 0,
       indiceVerboRetrocesoTemporal: 0,
       indicesVerbosAprendidos: [],
@@ -169,6 +178,10 @@ export class PresentVerbAprenderComponent implements OnInit {
   estaRutinaCompletada() {
     const rutinaCompletada = Array.from({ length: this.informacionRutinaPresentVerb.numeroVerbosAprender }, (v, k) => k);
     const rutinaActual = this.informacionRutinaPresentVerb.indicesVerbosAprendidos;
+
+    console.log("[estaRutinaCompletada]")
+    console.log(JSON.stringify(rutinaCompletada.sort()) == JSON.stringify(rutinaActual.sort()))
+
     return JSON.stringify(rutinaCompletada.sort()) == JSON.stringify(rutinaActual.sort());
   }
 
@@ -179,6 +192,8 @@ export class PresentVerbAprenderComponent implements OnInit {
   reproducir() {
     if (!this.hoyRealizoAprender()) {
       this.audioService.reproducir(this.informacionRutinaPresentVerb.verbos[this.informacionRutinaPresentVerb.indiceVerboRetrocesoTemporal]);
+      this.spanishVerbo = this.informacionRutinaPresentVerb.spanishVerbs[this.informacionRutinaPresentVerb.indiceVerboRetrocesoTemporal]
+      this.englishVerbo = this.informacionRutinaPresentVerb.verbos[this.informacionRutinaPresentVerb.indiceVerboRetrocesoTemporal]
       this.obtenerNumerosPalabras();
     }
   }
@@ -214,6 +229,12 @@ export class PresentVerbAprenderComponent implements OnInit {
 
   hoyRealizoAprender(): boolean {
     this.hoyYaRealizoAprender = this.estaRutinaCompletada() || this.informacionPresentVerbService.ultimaFechaAprendidaEsHoy();
+
+    //console.log("[hoyRealizoAprender]")
+    //console.log(" this.estaRutinaCompletada()" + this.estaRutinaCompletada())
+    //console.log(" this.informacionPresentVerbService.ultimaFechaAprendidaEsHoy()" + this.informacionPresentVerbService.ultimaFechaAprendidaEsHoy())
+    //console.log(this.hoyYaRealizoAprender)
+
     return this.hoyYaRealizoAprender;
   }
 

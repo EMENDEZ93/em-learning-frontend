@@ -13,6 +13,13 @@
                             {{barraProgreso}}%
                         </div>
                     </div>
+
+                    <form class="">
+                        <mat-form-field class="em-margin-input" style="width: 75%;" id="verb_input">
+                            <input autocomplete="off" matInput type="text" placeholder="" class="form-control" name="in" readonly [(ngModel)]="englishVerbo +' / '+ spanishVerbo" style="text-align:center; background-color: #3CBC8D;">
+                        </mat-form-field>
+                    </form>
+
                     <form class="" #formulario="ngForm">
                         <mat-form-field class="em-margin-input" style="width: 75%;" id="verb_input">
                             <input autocomplete="off" matInput type="text" placeholder=""

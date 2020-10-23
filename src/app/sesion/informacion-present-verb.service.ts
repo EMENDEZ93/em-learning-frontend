@@ -61,7 +61,17 @@ export class InformacionPresentVerbService {
 
 
   public ultimaFechaAprendidaEsHoy(): boolean {
-    return this.transformarDate(this.obtenerUltimaFechaAprendio()) >= this.transformarDate(Date.now());
+
+    //console.log("[ultimaFechaAprendidaEsHoy]")
+    //console.log("this.obtenerUltimaFechaAprendio() " +  this.transformarDate(this.obtenerUltimaFechaAprendio()) )
+    //console.log("this.transformarDate(Date.now()) " + this.transformarDate(Date.now()))
+    //console.log("this.obtenerUltimaFechaAprendio() " +  this.transformarDate(this.obtenerUltimaFechaAprendio()) )
+    //console.log("this.transformarDate(Date.now()) " + this.transformarDate(Date.now()))
+    //console.log("_____________________________________")
+    //console.log("======== ", new Date(this.transformarDate(this.obtenerUltimaFechaAprendio())) >= new Date(this.transformarDate(Date.now())) )
+    //console.log("_____________________________________")
+
+    return new Date(this.transformarDate(this.obtenerUltimaFechaAprendio()) ) >= new Date(  this.transformarDate(Date.now()) );
   }
 
   private transformarDate(date){

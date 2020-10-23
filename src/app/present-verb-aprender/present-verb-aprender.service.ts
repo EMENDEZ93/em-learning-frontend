@@ -15,10 +15,20 @@ export class PresentVerbAprenderService {
 
   public obtenerRutina(ultimoIndiceVerboAprendido, numeroVerbosPorAprenderDiario, hojaTemaExcel):  Observable<string[]> { 
 
+    console.log("[obtenerRutina]")
+    console.log(ultimoIndiceVerboAprendido)
+    console.log(numeroVerbosPorAprenderDiario)
+    console.log(hojaTemaExcel)
+
     return this.http.get<string[]>(this.endpoint+"/api/present/verb/verbosporaprender/" + ultimoIndiceVerboAprendido + "/" + numeroVerbosPorAprenderDiario+"/" + hojaTemaExcel);
+  
+  
   }
 
   public obtenerPerfil(email, hojaTemaExcel) { 
+    console.log("[obtenerPerfil]")
+    console.log(email)
+    console.log(hojaTemaExcel)
     return this.http.get<InformacionPresentVerb>(this.endpoint+"/api/present/verb/perfil/" + email+ "/" + hojaTemaExcel);
   }
 
