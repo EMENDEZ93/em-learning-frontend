@@ -28,11 +28,13 @@ export class PresentVerbAprenderService {
   public obtenerPerfil(email, hojaTemaExcel) { 
     console.log("[obtenerPerfil]")
     console.log(email)
-    console.log(hojaTemaExcel)
-    return this.http.get<InformacionPresentVerb>(this.endpoint+"/api/present/verb/perfil/" + email+ "/" + hojaTemaExcel);
+    console.log(hojaTemaExcel['tema'])
+    return this.http.get<InformacionPresentVerb>(this.endpoint+"/api/present/verb/perfil/" + email+ "/" + hojaTemaExcel['tema']);
   }
 
   public actualizarPerfil(actualizarPerfilPresentVerb: ActualizarPerfilPresentVerb){
+    console.log("[actualizarPerfil]")
+    console.log(actualizarPerfilPresentVerb)
     const httpOptions = { headers: new HttpHeaders({'Content-Type': 'application/json; charset=utf-8'})};
     return this.http.post(this.endpoint+"/api/present/verb/perfil", JSON.stringify(actualizarPerfilPresentVerb), httpOptions);
   }

@@ -108,11 +108,15 @@ export class PresentVerbComponent implements OnInit {
   }
 
   private actualizarPerfil() {
+    console.log("[actualizarPerfil]")
     this.actualizarUltimafecharutina = new ActualizarUltimafecharutina();
     this.actualizarUltimafecharutina.correo = this.informacionSesionService.obtenerCorreo();
-    this.actualizarUltimafecharutina.nombre = this.T[this.hojaTemaExcel];
+    this.actualizarUltimafecharutina.nombre = this.T[this.hojaTemaExcel['tema']];
+    console.log("[before]")
     this.presentVerbService.actualizarPerfil(this.actualizarUltimafecharutina).subscribe((exito) => {
+    
     }, (error) => {
+
     });
   }
 

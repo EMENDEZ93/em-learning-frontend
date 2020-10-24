@@ -93,10 +93,21 @@ export class PresentVerbAprenderComponent implements OnInit {
   }
 
   private actualizacionPerfil() {
+    console.log("[private actualizacionPerfil]")
+
+    console.log(this.T[this.hojaTemaExcel]['tema'])
+    console.log(this.T[this.hojaTemaExcel])
+    console.log(this.T)
+    console.log(this.hojaTemaExcel)
+
     this.actualizarPerfilPresentVerb = new ActualizarPerfilPresentVerb();
-    this.actualizarPerfilPresentVerb.nombre = this.T[this.hojaTemaExcel];
+    this.actualizarPerfilPresentVerb.nombre = this.T[this.hojaTemaExcel]['tema'];
     this.actualizarPerfilPresentVerb.correo = this.informacionSesionService.obtenerCorreo();
     this.actualizarPerfilPresentVerb.ultimoIndiceAprendido = this.informacionSesionService.obtenerUltimoIndiceVerboAprendido() + this.informacionSesionService.obtenerNumeroVerbosPorAprenderDiario();
+    console.log("--> " + this.actualizarPerfilPresentVerb)
+    console.log(this.actualizarPerfilPresentVerb)
+    console.log("--> " + this.actualizarPerfilPresentVerb)
+    
     this.presentVerbService.actualizarPerfil(this.actualizarPerfilPresentVerb).subscribe();
     this.hoyRealizoAprender();
   }

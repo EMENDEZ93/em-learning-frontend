@@ -33,3 +33,7 @@
   .tabs-em {
     color: #fff;
   }
+
+  .is-active {
+    background-color: red;
+}

@@ -12,6 +12,10 @@ export class InformacionInicialSistema {
     public guardarTemas(temas: string[]){
         window.sessionStorage.removeItem(TEMAS);
         window.sessionStorage.setItem(TEMAS, JSON.stringify(temas));
+    
+        console.log("[guardarTemas]")
+        console.log(this.obtenerTemas())
+    
     }
     
     public obtenerTemas() {

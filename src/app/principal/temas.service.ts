@@ -12,7 +12,7 @@ export class TemasService {
   endpoint = 'http://localhost:8080';
 
   public obtenerTemas():  Observable<string[]> { 
-    return this.http.get<string[]>(this.endpoint+"/api/present/verb/temas");
+    return this.http.get<string[]>(this.endpoint+"/api/present/verb/temas/edwin@em.com.co");
   }
   
 

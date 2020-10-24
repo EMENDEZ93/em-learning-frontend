@@ -20,13 +20,16 @@ export class PrincipalComponent implements OnInit {
               private informacionPresentVerbService: InformacionPresentVerbService) { }
 
   ngOnInit() {
-
     this.informacionSesionService.requiereIniciarSesion();
+    console.log("[this.temas]")
+    console.log(this.informacionSesionService.obtenerCorreo())
     this.temas = JSON.parse(this.informacionInicialSistema.obtenerTemas()); 
   }
 
   content(tabSeleccionado){
-    this.tabSeleccionado = tabSeleccionado; 
+    console.log("[tabSeleccionado]")
+    console.log(tabSeleccionado['tema'])
+    this.tabSeleccionado = tabSeleccionado['tema']; 
   }
 
   public cerrarsesion(){
@@ -37,8 +40,16 @@ export class PrincipalComponent implements OnInit {
 
   hoyRealizoAprender(event, componente){
     console.log("*************** Child to parent ********************")
-    console.log(event)
-    console.log(componente)
+    console.log("event -> " + event)
+    console.log("componente -> " + componente)
+  }
+
+  colorSegunValidacion(realizado) {
+    if (realizado) {
+      return 'btn-success';
+    } else if (!realizado) {
+      return 'btn-primary';
+    }
   }
 
 }
