@@ -31,7 +31,7 @@ export class PresentVerbAprenderComponent implements OnInit {
   verboEntrada: string;
   spanishVerbo: string;
   englishVerbo: string;
-  repeticionesAltaComoAprendidoTemporal = 3;
+  repeticionesAltaComoAprendidoTemporal = 0;
   barraProgreso = 0;
   colorBarraProgreso = 'alert alert-danger';
   colorSegunValidacionClass = 'border border-primary validacionVacia';
@@ -157,7 +157,7 @@ export class PresentVerbAprenderComponent implements OnInit {
           this.actualizarBarraProgreso();
           this.informacionRutinaPresentVerb.indiceVerboValidar++;
           this.informacionRutinaPresentVerb.indiceVerboRetrocesoTemporal = 0;
-          this.repeticionesAltaComoAprendidoTemporal = 3;
+          this.repeticionesAltaComoAprendidoTemporal = 0;
         } else {
           this.informacionRutinaPresentVerb.indiceVerboRetrocesoTemporal = 0;
           this.repeticionesAltaComoAprendidoTemporal++;
@@ -167,16 +167,15 @@ export class PresentVerbAprenderComponent implements OnInit {
         this.informacionRutinaPresentVerb.indiceVerboRetrocesoTemporal++;
       }
 
-
     } else {
       console.log('------- Rutina Completada 2 --------')
     }
   }
   private esIgualRepeticionAlcaComoAprendioTemporalRepeticionAltaComoAprendido() {
-
-    console.log("esIgualRepeticionAlcaComoAprendioTemporalRepeticionAltaComoAprendido")
-    console.log(this.informacionRutinaPresentVerb.repeticionesAltaComoAprendido)
-    console.log(this.repeticionesAltaComoAprendidoTemporal)
+    console.log("[esIgualRepeticionAlcaComoAprendioTemporalRepeticionAltaComoAprendido]")
+    console.log("this.informacionRutinaPresentVerb.repeticionesAltaComoAprendido -> " + this.informacionRutinaPresentVerb.repeticionesAltaComoAprendido)
+    console.log("this.repeticionesAltaComoAprendidoTemporal -> " + this.repeticionesAltaComoAprendidoTemporal)
+    
     return this.repeticionesAltaComoAprendidoTemporal == this.informacionRutinaPresentVerb.repeticionesAltaComoAprendido;
 
   }
