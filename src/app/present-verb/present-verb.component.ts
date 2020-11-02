@@ -7,6 +7,8 @@ import { ActualizarUltimafecharutinaTemasService } from '../servicios/actualizar
 import { ActualizarUltimafecharutina } from '../servicios/actualizar-ultimafecharutina';
 import { InformacionInicialSistema } from '../informacion-inicial-sistema';
 import { PresentVerbAprenderService } from '../present-verb-aprender/present-verb-aprender.service';
+import {MatDialog} from '@angular/material/dialog';
+import { Opcion } from './opcion';
 
 @Component({
   selector: 'app-present-verb',
@@ -23,7 +25,8 @@ export class PresentVerbComponent implements OnInit {
   @ViewChild('formulario', {static: false}) formulario;
   
   constructor(public http: HttpClient, private presentVerbService: PresentVerbService, private audioService : AudioService, private informacionSesionService: InformacionSesionService, 
-    private presentVerbAprenderService: PresentVerbAprenderService, private informacionInicialSistema: InformacionInicialSistema) { }
+    private presentVerbAprenderService: PresentVerbAprenderService, private informacionInicialSistema: InformacionInicialSistema,
+    private dialog: MatDialog) { }
   
   verboEntrada : string;
   spanishVerbo: string;
@@ -90,22 +93,71 @@ export class PresentVerbComponent implements OnInit {
     }
   }
 
+  @Input() editable: boolean = true;
+  @Input() showOptions: boolean = false;
+  opciones : Opcion[] = [];
+
   
   validarVerboEntredaConVerboRutina(verboEntrada){    
     if(this.estaRutinaCompletada()){
       this.actualizarPerfil();
     } else if(this.esIgualVerbEntradaVerboRutina(verboEntrada)){
+      this.editable = false;
+      this.showOptions = true;
+
+      const cuatro = false;
+      let indices : number[] = [];
+      
+      while(!cuatro) {
+      let indiceAleatoreo = Math.floor(Math.random() * this.informacionRutinaPresentVerb.numeroVerbosRutina) + 0;
+        if(!indices.includes(indiceAleatoreo)) {
+          indices.push(indiceAleatoreo);
+        }
+
+        if(indices.length == 4 ) {
+          if(!indices.includes(this.informacionRutinaPresentVerb.indiceVerboValidar)) {
+            indices = [];
+          }
+        }
+
+        if(indices.length == 4 ) {
+          break;
+        }
+
+      }
+      this.opciones = []
+      indices.forEach(element => {
+        this.opciones.push(new Opcion(this.informacionRutinaPresentVerb.spanishVerbs[element], element))
+      });
+
+    }
+  }
+
+
+  validarTraductorSeleccionado(indiceOpcion) {
+    console.log("[validarTraductorSeleccionado]")
+    console.log(indiceOpcion)
+    console.log(indiceOpcion == this.informacionRutinaPresentVerb.indiceVerboValidar)
+
+    if(indiceOpcion == this.informacionRutinaPresentVerb.indiceVerboValidar ) {
+
+      this.editable = true;
+      this.showOptions = false;
+      
       this.formulario.resetForm();
       this.actualizarVerbosAprendidos();
       this.obtenerIndiceAleatoreo();
       this.reproducir();
       this.actualizarBarraProgreso();
-
+  
       if(this.estaRutinaCompletada()){
         this.actualizarPerfil();
       }
+
     }
+
   }
+
 
   private actualizarPerfil() {
     console.log("[actualizarPerfil]")
@@ -239,7 +291,5 @@ export class PresentVerbComponent implements OnInit {
       this.activarAyuda = false
     }, 3000)
   }
-
-
 
 }

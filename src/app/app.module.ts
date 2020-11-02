@@ -24,13 +24,14 @@ import { AlertModule } from 'ngx-bootstrap';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { MatSelectModule } from '@angular/material';
 
+
 @NgModule({
   declarations: [
     AppComponent,
     PresentVerbComponent,
     PrincipalComponent,
     PresentVerbAprenderComponent,
-    LoginComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
