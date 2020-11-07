@@ -20,7 +20,7 @@ import { PrincipalComponent } from './principal/principal.component';
 import { PresentVerbAprenderComponent } from './present-verb-aprender/present-verb-aprender.component';
 import { LoginComponent } from './login/login.component';
 import {MatDialogModule} from '@angular/material/dialog';
-import { AlertModule } from 'ngx-bootstrap';
+import { AlertModule } from 'ngx-bootstrap/alert';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { MatSelectModule } from '@angular/material';
 
