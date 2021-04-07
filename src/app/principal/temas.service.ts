@@ -9,10 +9,10 @@ export class TemasService {
 
   constructor(private http: HttpClient) { }
 
-  endpoint = 'http://localhost:8080';
+  endpoint = 'http://localhost:8081';
 
   public obtenerTemas():  Observable<string[]> { 
-    return this.http.get<string[]>(this.endpoint+"/api/present/verb/temas/edwin@em.com.co");
+    return this.http.get<string[]>(this.endpoint+"/api/present/verb/temas/edwin.mendez@em.com.co");
   }
   
 

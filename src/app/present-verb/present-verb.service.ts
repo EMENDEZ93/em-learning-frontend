@@ -10,7 +10,7 @@ export class PresentVerbService {
 
   constructor(private http: HttpClient) { }
 
-  endpoint = 'http://localhost:8080';
+  endpoint = 'http://localhost:8081';
 
   public obtenerRutina(ultimoIndiceVerboAprendido, hojaTemaExcel):  Observable<string[]> { 
     return this.http.get<string[]>(this.endpoint + '/api/present/verb/' + ultimoIndiceVerboAprendido + "/" + hojaTemaExcel);
