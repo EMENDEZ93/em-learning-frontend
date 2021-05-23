@@ -9,7 +9,7 @@ export class ActualizarUltimafecharutinaTemasService {
 
   constructor(private http: HttpClient) { }
 
-  endpoint = 'http://localhost:80';
+  endpoint = 'http://api-gateway:81';
 
 
   public actualizarPerfil(actualizarUltimafecharutina: ActualizarUltimafecharutina){

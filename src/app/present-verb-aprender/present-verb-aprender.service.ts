@@ -11,7 +11,7 @@ export class PresentVerbAprenderService {
 
   constructor(private http: HttpClient) { }
 
-  endpoint = 'http://localhost:8081';
+  endpoint = 'http://api-gateway:81';
 
   public obtenerRutina(ultimoIndiceVerboAprendido, numeroVerbosPorAprenderDiario, hojaTemaExcel):  Observable<string[]> { 
 
