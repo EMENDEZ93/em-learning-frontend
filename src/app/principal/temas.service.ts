@@ -9,7 +9,7 @@ export class TemasService {
 
   constructor(private http: HttpClient) { }
 
-  endpoint = 'http://api-gateway:81';
+  endpoint = 'http://192.168.1.9:81';
 
   public obtenerTemas():  Observable<string[]> { 
     return this.http.get<string[]>(this.endpoint+"/api/present/verb/temas/edwin.mendez@em.com.co");

@@ -9,7 +9,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class AutenticacionService {
 
-  private autenticarseUrl = 'http://api-gateway:81/api/autenticacion';
+  private autenticarseUrl = 'http://192.168.1.9:81/api/autenticacion';
 
   constructor(private http: HttpClient) { }
 
