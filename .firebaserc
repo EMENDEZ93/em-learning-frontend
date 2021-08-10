@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "em-learning-3d209": {
+      "hosting": {
+        "em-learning": [
+          "em-learning-3d209"
+        ]
+      }
+    }
+  }
+}

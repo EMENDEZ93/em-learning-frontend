@@ -6,6 +6,9 @@ import { ActualizarPerfilPresentVerb } from './actualizar-perfil-present-verb';
 import { AudioService } from '../comun/audio/audio.service';
 import { InformacionInicialSistema } from '../informacion-inicial-sistema';
 import { InformacionPresentVerbService } from '../sesion/informacion-present-verb.service';
+import { Store } from '@ngrx/store';
+import { AppState } from '../dominio/estado/estado.reducer';
+import { Tema } from '../dominio/tema/tema.model';
 
 export interface Brand {
   value: string;
@@ -26,7 +29,7 @@ export class PresentVerbAprenderComponent implements OnInit {
   @Output() ultimFechaAprendido = new EventEmitter<boolean>();
 
   @ViewChild('formulario', { static: false }) formulario;
-  T: any = [];
+  T: Tema[];
 
   verboEntrada: string;
   spanishVerbo: string;
@@ -41,30 +44,36 @@ export class PresentVerbAprenderComponent implements OnInit {
   patt1 = /\w+/g;
 
   constructor(public http: HttpClient, private presentVerbService: PresentVerbAprenderService, private informacionSesionService: InformacionSesionService,
-    private audioService: AudioService, private informacionInicialSistema: InformacionInicialSistema, private informacionPresentVerbService: InformacionPresentVerbService) { }
+    private audioService: AudioService, private informacionInicialSistema: InformacionInicialSistema, private informacionPresentVerbService: InformacionPresentVerbService,
+    private store: Store<AppState>) { }
 
   ngOnInit() {
     this.ultimFechaAprendido.emit(this.informacionPresentVerbService.ultimaFechaAprendidaEsHoy());
-    this.T = JSON.parse(this.informacionInicialSistema.obtenerTemas());
-    this.presentVerbService.obtenerPerfil(this.informacionSesionService.obtenerCorreo(), this.T[this.hojaTemaExcel]).subscribe(
-      (perfil) => {
 
-        console.log("Edwin mendez -> " + perfil)
+    this.store.select('usuario').subscribe(
+      usuario => {
 
-        this.informacionSesionService.guardarUltimoIndiceVerboAprendido(perfil.ultimoIndiceAprendido);
-        this.informacionSesionService.guardarNumeroVerbosPorAprenderDiario(perfil.numeroVerbosPorAprenderDiario);
-        this.informacionSesionService.guardarRepeticionesAltaComoAprendido(perfil.repeticionesAltaComoAprendido);
-        this.informacionSesionService.guardarUltimaFechaAprendio(perfil.ultimaFechaAprendio);
-        this.informacionSesionService.guardarEsPreguntaRespuesta(perfil.esPreguntaRespuesta);
-      }, (error) => { }
-    )
+        this.T = usuario.temas;
+
+        this.presentVerbService.obtenerPerfil(usuario.correo, this.T[this.hojaTemaExcel]).subscribe(
+          (perfil) => {    
+            this.informacionSesionService.guardarUltimoIndiceVerboAprendido(perfil.ultimoIndiceAprendido);
+            this.informacionSesionService.guardarNumeroVerbosPorAprenderDiario(perfil.numeroVerbosPorAprenderDiario);
+            this.informacionSesionService.guardarRepeticionesAltaComoAprendido(perfil.repeticionesAltaComoAprendido);
+            this.informacionSesionService.guardarUltimaFechaAprendio(perfil.ultimaFechaAprendio);
+            this.informacionSesionService.guardarEsPreguntaRespuesta(perfil.esPreguntaRespuesta);
+          }, (error) => { }
+        )
+      }
+    );
+
+
   }
 
   obtenerRutina() {
     this.presentVerbService.obtenerRutina(this.informacionSesionService.obtenerUltimoIndiceVerboAprendido(), this.informacionSesionService.obtenerNumeroVerbosPorAprenderDiario(), this.hojaTemaExcel).subscribe(
       (rutina) => {
 
-        console.log(rutina)
         this.ingresarInformacionAprender(rutina)
       }, (error) => { }
     )
@@ -93,23 +102,24 @@ export class PresentVerbAprenderComponent implements OnInit {
   }
 
   private actualizacionPerfil() {
-    console.log("[private actualizacionPerfil]")
 
-    console.log(this.T[this.hojaTemaExcel]['tema'])
-    console.log(this.T[this.hojaTemaExcel])
-    console.log(this.T)
-    console.log(this.hojaTemaExcel)
+    this.store.select('usuario').subscribe(
+      usuario => {
 
-    this.actualizarPerfilPresentVerb = new ActualizarPerfilPresentVerb();
-    this.actualizarPerfilPresentVerb.nombre = this.T[this.hojaTemaExcel]['tema'];
-    this.actualizarPerfilPresentVerb.correo = this.informacionSesionService.obtenerCorreo();
-    this.actualizarPerfilPresentVerb.ultimoIndiceAprendido = this.informacionSesionService.obtenerUltimoIndiceVerboAprendido() + this.informacionSesionService.obtenerNumeroVerbosPorAprenderDiario();
-    console.log("--> " + this.actualizarPerfilPresentVerb)
-    console.log(this.actualizarPerfilPresentVerb)
-    console.log("--> " + this.actualizarPerfilPresentVerb)
+        this.actualizarPerfilPresentVerb = new ActualizarPerfilPresentVerb();
+        this.actualizarPerfilPresentVerb.nombre = this.T[this.hojaTemaExcel]['tema'];
+        this.actualizarPerfilPresentVerb.correo = usuario.correo;
+        this.actualizarPerfilPresentVerb.ultimoIndiceAprendido = this.informacionSesionService.obtenerUltimoIndiceVerboAprendido() + this.informacionSesionService.obtenerNumeroVerbosPorAprenderDiario();
     
-    this.presentVerbService.actualizarPerfil(this.actualizarPerfilPresentVerb).subscribe();
-    this.hoyRealizoAprender();
+        console.log("***************************")
+        console.log(this.actualizarPerfilPresentVerb)
+
+        this.presentVerbService.actualizarPerfil(this.actualizarPerfilPresentVerb).subscribe();
+        this.hoyRealizoAprender();
+    
+      }
+    );
+
   }
 
   private configuracionAprender() {
@@ -131,9 +141,6 @@ export class PresentVerbAprenderComponent implements OnInit {
   }
 
   ingresarInformacionAprender(rutina) {
-
-    console.log("[ingresarInformacionAprender]")
-    console.log(rutina["english"])
 
     this.informacionRutinaPresentVerb = {
       verbos: rutina["english"],
@@ -171,11 +178,7 @@ export class PresentVerbAprenderComponent implements OnInit {
       console.log('------- Rutina Completada 2 --------')
     }
   }
-  private esIgualRepeticionAlcaComoAprendioTemporalRepeticionAltaComoAprendido() {
-    console.log("[esIgualRepeticionAlcaComoAprendioTemporalRepeticionAltaComoAprendido]")
-    console.log("this.informacionRutinaPresentVerb.repeticionesAltaComoAprendido -> " + this.informacionRutinaPresentVerb.repeticionesAltaComoAprendido)
-    console.log("this.repeticionesAltaComoAprendidoTemporal -> " + this.repeticionesAltaComoAprendidoTemporal)
-    
+  private esIgualRepeticionAlcaComoAprendioTemporalRepeticionAltaComoAprendido() {    
     return this.repeticionesAltaComoAprendidoTemporal == this.informacionRutinaPresentVerb.repeticionesAltaComoAprendido;
 
   }
@@ -188,10 +191,6 @@ export class PresentVerbAprenderComponent implements OnInit {
   estaRutinaCompletada() {
     const rutinaCompletada = Array.from({ length: this.informacionRutinaPresentVerb.numeroVerbosAprender }, (v, k) => k);
     const rutinaActual = this.informacionRutinaPresentVerb.indicesVerbosAprendidos;
-
-    console.log("[estaRutinaCompletada]")
-    console.log(JSON.stringify(rutinaCompletada.sort()) == JSON.stringify(rutinaActual.sort()))
-
     return JSON.stringify(rutinaCompletada.sort()) == JSON.stringify(rutinaActual.sort());
   }
 
@@ -239,12 +238,6 @@ export class PresentVerbAprenderComponent implements OnInit {
 
   hoyRealizoAprender(): boolean {
     this.hoyYaRealizoAprender = this.estaRutinaCompletada() || this.informacionPresentVerbService.ultimaFechaAprendidaEsHoy();
-
-    //console.log("[hoyRealizoAprender]")
-    //console.log(" this.estaRutinaCompletada()" + this.estaRutinaCompletada())
-    //console.log(" this.informacionPresentVerbService.ultimaFechaAprendidaEsHoy()" + this.informacionPresentVerbService.ultimaFechaAprendidaEsHoy())
-    //console.log(this.hoyYaRealizoAprender)
-
     return this.hoyYaRealizoAprender;
   }
 

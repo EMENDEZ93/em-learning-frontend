@@ -1,22 +1,10 @@
-<div *ngIf="isLoggedIn; else loggedOut">
-  Logged in as edwin.
-</div>
+<p>Login works!</p>
 
-<ng-template #loggedOut>
-<form #loggedOut (ngSubmit)="formulario.form.valid && autenticar()"  #formulario="ngForm" class="example-form">
-    <p>
-      <mat-form-field class="example-full-width">
-        <textarea matInput placeholder="correo" [(ngModel)]="formulario.correo" name="correo"></textarea>
-      </mat-form-field>
-      <mat-form-field class="example-full-width">
-        <textarea matInput placeholder="contraseña" [(ngModel)]="formulario.contrasena" name="contrasena"></textarea>
-      </mat-form-field>
-    </p>
-    <div class="form-group">
-        <button class="btn btn-primary">Login</button>
-        <div *ngIf="formulario.submitted && isLoginFailed" class="alert alert-danger">
-          Login failed: {{errorMessage}}
-        </div>
-      </div>
+<form [formGroup]="loginFormGroup" (ngSubmit)="autenticar()" >
+    <label for="lname">Correo:</label><br>
+    <input type="text" formControlName="correo"><br><br>
+    <label for="lname">Contraseña:</label><br>
+    <input type="text" formControlName="password"><br><br>
+    <button type="submit" [disabled]="loginFormGroup.invalid" >Click Me!</button>
 </form>
-</ng-template>
+

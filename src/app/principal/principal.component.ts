@@ -4,6 +4,10 @@ import { Router } from '@angular/router';
 import { TemasService } from './temas.service';
 import { InformacionInicialSistema } from '../informacion-inicial-sistema';
 import { InformacionPresentVerbService } from '../sesion/informacion-present-verb.service';
+import { Store } from '@ngrx/store';
+import { AppState } from '../dominio/estado/estado.reducer';
+import { Tema } from '../dominio/tema/tema.model';
+import { temaSeleccionado } from '../dominio/usuario/usuario.actions';
 
 @Component({
   selector: 'app-principal',
@@ -14,22 +18,25 @@ export class PrincipalComponent implements OnInit {
 
   name_content: string;
   tabSeleccionado: any;
-  temas : any = [];
+  temas : Tema[];
 
   constructor(private router: Router, private informacionSesionService: InformacionSesionService, private temasService: TemasService, private informacionInicialSistema: InformacionInicialSistema,
-              private informacionPresentVerbService: InformacionPresentVerbService) { }
+              private informacionPresentVerbService: InformacionPresentVerbService,
+              private store: Store<AppState>) { }
 
   ngOnInit() {
     this.informacionSesionService.requiereIniciarSesion();
-    console.log("[this.temas]")
-    console.log(this.informacionSesionService.obtenerCorreo())
-    this.temas = JSON.parse(this.informacionInicialSistema.obtenerTemas()); 
+    
+    this.store.select('usuario').subscribe(
+      usuario => {
+        this.temas = usuario.temas; 
+      }
+    );
   }
 
   content(tabSeleccionado){
-    console.log("[tabSeleccionado]")
-    console.log(tabSeleccionado['tema'])
     this.tabSeleccionado = tabSeleccionado['tema']; 
+    this.store.dispatch(temaSeleccionado({tema: tabSeleccionado['tema'] }))
   }
 
   public cerrarsesion(){
@@ -39,9 +46,6 @@ export class PrincipalComponent implements OnInit {
 
 
   hoyRealizoAprender(event, componente){
-    console.log("*************** Child to parent ********************")
-    console.log("event -> " + event)
-    console.log("componente -> " + componente)
   }
 
   colorSegunValidacion(realizado) {

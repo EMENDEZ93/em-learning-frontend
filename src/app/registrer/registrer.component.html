@@ -1,0 +1,11 @@
+<p>registrer works!</p>
+
+<form [formGroup]="registrerFormGroup" (ngSubmit)="crearusuario()" >
+    <label for="fname">Nombre:</label><br>
+    <input type="text" formControlName="nombre" ><br>
+    <label for="lname">Correo:</label><br>
+    <input type="text" formControlName="correo"><br><br>
+    <label for="lname">Contraseña:</label><br>
+    <input type="text" formControlName="password"><br><br>
+    <button type="submit" [disabled]="registrerFormGroup.invalid" >Click Me!</button>
+</form> 

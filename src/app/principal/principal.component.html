@@ -7,7 +7,7 @@
     <mat-drawer-container class="main-container-em">
         <mat-drawer class="menu-container" mode="side" opened>
             <mat-list *ngFor="let tema of temas">
-                <mat-list-item style="cursor: pointer" [ngClass]="colorSegunValidacion(tema['realizadoHoy'])" (click)="content(tema)">{{tema["tema"]}}</mat-list-item>
+                <mat-list-item style="cursor: pointer" [ngClass]="colorSegunValidacion(tema['realizadoHoy'])" (click)="content(tema)">{{tema["tema"]}} * </mat-list-item>
             </mat-list>
         </mat-drawer>
 

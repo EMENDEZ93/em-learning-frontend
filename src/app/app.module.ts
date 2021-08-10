@@ -4,6 +4,8 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
+import { ReactiveFormsModule } from '@angular/forms';
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTabsModule } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
@@ -23,7 +25,14 @@ import {MatDialogModule} from '@angular/material/dialog';
 import { AlertModule } from 'ngx-bootstrap/alert';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { MatSelectModule } from '@angular/material';
-
+import { StoreModule } from '@ngrx/store';
+import { appStateReducers } from './dominio/estado/estado.reducer';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from 'src/environments/environment';
+import { RegistrerComponent } from './registrer/registrer.component';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireAuthModule } from '@angular/fire/auth'
 
 @NgModule({
   declarations: [
@@ -31,7 +40,8 @@ import { MatSelectModule } from '@angular/material';
     PresentVerbComponent,
     PrincipalComponent,
     PresentVerbAprenderComponent,
-    LoginComponent
+    LoginComponent,
+    RegistrerComponent
   ],
   imports: [
     BrowserModule,
@@ -51,7 +61,16 @@ import { MatSelectModule } from '@angular/material';
     MatDialogModule,
     AlertModule.forRoot(),
     NgbModule,
-    MatSelectModule
+    MatSelectModule,
+    ReactiveFormsModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
+    AngularFireAuthModule,
+    StoreModule.forRoot( appStateReducers ),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25, // Retains last 25 states
+      logOnly: environment.production, // Restrict extension to log-only mode
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -58,9 +58,9 @@ export class InformacionSesionService extends InformacionPresentVerbService {
   }
 
   public requiereIniciarSesion(){
-    if(!this.obtenerToken()){
-      this.router.navigate(['/login']);
-    }  
+    //if(!this.obtenerToken()){
+    //  this.router.navigate(['/login']);
+    //}  
   }
   
   public guardarCorreo(correo: string){

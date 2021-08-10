@@ -9,6 +9,9 @@ import { InformacionInicialSistema } from '../informacion-inicial-sistema';
 import { PresentVerbAprenderService } from '../present-verb-aprender/present-verb-aprender.service';
 import {MatDialog} from '@angular/material/dialog';
 import { Opcion } from './opcion';
+import { Store } from '@ngrx/store';
+import { AppState } from '../dominio/estado/estado.reducer';
+import { Tema } from '../dominio/tema/tema.model';
 
 @Component({
   selector: 'app-present-verb',
@@ -19,14 +22,15 @@ export class PresentVerbComponent implements OnInit {
 
   informacionRutinaPresentVerb: any;
   actualizarUltimafecharutina: ActualizarUltimafecharutina;
-  T : any = [];
+  T : Tema[];
 
   @Input() hojaTemaExcel: any;
   @ViewChild('formulario', {static: false}) formulario;
   
   constructor(public http: HttpClient, private presentVerbService: PresentVerbService, private audioService : AudioService, private informacionSesionService: InformacionSesionService, 
     private presentVerbAprenderService: PresentVerbAprenderService, private informacionInicialSistema: InformacionInicialSistema,
-    private dialog: MatDialog) { }
+    private dialog: MatDialog,
+    private store: Store<AppState>) { }
   
   verboEntrada : string;
   spanishVerbo: string;
@@ -37,20 +41,32 @@ export class PresentVerbComponent implements OnInit {
   patt1 = /\w+/g;
 
   ngOnInit() {
-    this.T = JSON.parse(this.informacionInicialSistema.obtenerTemas());
-    this.presentVerbAprenderService.obtenerPerfil(this.informacionSesionService.obtenerCorreo(), this.T[this.hojaTemaExcel]).subscribe(
-      (perfil) =>{ 
+    
+    this.store.select('usuario').subscribe(
+      usuario => {
 
-        console.log("******** ngOnInit ********")
-        console.log(perfil)
+        this.T = usuario.temas;
 
-        this.informacionSesionService.guardarUltimoIndiceVerboAprendido(perfil.ultimoIndiceAprendido);
-        this.informacionSesionService.guardarNumeroVerbosPorAprenderDiario(perfil.numeroVerbosPorAprenderDiario);
-        this.informacionSesionService.guardarRepeticionesAltaComoAprendido(perfil.repeticionesAltaComoAprendido);
-        this.informacionSesionService.guardarUltimaFechaAprendio(perfil.ultimaFechaAprendio);
-        this.informacionSesionService.guardarEsPreguntaRespuesta(perfil.esPreguntaRespuesta);
-      }, (error) => { }      
-    )
+        this.presentVerbAprenderService.obtenerPerfil(usuario.correo, this.T[this.hojaTemaExcel]).subscribe(
+          (perfil) =>{ 
+    
+            console.log("******** ngOnInit ********")
+            console.log(perfil)
+    
+            this.informacionSesionService.guardarUltimoIndiceVerboAprendido(perfil.ultimoIndiceAprendido);
+            this.informacionSesionService.guardarNumeroVerbosPorAprenderDiario(perfil.numeroVerbosPorAprenderDiario);
+            this.informacionSesionService.guardarRepeticionesAltaComoAprendido(perfil.repeticionesAltaComoAprendido);
+            this.informacionSesionService.guardarUltimaFechaAprendio(perfil.ultimaFechaAprendio);
+            this.informacionSesionService.guardarEsPreguntaRespuesta(perfil.esPreguntaRespuesta);
+          }, (error) => { }      
+        )
+
+
+
+      }
+    );
+
+
   }
 
   obtenerRutina(){
@@ -163,7 +179,7 @@ export class PresentVerbComponent implements OnInit {
     console.log("[actualizarPerfil]")
     this.actualizarUltimafecharutina = new ActualizarUltimafecharutina();
     this.actualizarUltimafecharutina.correo = this.informacionSesionService.obtenerCorreo();
-    this.actualizarUltimafecharutina.nombre = this.T[this.hojaTemaExcel['tema']];
+    this.actualizarUltimafecharutina.nombre = this.T[this.hojaTemaExcel['tema']].tema;
     console.log("[before]")
     this.presentVerbService.actualizarPerfil(this.actualizarUltimafecharutina).subscribe((exito) => {
     

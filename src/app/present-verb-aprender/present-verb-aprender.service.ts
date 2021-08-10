@@ -11,7 +11,7 @@ export class PresentVerbAprenderService {
 
   constructor(private http: HttpClient) { }
 
-  endpoint = 'http://192.168.1.9:81';
+  endpoint = 'http://localhost:8091';
 
   public obtenerRutina(ultimoIndiceVerboAprendido, numeroVerbosPorAprenderDiario, hojaTemaExcel):  Observable<string[]> { 
 
@@ -36,7 +36,7 @@ export class PresentVerbAprenderService {
     console.log("[actualizarPerfil]")
     console.log(actualizarPerfilPresentVerb)
     const httpOptions = { headers: new HttpHeaders({'Content-Type': 'application/json; charset=utf-8'})};
-    return this.http.post(this.endpoint+"/api/present/verb/perfil", JSON.stringify(actualizarPerfilPresentVerb), httpOptions);
+    return this.http.post(this.endpoint+"/api/present/verb/tema", JSON.stringify(actualizarPerfilPresentVerb), httpOptions);
   }
 
 

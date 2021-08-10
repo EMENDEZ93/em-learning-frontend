@@ -3,6 +3,12 @@ import { AutenticacionService } from './autenticacion.service';
 import { Autenticacion } from './autenticacion';
 import { InformacionSesionService } from '../sesion/informacion-sesion.service';
 import { Router } from '@angular/router';
+import { AppState } from '../dominio/estado/estado.reducer';
+import { Store } from '@ngrx/store';
+import { actualizar } from '../dominio/usuario/usuario.actions';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import Swal from 'sweetalert2'
+import { TemasService } from '../principal/temas.service';
 
 @Component({
   selector: 'app-login',
@@ -11,38 +17,58 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-  @ViewChild('formulario', {static: false}) formulario;
-
   private autenticacion: Autenticacion;
   isLoggedIn = false;
   isLoginFailed = false;
 
-  constructor(private router: Router, private autenticacionService: AutenticacionService, private informacionSesionService: InformacionSesionService) { }
+  loginFormGroup: FormGroup;
+
+  constructor(private router: Router, private autenticacionService: AutenticacionService,
+    private temaService: TemasService,
+    private store: Store<AppState>,
+    private fb: FormBuilder) { }
 
   ngOnInit() {
     this.isLoggedIn = false;
+
+    this.loginFormGroup = this.fb.group({
+      correo: ['', Validators.required],
+      password: ['', Validators.required]
+    });
+
   }
 
-  autenticar(){
-    this.autenticacion = new Autenticacion(this.formulario.correo, this.formulario.contrasena);
-    this.autenticacionService.autenticar(this.autenticacion).subscribe(
-      (informacionSesion) =>{ 
-        this.actualizarInformacionSesion(informacionSesion, this.autenticacion);
-        this.OnClickFunction();
-      }, (error) => {
-      }        
-    )
-  }
+  autenticar() {
+    if (this.loginFormGroup.invalid) return;
 
-  actualizarInformacionSesion(informacionSesion, autenticacion) {
-   this.informacionSesionService.guardarToken(informacionSesion['valor']);
-   this.informacionSesionService.guardarCorreo(autenticacion.correo)
-   this.isLoginFailed = false;
-   this.isLoggedIn = true; 
-  }
+    Swal.fire({
+      title: 'Auto close alert!',
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    })
 
-  OnClickFunction(){
-    this.router.navigate(['/home']);
+    const { correo, password } = this.loginFormGroup.value;
+    this.autenticacionService.login(correo, password).then(
+      credenciales => {
+        this.temaService.getTemasByCorreo(correo).subscribe(
+          tema => {
+            this.store.dispatch(actualizar({ id: credenciales.user.uid, correo: correo, temas: tema }));
+          }
+        );
+        
+        Swal.close();
+        this.router.navigate(['/home']);
+      }
+    ).catch(error => {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: error.message,
+        footer: '<a href="">Why do I have this issue?</a>'
+      })
+
+    });
   }
 
 }

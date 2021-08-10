@@ -1,0 +1,19 @@
+{
+  "hosting": [
+    {
+      "target": "em-learning",
+      "public": "dist/em-learning",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    }
+  ]
+}

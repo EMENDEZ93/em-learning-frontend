@@ -118,8 +118,13 @@
               "devServerTarget": "em-learning:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {}
         }
       }
-    }},
+    }
+  },
   "defaultProject": "em-learning"
 }

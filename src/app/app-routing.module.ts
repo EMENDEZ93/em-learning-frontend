@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { PrincipalComponent } from './principal/principal.component';
 import { LoginComponent } from './login/login.component';
-import { AppComponent } from './app.component';
+import { RegistrerComponent } from './registrer/registrer.component';
 
 
 const routes: Routes = [
@@ -18,6 +18,10 @@ const routes: Routes = [
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'
+  },
+  {
+    path:'register',
+    component: RegistrerComponent 
   }
 ];
 
