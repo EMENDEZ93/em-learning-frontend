@@ -7,5 +7,5 @@ export class Usuario {
     public nombre: string;
     public apellido: string;
     public temas: Tema[];
-    sistema: Sistema;
+    sistema: Sistema = new Sistema();
 }

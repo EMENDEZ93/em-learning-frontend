@@ -3,6 +3,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { InformacionPresentVerb } from '../sesion/informacion-present-verb';
 import { ActualizarPerfilPresentVerb } from './actualizar-perfil-present-verb';
+import { Usuario } from '../dominio/usuario/usuario.model';
+import { Configuracion } from '../dominio/tema/configuracion/configuracion.model';
+import { Tema } from '../dominio/tema/tema.model';
+import { Rutina } from '../dominio/rutina/rutina.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +19,7 @@ export class PresentVerbAprenderService {
 
   public obtenerRutina(ultimoIndiceVerboAprendido, numeroVerbosPorAprenderDiario, hojaTemaExcel):  Observable<string[]> { 
 
-    console.log("[obtenerRutina]")
+    console.log("[obtenerRutina 1]")
     console.log(ultimoIndiceVerboAprendido)
     console.log(numeroVerbosPorAprenderDiario)
     console.log(hojaTemaExcel)
@@ -25,12 +29,19 @@ export class PresentVerbAprenderService {
   
   }
 
-  public obtenerPerfil(email, hojaTemaExcel) { 
-    console.log("[obtenerPerfil]")
-    console.log(email)
-    console.log(hojaTemaExcel['tema'])
-    return this.http.get<InformacionPresentVerb>(this.endpoint+"/api/present/verb/perfil/" + email+ "/" + hojaTemaExcel['tema']);
+  public obtenerRutinaByConfiguracion(tema: Tema):  Observable<string[]> {
+    console.log("obtenerRutinaByConfiguracion 1")
+    return this.http.get<string[]>(this.endpoint+"/api/present/verb/verbosporaprender/" + tema.configuracion.ultimoIndiceAprendido + "/" + tema.configuracion.numeroVerbosPorAprenderDiario+"/" + tema.indiceExcel);
   }
+
+  public obtenerRutinaByConfiguracions(tema: Tema):  Observable<Rutina> { 
+    return this.http.get<Rutina>(this.endpoint+"/api/present/verb/verbosporaprender/" + tema.configuracion.ultimoIndiceAprendido + "/" + tema.configuracion.numeroVerbosPorAprenderDiario+"/" + tema.indiceExcel);
+  }
+
+  public obtenerPerfilPorTema(usuario: Usuario) { 
+    return this.http.get<Configuracion>(this.endpoint+"/api/present/verb/perfil/" + usuario.correo + "/" + usuario.sistema.temaSeleccionado.tema);
+  }
+
 
   public actualizarPerfil(actualizarPerfilPresentVerb: ActualizarPerfilPresentVerb){
     console.log("[actualizarPerfil]")

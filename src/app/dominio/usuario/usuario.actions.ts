@@ -1,4 +1,5 @@
 import { createAction, props } from "@ngrx/store";
+import { Configuracion } from "../tema/configuracion/configuracion.model";
 import { Tema } from "../tema/tema.model";
 
 export const crear = createAction(
@@ -13,5 +14,15 @@ export const actualizar = createAction(
 
 export const temaSeleccionado = createAction(
     '[Sistema] tema seleccionado',
-    props<{ tema: string}>()
+    props<{ temaSeleccionado: Tema}>()
+);
+
+export const actualizarRutinaTemaSeleccionado = createAction(
+    '[Sistema] actualizar Rutina Tema Seleccionado',
+    props<{ englishVerbs: string[]}>()
+);
+
+export const actualizarConfiguracionTemaSeleccionado = createAction(
+    '[Sistema] actualizar Configuracion Tema Seleccionado',
+    props<{ configuracion: Configuracion}>()
 );

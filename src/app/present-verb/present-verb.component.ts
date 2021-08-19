@@ -47,11 +47,11 @@ export class PresentVerbComponent implements OnInit {
 
         this.T = usuario.temas;
 
-        this.presentVerbAprenderService.obtenerPerfil(usuario.correo, this.T[this.hojaTemaExcel]).subscribe(
+        this.presentVerbAprenderService.obtenerPerfilPorTema(usuario).subscribe(
           (perfil) =>{ 
     
-            console.log("******** ngOnInit ********")
-            console.log(perfil)
+            //console.log("******** ngOnInit ********")
+            //console.log(perfil)
     
             this.informacionSesionService.guardarUltimoIndiceVerboAprendido(perfil.ultimoIndiceAprendido);
             this.informacionSesionService.guardarNumeroVerbosPorAprenderDiario(perfil.numeroVerbosPorAprenderDiario);
@@ -71,30 +71,33 @@ export class PresentVerbComponent implements OnInit {
 
   obtenerRutina(){
 
-    this.presentVerbAprenderService.obtenerPerfil(this.informacionSesionService.obtenerCorreo(), this.T[this.hojaTemaExcel]).subscribe(
-      (perfil) =>{ 
+    this.store.select('usuario').subscribe(
+      usuario => {
 
-        console.log("******** obtenerRutina ********")
-        console.log(perfil)
-        this.informacionSesionService.guardarUltimoIndiceVerboAprendido(perfil.ultimoIndiceAprendido);
-        this.informacionSesionService.guardarNumeroVerbosPorAprenderDiario(perfil.numeroVerbosPorAprenderDiario);
-        this.informacionSesionService.guardarRepeticionesAltaComoAprendido(perfil.repeticionesAltaComoAprendido);
-        this.informacionSesionService.guardarUltimaFechaAprendio(perfil.ultimaFechaAprendio);
-        this.informacionSesionService.guardarEsPreguntaRespuesta(perfil.esPreguntaRespuesta);
-
-        this.presentVerbService.obtenerRutina(perfil.ultimoIndiceAprendido, this.hojaTemaExcel).subscribe(
-          (rutina) =>{ 
-            console.log(rutina)
-            this.ingresarInformacionRutina(rutina)  
-          }, (error) => { }
+        this.presentVerbAprenderService.obtenerPerfilPorTema(usuario).subscribe(
+          (perfil) =>{ 
+    
+            console.log("******** obtenerRutina ********")
+            console.log(perfil)
+            this.informacionSesionService.guardarUltimoIndiceVerboAprendido(perfil.ultimoIndiceAprendido);
+            this.informacionSesionService.guardarNumeroVerbosPorAprenderDiario(perfil.numeroVerbosPorAprenderDiario);
+            this.informacionSesionService.guardarRepeticionesAltaComoAprendido(perfil.repeticionesAltaComoAprendido);
+            this.informacionSesionService.guardarUltimaFechaAprendio(perfil.ultimaFechaAprendio);
+            this.informacionSesionService.guardarEsPreguntaRespuesta(perfil.esPreguntaRespuesta);
+    
+            this.presentVerbService.obtenerRutina(perfil.ultimoIndiceAprendido, this.hojaTemaExcel).subscribe(
+              (rutina) =>{ 
+                console.log(rutina)
+                this.ingresarInformacionRutina(rutina)  
+              }, (error) => { }
+            )
+    
+          }, (error) => { }      
         )
-
-      }, (error) => { }      
-    )
+       } 
+      );
 
       console.log("this.informacionSesionService.obtenerUltimoIndiceVerboAprendido() -> " + this.informacionSesionService.obtenerUltimoIndiceVerboAprendido())
-
-
 
     if(this.informacionSesionService.obtenerEsPreguntaRespuesta()){
       console.log("73 -> if(this.informacionSesionService.obtenerEsPreguntaRespuesta()){")

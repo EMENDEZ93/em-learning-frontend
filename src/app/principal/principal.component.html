@@ -6,18 +6,19 @@
 
     <mat-drawer-container class="main-container-em">
         <mat-drawer class="menu-container" mode="side" opened>
-            <mat-list *ngFor="let tema of temas">
-                <mat-list-item style="cursor: pointer" [ngClass]="colorSegunValidacion(tema['realizadoHoy'])" (click)="content(tema)">{{tema["tema"]}} * </mat-list-item>
+            <mat-list *ngFor="let tema of usuario.temas ">
+                <mat-list-item style="cursor: pointer" [ngClass]="colorSegunValidacion(tema['realizadoHoy'])" (click)="content(tema)">{{tema["tema"]}}</mat-list-item>
             </mat-list>
         </mat-drawer>
 
-        <div *ngFor="let tema of temas; let hojaTemaExcel = index">
-            <div class="tabs-em container" *ngIf="tabSeleccionado == tema['tema']">
+
+        <div *ngIf="!isEmpty(usuario.sistema.temaSeleccionado)" >
+            <div class="tabs-em container">
                 <mat-tab-group class="em-group-tabs">
-                    <mat-tab class="em-aprender-tab" label="Aprender | {{tema['tema']}}">
-                        <app-present-verb-aprender [hojaTemaExcel]="hojaTemaExcel" (ultimFechaAprendido)='hoyRealizoAprender($event, tabSeleccionado)' ></app-present-verb-aprender>
+                    <mat-tab class="em-aprender-tab" label="Aprender | {{ usuario.sistema.temaSeleccionado.tema }}">
+                        <app-present-verb-aprender></app-present-verb-aprender>
                     </mat-tab>
-                    <mat-tab class="em-rutina-tab" label="Rutina | {{tema['tema']}}">
+                    <mat-tab class="em-rutina-tab" label="Rutina | {{ usuario.sistema.temaSeleccionado.tema }}">
                         <app-present-verb [hojaTemaExcel]="hojaTemaExcel"></app-present-verb>
                     </mat-tab>
                 </mat-tab-group>
