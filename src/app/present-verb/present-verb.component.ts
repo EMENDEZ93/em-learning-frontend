@@ -1,17 +1,15 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
-import { PresentVerbService } from './present-verb.service';
+import { Component, OnInit, ViewChild, Input, ElementRef, HostListener } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AudioService } from '../comun/audio/audio.service';
-import { InformacionSesionService } from '../sesion/informacion-sesion.service';
-import { ActualizarUltimafecharutinaTemasService } from '../servicios/actualizar-ultimafecharutina-temas.service';
-import { ActualizarUltimafecharutina } from '../servicios/actualizar-ultimafecharutina';
-import { InformacionInicialSistema } from '../informacion-inicial-sistema';
 import { PresentVerbAprenderService } from '../present-verb-aprender/present-verb-aprender.service';
 import {MatDialog} from '@angular/material/dialog';
 import { Opcion } from './opcion';
 import { Store } from '@ngrx/store';
 import { AppState } from '../dominio/estado/estado.reducer';
 import { Tema } from '../dominio/tema/tema.model';
+import { Usuario } from '../dominio/usuario/usuario.model';
+import { temaSeleccionado } from '../dominio/usuario/usuario.actions';
+import { PresentVerbService } from './present-verb.service';
 
 @Component({
   selector: 'app-present-verb',
@@ -20,16 +18,15 @@ import { Tema } from '../dominio/tema/tema.model';
 })
 export class PresentVerbComponent implements OnInit {
 
-  informacionRutinaPresentVerb: any;
-  actualizarUltimafecharutina: ActualizarUltimafecharutina;
-  T : Tema[];
+  usuario: Usuario;
 
   @Input() hojaTemaExcel: any;
   @ViewChild('formulario', {static: false}) formulario;
   
-  constructor(public http: HttpClient, private presentVerbService: PresentVerbService, private audioService : AudioService, private informacionSesionService: InformacionSesionService, 
-    private presentVerbAprenderService: PresentVerbAprenderService, private informacionInicialSistema: InformacionInicialSistema,
-    private dialog: MatDialog,
+  constructor(
+    public http: HttpClient, 
+    private presentVerbService: PresentVerbService,
+    private audioService : AudioService, 
     private store: Store<AppState>) { }
   
   verboEntrada : string;
@@ -41,76 +38,39 @@ export class PresentVerbComponent implements OnInit {
   patt1 = /\w+/g;
 
   ngOnInit() {
-    
-    this.store.select('usuario').subscribe(
-      usuario => {
-
-        this.T = usuario.temas;
-
-        this.presentVerbAprenderService.obtenerPerfilPorTema(usuario).subscribe(
-          (perfil) =>{ 
-    
-            //console.log("******** ngOnInit ********")
-            //console.log(perfil)
-    
-            this.informacionSesionService.guardarUltimoIndiceVerboAprendido(perfil.ultimoIndiceAprendido);
-            this.informacionSesionService.guardarNumeroVerbosPorAprenderDiario(perfil.numeroVerbosPorAprenderDiario);
-            this.informacionSesionService.guardarRepeticionesAltaComoAprendido(perfil.repeticionesAltaComoAprendido);
-            this.informacionSesionService.guardarUltimaFechaAprendio(perfil.ultimaFechaAprendio);
-            this.informacionSesionService.guardarEsPreguntaRespuesta(perfil.esPreguntaRespuesta);
-          }, (error) => { }      
-        )
-
-
-
-      }
-    );
-
-
+    //this.obtenerRutina();
   }
 
   obtenerRutina(){
 
-    this.store.select('usuario').subscribe(
-      usuario => {
+      this.store.select('usuario').subscribe(
+        usuario => {
+          this.usuario = usuario; 
 
-        this.presentVerbAprenderService.obtenerPerfilPorTema(usuario).subscribe(
-          (perfil) =>{ 
-    
-            console.log("******** obtenerRutina ********")
-            console.log(perfil)
-            this.informacionSesionService.guardarUltimoIndiceVerboAprendido(perfil.ultimoIndiceAprendido);
-            this.informacionSesionService.guardarNumeroVerbosPorAprenderDiario(perfil.numeroVerbosPorAprenderDiario);
-            this.informacionSesionService.guardarRepeticionesAltaComoAprendido(perfil.repeticionesAltaComoAprendido);
-            this.informacionSesionService.guardarUltimaFechaAprendio(perfil.ultimaFechaAprendio);
-            this.informacionSesionService.guardarEsPreguntaRespuesta(perfil.esPreguntaRespuesta);
-    
-            this.presentVerbService.obtenerRutina(perfil.ultimoIndiceAprendido, this.hojaTemaExcel).subscribe(
-              (rutina) =>{ 
-                console.log(rutina)
-                this.ingresarInformacionRutina(rutina)  
+          if (this.isEmpty(usuario.sistema.temaSeleccionado.rutina)) {
+            
+          this.presentVerbService.obtenerRutinaRepasoByConfiguracion(usuario.sistema.temaSeleccionado).subscribe(
+            (rutina) => {
+                rutina.numeroVerbosAprender = rutina.english.length;
+                rutina.indiceVerboRetrocesoTemporal = 0;
+                rutina.indiceVerboValidar = 0;
+                rutina.indicesVerbosAprendidos = [];
+                rutina.indicesVerbosRepasados = [];
+                rutina.numeroVerbosRutina = rutina.english.length;
+                usuario.sistema.temaSeleccionado.rutina = rutina;
+                this.barraProgreso = 0;
+                this.store.dispatch(temaSeleccionado({ temaSeleccionado: usuario.sistema.temaSeleccionado }));
+                this.ingresarInformacionRutina();
               }, (error) => { }
             )
-    
-          }, (error) => { }      
-        )
-       } 
-      );
+  
+          }
+  
+        }
+      )
 
-      console.log("this.informacionSesionService.obtenerUltimoIndiceVerboAprendido() -> " + this.informacionSesionService.obtenerUltimoIndiceVerboAprendido())
-
-    if(this.informacionSesionService.obtenerEsPreguntaRespuesta()){
-      console.log("73 -> if(this.informacionSesionService.obtenerEsPreguntaRespuesta()){")
-      console.log(this.informacionSesionService.obtenerUltimoIndiceVerboAprendido())
-      this.presentVerbService.obtenerPreguntasRutina(this.informacionSesionService.obtenerUltimoIndiceVerboAprendido(), this.hojaTemaExcel).subscribe(
-        (respuestas) =>{ 
-          console.log("76 -> (respuestas) =>{ ")
-          console.log(respuestas)
-          this.informacionRutinaPresentVerb.respuestas = respuestas;
-        }, (error) => { }
-        )
-    }
   }
+  
 
   @Input() editable: boolean = true;
   @Input() showOptions: boolean = false;
@@ -128,13 +88,13 @@ export class PresentVerbComponent implements OnInit {
       let indices : number[] = [];
       
       while(!cuatro) {
-      let indiceAleatoreo = Math.floor(Math.random() * this.informacionRutinaPresentVerb.numeroVerbosRutina) + 0;
+      let indiceAleatoreo = Math.floor(Math.random() * this.usuario.sistema.temaSeleccionado.rutina.numeroVerbosRutina) + 0;
         if(!indices.includes(indiceAleatoreo)) {
           indices.push(indiceAleatoreo);
         }
 
         if(indices.length == 4 ) {
-          if(!indices.includes(this.informacionRutinaPresentVerb.indiceVerboValidar)) {
+          if(!indices.includes(this.usuario.sistema.temaSeleccionado.rutina.indiceVerboValidar)) {
             indices = [];
           }
         }
@@ -146,24 +106,17 @@ export class PresentVerbComponent implements OnInit {
       }
       this.opciones = []
       indices.forEach(element => {
-        this.opciones.push(new Opcion(this.informacionRutinaPresentVerb.spanishVerbs[element], element))
+        this.opciones.push(new Opcion(this.usuario.sistema.temaSeleccionado.rutina.spanish[element], element))
       });
 
     }
   }
 
+  @ViewChild("verboEntradaInput", {static: false}) verboEntradaInput: ElementRef;
 
   validarTraductorSeleccionado(indiceOpcion) {
-    console.log("[validarTraductorSeleccionado]")
-    console.log(indiceOpcion)
-    console.log(indiceOpcion == this.informacionRutinaPresentVerb.indiceVerboValidar)
+    if(indiceOpcion == this.usuario.sistema.temaSeleccionado.rutina.indiceVerboValidar ) {
 
-    if(indiceOpcion == this.informacionRutinaPresentVerb.indiceVerboValidar ) {
-
-      this.editable = true;
-      this.showOptions = false;
-      
-      this.formulario.resetForm();
       this.actualizarVerbosAprendidos();
       this.obtenerIndiceAleatoreo();
       this.reproducir();
@@ -173,44 +126,47 @@ export class PresentVerbComponent implements OnInit {
         this.actualizarPerfil();
       }
 
+      this.editable = true;
+      this.showOptions = false;
+
+      setTimeout(() => {
+        this.formulario.resetForm();
+        this.verboEntradaInput.nativeElement.focus();
+        }, 1)
+
     }
 
   }
 
+  key : string;
+  @HostListener('document:keypress', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) { 
+    if(this.showOptions) {
+      this.key = event.key;
+      document.getElementById(event.key).click();
+    }
+  }
+
+
 
   private actualizarPerfil() {
-    console.log("[actualizarPerfil]")
+    /*console.log("[actualizarPerfil]")
     this.actualizarUltimafecharutina = new ActualizarUltimafecharutina();
-    this.actualizarUltimafecharutina.correo = this.informacionSesionService.obtenerCorreo();
+    //this.actualizarUltimafecharutina.correo = this.informacionSesionService.obtenerCorreo();
     this.actualizarUltimafecharutina.nombre = this.T[this.hojaTemaExcel['tema']].tema;
     console.log("[before]")
     this.presentVerbService.actualizarPerfil(this.actualizarUltimafecharutina).subscribe((exito) => {
     
     }, (error) => {
 
-    });
+    });*/
   }
 
   private esIgualVerbEntradaVerboRutina(verboEntrada: any) {
-    if(this.informacionSesionService.obtenerEsPreguntaRespuesta()){
-      return verboEntrada.toUpperCase() == this.informacionRutinaPresentVerb.respuestas[this.informacionRutinaPresentVerb.indiceVerboValidar].toUpperCase();
-    } else {
-      return verboEntrada.toUpperCase() == this.informacionRutinaPresentVerb.verbos[this.informacionRutinaPresentVerb.indiceVerboValidar].toUpperCase();
-    }
+    return verboEntrada.toUpperCase() == this.usuario.sistema.temaSeleccionado.rutina.english[this.usuario.sistema.temaSeleccionado.rutina.indiceVerboValidar].toUpperCase();
   }
 
-  ingresarInformacionRutina(rutina) {
-
-    console.log("[ingresarInformacionRutina]")
-    console.log(rutina)
-
-    this.informacionRutinaPresentVerb = {
-      verbos: rutina["english"],
-      spanishVerbs: rutina["spanish"],
-      numeroVerbosRutina : rutina["english"].length,
-      indiceVerboValidar : 0,
-      indicesVerbosRepasados : []
-    }
+  ingresarInformacionRutina() {
     this.obtenerIndiceAleatoreo();
     this.reproducir();
   }  
@@ -222,31 +178,41 @@ export class PresentVerbComponent implements OnInit {
         break;
       }
 
-      const indiceAleatoreo = Math.floor(Math.random() * this.informacionRutinaPresentVerb.numeroVerbosRutina) + 0 
-      if(!this.informacionRutinaPresentVerb.indicesVerbosRepasados.includes(indiceAleatoreo)){
-        this.informacionRutinaPresentVerb.indiceVerboValidar = indiceAleatoreo;
+      const indiceAleatoreo = Math.floor(Math.random() * this.usuario.sistema.temaSeleccionado.rutina.numeroVerbosRutina) + 0 
+      if(!this.usuario.sistema.temaSeleccionado.rutina.indicesVerbosRepasados.includes(indiceAleatoreo)){
+        this.usuario.sistema.temaSeleccionado.rutina.indiceVerboValidar = indiceAleatoreo;
         break;
       } 
     }
   }
 
   estaRutinaCompletada(){
-    const rutinaCompletada =  Array.from({length: this.informacionRutinaPresentVerb.numeroVerbosRutina}, (v, k) => k); 
-    const rutinaActual =  this.informacionRutinaPresentVerb.indicesVerbosRepasados; 
+    const rutinaCompletada =  Array.from({length: this.usuario.sistema.temaSeleccionado.rutina.numeroVerbosRutina}, (v, k) => k); 
+    const rutinaActual =  this.usuario.sistema.temaSeleccionado.rutina.indicesVerbosRepasados; 
+
+    if(this.isEmpty(rutinaActual)) {
+      return false;
+    }
+
     return JSON.stringify(rutinaCompletada.sort()) == JSON.stringify(rutinaActual.sort());
   }
 
+  isEmpty(obj) {
+    if(obj === undefined) return true;
+    return Object.keys(obj).length === 0;
+  }
+
   actualizarVerbosAprendidos(){
-    this.informacionRutinaPresentVerb.indicesVerbosRepasados.push(this.informacionRutinaPresentVerb.indiceVerboValidar);
+    this.usuario.sistema.temaSeleccionado.rutina.indicesVerbosRepasados.push(this.usuario.sistema.temaSeleccionado.rutina.indiceVerboValidar);
   }
 
   actualizarBarraProgreso(){
-    this.barraProgreso = (this.informacionRutinaPresentVerb.indicesVerbosRepasados.length/this.informacionRutinaPresentVerb.numeroVerbosRutina) * 100;
+    this.barraProgreso = (this.usuario.sistema.temaSeleccionado.rutina.indicesVerbosRepasados.length/this.usuario.sistema.temaSeleccionado.rutina.numeroVerbosRutina) * 100;
   }
 
   reproducir(){
     if(!this.estaRutinaCompletada()) {
-      this.audioService.reproducir(this.informacionRutinaPresentVerb.verbos[this.informacionRutinaPresentVerb.indiceVerboValidar]);
+      this.audioService.reproducir(this.usuario.sistema.temaSeleccionado.rutina.english[this.usuario.sistema.temaSeleccionado.rutina.indiceVerboValidar]);
     }
   }
 
@@ -255,7 +221,7 @@ export class PresentVerbComponent implements OnInit {
   palabraActual = '';
   mostrarAyuda() {
     this.activarAyuda = true
-    this.palabraActual = this.informacionRutinaPresentVerb.verbos[this.informacionRutinaPresentVerb.indiceVerboValidar] + " / "+ this.informacionRutinaPresentVerb.spanishVerbs[this.informacionRutinaPresentVerb.indiceVerboValidar] ;
+    this.palabraActual = this.usuario.sistema.temaSeleccionado.rutina.english[this.usuario.sistema.temaSeleccionado.rutina.indiceVerboValidar] + " / "+ this.usuario.sistema.temaSeleccionado.rutina.spanish[this.usuario.sistema.temaSeleccionado.rutina.indiceVerboValidar];
     setTimeout(() => {
       this.activarAyuda = false
     }, 3000)
@@ -263,13 +229,10 @@ export class PresentVerbComponent implements OnInit {
 
 
   colorSegunValidacion(verboEntrada) {
-
-    console.log('>>>>>>>>> colorSegunValidacion <<<<<<<<<<<<<<<<<');
-    console.log(this.informacionRutinaPresentVerb.verbos[this.informacionRutinaPresentVerb.indiceVerboValidar].toUpperCase()  )
     
     if (verboEntrada.trim() == "") {
       this.colorSegunValidacionClass = 'border border-primary validacionVacia';
-    } else if (this.informacionRutinaPresentVerb.verbos[this.informacionRutinaPresentVerb.indiceVerboValidar].toUpperCase().includes(verboEntrada.toUpperCase())) {
+    } else if (this.usuario.sistema.temaSeleccionado.rutina.english[this.usuario.sistema.temaSeleccionado.rutina.indiceVerboValidar].toUpperCase().includes(verboEntrada.toUpperCase())) {
       this.colorSegunValidacionClass = 'border border-success validacionExitosa';
     } else {
       this.colorSegunValidacionClass = 'border border-danger validacionError';
@@ -281,7 +244,7 @@ export class PresentVerbComponent implements OnInit {
   }
 
   obtenerSiguientePalabra() {
-    var arrayEsperado = this.informacionRutinaPresentVerb.verbos[this.informacionRutinaPresentVerb.indiceVerboRetrocesoTemporal].match(this.patt1);
+    var arrayEsperado = this.usuario.sistema.temaSeleccionado.rutina.english[this.usuario.sistema.temaSeleccionado.rutina.indiceVerboRetrocesoTemporal].match(this.patt1);
     var arrayActual = this.verboEntrada == null || this.verboEntrada.trim() == '' ? [''] : this.verboEntrada.match(this.patt1);
 
     let i;
@@ -310,5 +273,6 @@ export class PresentVerbComponent implements OnInit {
       this.activarAyuda = false
     }, 3000)
   }
+
 
 }

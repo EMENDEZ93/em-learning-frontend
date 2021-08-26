@@ -18,19 +18,10 @@ export class PresentVerbAprenderService {
   endpoint = 'http://localhost:8091';
 
   public obtenerRutina(ultimoIndiceVerboAprendido, numeroVerbosPorAprenderDiario, hojaTemaExcel):  Observable<string[]> { 
-
-    console.log("[obtenerRutina 1]")
-    console.log(ultimoIndiceVerboAprendido)
-    console.log(numeroVerbosPorAprenderDiario)
-    console.log(hojaTemaExcel)
-
-    return this.http.get<string[]>(this.endpoint+"/api/present/verb/verbosporaprender/" + ultimoIndiceVerboAprendido + "/" + numeroVerbosPorAprenderDiario+"/" + hojaTemaExcel);
-  
-  
+    return this.http.get<string[]>(this.endpoint+"/api/present/verb/verbosporaprender/" + ultimoIndiceVerboAprendido + "/" + numeroVerbosPorAprenderDiario+"/" + hojaTemaExcel);  
   }
 
   public obtenerRutinaByConfiguracion(tema: Tema):  Observable<string[]> {
-    console.log("obtenerRutinaByConfiguracion 1")
     return this.http.get<string[]>(this.endpoint+"/api/present/verb/verbosporaprender/" + tema.configuracion.ultimoIndiceAprendido + "/" + tema.configuracion.numeroVerbosPorAprenderDiario+"/" + tema.indiceExcel);
   }
 
@@ -44,8 +35,6 @@ export class PresentVerbAprenderService {
 
 
   public actualizarPerfil(actualizarPerfilPresentVerb: ActualizarPerfilPresentVerb){
-    console.log("[actualizarPerfil]")
-    console.log(actualizarPerfilPresentVerb)
     const httpOptions = { headers: new HttpHeaders({'Content-Type': 'application/json; charset=utf-8'})};
     return this.http.post(this.endpoint+"/api/present/verb/tema", JSON.stringify(actualizarPerfilPresentVerb), httpOptions);
   }

@@ -7,4 +7,6 @@ export class Rutina {
     indiceVerboRetrocesoTemporal: number = 0;
     indicesVerbosAprendidos: number[] = [];
     repeticionesAltaComoAprendido: number;
+    indicesVerbosRepasados: number[] = [];
+    numeroVerbosRutina: number;
 }
