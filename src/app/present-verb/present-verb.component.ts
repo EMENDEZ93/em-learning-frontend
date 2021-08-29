@@ -26,6 +26,7 @@ export class PresentVerbComponent implements OnInit {
   constructor(
     public http: HttpClient, 
     private presentVerbService: PresentVerbService,
+    private presentVerbAprenderService: PresentVerbAprenderService,
     private audioService : AudioService, 
     private store: Store<AppState>) { }
   
@@ -36,6 +37,8 @@ export class PresentVerbComponent implements OnInit {
   colorSegunValidacionClass = 'border border-primary validacionVacia';
   cantidadVerbosReproducir = 0;
   patt1 = /\w+/g;
+  hoyYaRealizoAprender = true;
+  intentar = false;
 
   ngOnInit() {
     //this.obtenerRutina();
@@ -43,27 +46,59 @@ export class PresentVerbComponent implements OnInit {
 
   obtenerRutina(){
 
+    console.log("************** 2.0 ******************")
+
+      this.intentar = true;
+      console.log(this.intentar)
+
       this.store.select('usuario').subscribe(
         usuario => {
           this.usuario = usuario; 
 
-          if (this.isEmpty(usuario.sistema.temaSeleccionado.rutina)) {
+          if(this.isEmpty(this.usuario.sistema.temaSeleccionado.rutina)) {
+            this.hoyYaRealizoAprender = false;
+          } else {            
+            this.hoyYaRealizoAprender = this.usuario.sistema.temaSeleccionado.rutina.english.length === 0;
+          }
+
+          console.log("************** 2 ******************")
+          console.log(this.intentar)
+          console.log(( this.isEmpty(this.usuario) || this.isEmpty(this.usuario.sistema.temaSeleccionado.rutina) || this.usuario.sistema.temaSeleccionado.tema !== usuario.sistema.temaSeleccionado.tema || this.intentar ) )
+
+          if ( this.intentar || ( this.isEmpty(this.usuario) || this.isEmpty(this.usuario.sistema.temaSeleccionado.rutina) || this.usuario.sistema.temaSeleccionado.tema !== usuario.sistema.temaSeleccionado.tema ) ) {
             
+            console.log("************** 2.1 ******************")
+
+            this.presentVerbAprenderService.obtenerPerfilPorTema(this.usuario).subscribe(
+              configuracion => {
+                this.usuario.sistema.temaSeleccionado.configuracion = configuracion;
+              }
+            )
+
           this.presentVerbService.obtenerRutinaRepasoByConfiguracion(usuario.sistema.temaSeleccionado).subscribe(
             (rutina) => {
+
+              console.log("************** 2.3 ******************")
+              console.log(rutina)
+
                 rutina.numeroVerbosAprender = rutina.english.length;
                 rutina.indiceVerboRetrocesoTemporal = 0;
                 rutina.indiceVerboValidar = 0;
                 rutina.indicesVerbosAprendidos = [];
                 rutina.indicesVerbosRepasados = [];
                 rutina.numeroVerbosRutina = rutina.english.length;
+                usuario.sistema.temaSeleccionado.tipo = "B";
                 usuario.sistema.temaSeleccionado.rutina = rutina;
                 this.barraProgreso = 0;
+                this.hoyYaRealizoAprender = this.usuario.sistema.temaSeleccionado.rutina.english.length === 0;
+                this.intentar = false;
+
                 this.store.dispatch(temaSeleccionado({ temaSeleccionado: usuario.sistema.temaSeleccionado }));
                 this.ingresarInformacionRutina();
               }, (error) => { }
             )
   
+            // end
           }
   
         }

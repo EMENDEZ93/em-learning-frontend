@@ -2,7 +2,7 @@
     <div>
         <button (click)="obtenerRutina()" type="button" class="btn btn-primary"> Iniciar Rutina </button>
     </div>
-    <div class="container container-form-em">
+    <div class="container container-form-em" *ngIf="hoyYaRealizoAprender == false">
         <div class="container">
             <div class="row">
                 <div class="col-sm">
@@ -50,5 +50,5 @@
             </div>
         </div>
     </div>
-    <p *ngIf="hoyYaRealizoAprender == true">Hoy ya realizaste esta Rutina -> {{hoyYaRealizoAprender}}</p>
+    <p *ngIf="hoyYaRealizoAprender">La Rutina no tiene verbos por repasar-> {{hoyYaRealizoAprender}}</p>
   </mat-drawer-container>

@@ -55,17 +55,25 @@ export class PresentVerbAprenderComponent implements OnInit {
 
     this.store.select('usuario').subscribe(
       usuario => {
-        this.usuario = usuario;
 
-        if (this.isEmpty(usuario.sistema.temaSeleccionado.rutina) || this.usuario.sistema.temaSeleccionado.tema !== usuario.sistema.temaSeleccionado.tema) {
+        //console.log("Before **")
+        //console.log(this.isEmpty(usuario.sistema.temaSeleccionado.aprender))
+        //console.log(this.isEmpty(usuario.sistema.temaSeleccionado.aprender) || this.usuario.sistema.temaSeleccionado.tema !== usuario.sistema.temaSeleccionado.tema)
+
+        if (this.isEmpty(this.usuario) || this.isEmpty(this.usuario.sistema.temaSeleccionado.aprender) || this.usuario.sistema.temaSeleccionado.tema !== usuario.sistema.temaSeleccionado.tema) {
+
+          this.usuario = usuario;
+      
+          //console.log("************** 1 ******************")
+      
           this.presentVerbService.obtenerRutinaByConfiguracions(usuario.sistema.temaSeleccionado).subscribe(
-            (rutina) => {
-              rutina.numeroVerbosAprender = rutina.english.length;
-              rutina.indiceVerboRetrocesoTemporal = 0;
-              rutina.indiceVerboValidar = 0;
-              rutina.indicesVerbosAprendidos = [];
-              usuario.sistema.temaSeleccionado.rutina = rutina;
-
+            (aprender) => {
+              aprender.numeroVerbosAprender = aprender.english.length;
+              aprender.indiceVerboRetrocesoTemporal = 0;
+              aprender.indiceVerboValidar = 0;
+              aprender.indicesVerbosAprendidos = [];
+              usuario.sistema.temaSeleccionado.aprender = aprender;
+              usuario.sistema.temaSeleccionado.tipo = "A";
               this.barraProgreso = 0;
               this.repeticionesAltaComoAprendidoTemporal = 0;
               this.hoyYaRealizoAprender = usuario.sistema.temaSeleccionado.realizadoHoy;
@@ -76,11 +84,15 @@ export class PresentVerbAprenderComponent implements OnInit {
           )
 
         } else {
+
+          //console.log("************** 1.B ******************")
+
           this.hoyYaRealizoAprender = this.usuario.sistema.temaSeleccionado.realizadoHoy;          
           this.ingresarInformacionAprender()
         }
 
-      }
+
+    }
     )
 
   }
@@ -110,7 +122,7 @@ export class PresentVerbAprenderComponent implements OnInit {
           this.actualizarPerfilPresentVerb = new ActualizarPerfilPresentVerb();
           this.actualizarPerfilPresentVerb.nombre = this.usuario.sistema.temaSeleccionado.tema;
           this.actualizarPerfilPresentVerb.correo = this.usuario.correo;
-          this.actualizarPerfilPresentVerb.ultimoIndiceAprendido = this.usuario.sistema.temaSeleccionado.configuracion.ultimoIndiceAprendido + this.usuario.sistema.temaSeleccionado.rutina.english.length;
+          this.actualizarPerfilPresentVerb.ultimoIndiceAprendido = this.usuario.sistema.temaSeleccionado.configuracion.ultimoIndiceAprendido + this.usuario.sistema.temaSeleccionado.aprender.english.length;
 
           this.presentVerbService.actualizarPerfil(this.actualizarPerfilPresentVerb).subscribe(
             exito => {
@@ -141,7 +153,7 @@ export class PresentVerbAprenderComponent implements OnInit {
 
   private esIgualVerbEntradaVerboRutina(verboEntrada: any) {
     this.obtenerNumerosPalabras();
-    return verboEntrada.toUpperCase() == this.usuario.sistema.temaSeleccionado.rutina.english[this.usuario.sistema.temaSeleccionado.rutina.indiceVerboRetrocesoTemporal].toUpperCase();
+    return verboEntrada.toUpperCase() == this.usuario.sistema.temaSeleccionado.aprender.english[this.usuario.sistema.temaSeleccionado.aprender.indiceVerboRetrocesoTemporal].toUpperCase();
   }
 
   ingresarInformacionAprender() {
@@ -154,16 +166,16 @@ export class PresentVerbAprenderComponent implements OnInit {
         if (this.esIgualRepeticionAlcaComoAprendioTemporalRepeticionAltaComoAprendido()) {
           this.actualizarVerbosAprendidos();
           this.actualizarBarraProgreso();
-          this.usuario.sistema.temaSeleccionado.rutina.indiceVerboValidar++;
-          this.usuario.sistema.temaSeleccionado.rutina.indiceVerboRetrocesoTemporal = 0;
+          this.usuario.sistema.temaSeleccionado.aprender.indiceVerboValidar++;
+          this.usuario.sistema.temaSeleccionado.aprender.indiceVerboRetrocesoTemporal = 0;
           this.repeticionesAltaComoAprendidoTemporal = 0;
         } else {
-          this.usuario.sistema.temaSeleccionado.rutina.indiceVerboRetrocesoTemporal = 0;
+          this.usuario.sistema.temaSeleccionado.aprender.indiceVerboRetrocesoTemporal = 0;
           this.repeticionesAltaComoAprendidoTemporal++;
         }
 
       } else {
-        this.usuario.sistema.temaSeleccionado.rutina.indiceVerboRetrocesoTemporal++;
+        this.usuario.sistema.temaSeleccionado.aprender.indiceVerboRetrocesoTemporal++;
       }
 
     } else {
@@ -176,12 +188,12 @@ export class PresentVerbAprenderComponent implements OnInit {
 
 
   esIgualrIndiceVerboRetrocesoTemporalIndiceVerboValidar() {
-    return this.usuario.sistema.temaSeleccionado.rutina.indiceVerboRetrocesoTemporal == this.usuario.sistema.temaSeleccionado.rutina.indiceVerboValidar;
+    return this.usuario.sistema.temaSeleccionado.aprender.indiceVerboRetrocesoTemporal == this.usuario.sistema.temaSeleccionado.aprender.indiceVerboValidar;
   }
 
   estaRutinaCompletada() {
-    const rutinaCompletada = Array.from({ length: this.usuario.sistema.temaSeleccionado.rutina.numeroVerbosAprender }, (v, k) => k);
-    const rutinaActual = this.usuario.sistema.temaSeleccionado.rutina.indicesVerbosAprendidos;
+    const rutinaCompletada = Array.from({ length: this.usuario.sistema.temaSeleccionado.aprender.numeroVerbosAprender }, (v, k) => k);
+    const rutinaActual = this.usuario.sistema.temaSeleccionado.aprender.indicesVerbosAprendidos;
 
     if (this.isEmpty(rutinaActual)) {
       return false;
@@ -190,14 +202,14 @@ export class PresentVerbAprenderComponent implements OnInit {
   }
 
   actualizarVerbosAprendidos() {
-    this.usuario.sistema.temaSeleccionado.rutina.indicesVerbosAprendidos.push(this.usuario.sistema.temaSeleccionado.rutina.indiceVerboValidar);
+    this.usuario.sistema.temaSeleccionado.aprender.indicesVerbosAprendidos.push(this.usuario.sistema.temaSeleccionado.aprender.indiceVerboValidar);
   }
 
   reproducir() {
     if (!this.hoyRealizoAprender()) {
-      this.audioService.reproducir(this.usuario.sistema.temaSeleccionado.rutina.english[this.usuario.sistema.temaSeleccionado.rutina.indiceVerboRetrocesoTemporal]);
-      this.spanishVerbo = this.usuario.sistema.temaSeleccionado.rutina.spanish[this.usuario.sistema.temaSeleccionado.rutina.indiceVerboRetrocesoTemporal]
-      this.englishVerbo = this.usuario.sistema.temaSeleccionado.rutina.english[this.usuario.sistema.temaSeleccionado.rutina.indiceVerboRetrocesoTemporal]
+      this.audioService.reproducir(this.usuario.sistema.temaSeleccionado.aprender.english[this.usuario.sistema.temaSeleccionado.aprender.indiceVerboRetrocesoTemporal]);
+      this.spanishVerbo = this.usuario.sistema.temaSeleccionado.aprender.spanish[this.usuario.sistema.temaSeleccionado.aprender.indiceVerboRetrocesoTemporal]
+      this.englishVerbo = this.usuario.sistema.temaSeleccionado.aprender.english[this.usuario.sistema.temaSeleccionado.aprender.indiceVerboRetrocesoTemporal]
       this.obtenerNumerosPalabras();
     }
   }
@@ -207,7 +219,7 @@ export class PresentVerbAprenderComponent implements OnInit {
   }
 
   obtenerSiguientePalabra() {
-    var arrayEsperado = this.usuario.sistema.temaSeleccionado.rutina.english[this.usuario.sistema.temaSeleccionado.rutina.indiceVerboRetrocesoTemporal].match(this.patt1);
+    var arrayEsperado = this.usuario.sistema.temaSeleccionado.aprender.english[this.usuario.sistema.temaSeleccionado.aprender.indiceVerboRetrocesoTemporal].match(this.patt1);
     var arrayActual = this.verboEntrada == null || this.verboEntrada.trim() == '' ? [''] : this.verboEntrada.match(this.patt1);
 
     let i;
@@ -235,14 +247,14 @@ export class PresentVerbAprenderComponent implements OnInit {
   }
 
   actualizarBarraProgreso() {
-    this.barraProgreso = (this.usuario.sistema.temaSeleccionado.rutina.indicesVerbosAprendidos.length / this.usuario.sistema.temaSeleccionado.rutina.numeroVerbosAprender) * 100;
+    this.barraProgreso = (this.usuario.sistema.temaSeleccionado.aprender.indicesVerbosAprendidos.length / this.usuario.sistema.temaSeleccionado.aprender.numeroVerbosAprender) * 100;
   }
 
   activarAyuda = false
   palabraActual = '';
   mostrarAyuda() {
     this.activarAyuda = true
-    this.palabraActual = this.usuario.sistema.temaSeleccionado.rutina.english[this.usuario.sistema.temaSeleccionado.rutina.indiceVerboValidar];
+    this.palabraActual = this.usuario.sistema.temaSeleccionado.aprender.english[this.usuario.sistema.temaSeleccionado.aprender.indiceVerboValidar];
     setTimeout(() => {
       this.activarAyuda = false
     }, 3000)
@@ -259,7 +271,7 @@ export class PresentVerbAprenderComponent implements OnInit {
   colorSegunValidacion(verboEntrada) {
     if (verboEntrada.trim() == "") {
       this.colorSegunValidacionClass = 'border border-primary validacionVacia';
-    } else if (this.usuario.sistema.temaSeleccionado.rutina.english[this.usuario.sistema.temaSeleccionado.rutina.indiceVerboRetrocesoTemporal].toUpperCase().includes(verboEntrada.toUpperCase())) {
+    } else if (this.usuario.sistema.temaSeleccionado.aprender.english[this.usuario.sistema.temaSeleccionado.aprender.indiceVerboRetrocesoTemporal].toUpperCase().includes(verboEntrada.toUpperCase())) {
       this.colorSegunValidacionClass = 'border border-success validacionExitosa';
     } else {
       this.colorSegunValidacionClass = 'border border-danger validacionError';
@@ -271,12 +283,12 @@ export class PresentVerbAprenderComponent implements OnInit {
     this.hoyYaRealizoAprender = this.usuario.sistema.temaSeleccionado.realizadoHoy;
     
     if(!this.hoyYaRealizoAprender) {
-      this.hoyYaRealizoAprender = this.usuario.sistema.temaSeleccionado.rutina.english.length <= 0;
+      this.hoyYaRealizoAprender = this.usuario.sistema.temaSeleccionado.aprender.english.length <= 0;
     }
     
-    if (!this.usuario.sistema.temaSeleccionado.realizadoHoy && this.usuario.sistema.temaSeleccionado.rutina.english.length > 0 ) {
+    if (!this.usuario.sistema.temaSeleccionado.realizadoHoy && this.usuario.sistema.temaSeleccionado.aprender.english.length > 0 ) {
 
-      var arrayEsperado = this.usuario.sistema.temaSeleccionado.rutina.english[this.usuario.sistema.temaSeleccionado.rutina.indiceVerboRetrocesoTemporal].match(this.patt1);
+      var arrayEsperado = this.usuario.sistema.temaSeleccionado.aprender.english[this.usuario.sistema.temaSeleccionado.aprender.indiceVerboRetrocesoTemporal].match(this.patt1);
       var arrayActual = this.verboEntrada == null || this.verboEntrada.trim() == '' ? [''] : this.verboEntrada.match(this.patt1);
 
       let i;
