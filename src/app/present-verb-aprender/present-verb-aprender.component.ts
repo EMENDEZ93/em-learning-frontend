@@ -83,11 +83,12 @@ export class PresentVerbAprenderComponent implements OnInit {
             }, (error) => { }
           )
 
-        } else {
+        } 
+        /*else {
           console.log("************** 1.B ******************")
           this.hoyYaRealizoAprender = this.usuario.sistema.temaSeleccionado.realizadoHoy;          
           this.ingresarInformacionAprender()
-        }
+        }*/
 
 
     }
@@ -206,8 +207,8 @@ export class PresentVerbAprenderComponent implements OnInit {
   reproducir() {
 
     console.log("______________________Before___________________________")
-    console.log(this.hoyRealizoAprender())
-    console.log(!this.hoyRealizoAprender())
+    //console.log(this.hoyRealizoAprender())
+    //console.log(!this.hoyRealizoAprender())
 
     if (!this.hoyRealizoAprender()) {
 

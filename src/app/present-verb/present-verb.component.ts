@@ -174,12 +174,34 @@ export class PresentVerbComponent implements OnInit {
   }
 
   key : string;
-  @HostListener('document:keypress', ['$event'])
+  @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) { 
+    
+    this.key = event.key;
+
     if(this.showOptions) {
-      this.key = event.key;
       document.getElementById(event.key).click();
     }
+
+    if(this.key === "ArrowUp" ){
+      document.getElementById(event.key).click();
+    }
+
+    
+    if(this.key === "ArrowLeft" ){
+      console.log(this.key)
+    }
+
+
+    if(this.key === "ArrowRight" ){
+      console.log(this.key)
+    }
+
+
+    if(this.key === "ArrowDown" ){
+      console.log(this.key)
+    }
+
   }
 
 
