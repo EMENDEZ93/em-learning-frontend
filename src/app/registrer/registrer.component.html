@@ -8,4 +8,6 @@
     <label for="lname">Contraseña:</label><br>
     <input type="text" formControlName="password"><br><br>
     <button type="submit" [disabled]="registrerFormGroup.invalid" >Click Me!</button>
+    <button (click)="login()">Login!</button>
+
 </form> 

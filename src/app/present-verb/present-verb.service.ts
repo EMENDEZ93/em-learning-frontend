@@ -12,7 +12,7 @@ export class PresentVerbService {
 
   constructor(private http: HttpClient) { }
 
-  endpoint = 'http://localhost:8091';
+  endpoint = 'https://boiling-forest-31476.herokuapp.com';
 
   public obtenerRutinaRepasoByConfiguracion(tema: Tema):  Observable<Rutina> { 
     return this.http.get<Rutina>(this.endpoint + '/api/present/verb/' + tema.configuracion.ultimoIndiceAprendido + "/" + tema.indiceExcel);

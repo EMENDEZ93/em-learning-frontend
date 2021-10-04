@@ -10,7 +10,7 @@ export class TemasService {
 
   constructor(private http: HttpClient) { }
 
-  private endpoint = 'http://localhost:8091';
+  private endpoint = 'https://boiling-forest-31476.herokuapp.com';
 
   // Validar y borrar
   public obtenerTemas():  Observable<string[]> { 

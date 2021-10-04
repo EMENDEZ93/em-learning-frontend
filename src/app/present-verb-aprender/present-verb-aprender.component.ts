@@ -64,7 +64,7 @@ export class PresentVerbAprenderComponent implements OnInit {
 
           this.usuario = usuario;
       
-          //console.log("************** 1 ******************")
+          console.log("************** 1 ******************")
       
           this.presentVerbService.obtenerRutinaByConfiguracions(usuario.sistema.temaSeleccionado).subscribe(
             (aprender) => {
@@ -84,9 +84,7 @@ export class PresentVerbAprenderComponent implements OnInit {
           )
 
         } else {
-
-          //console.log("************** 1.B ******************")
-
+          console.log("************** 1.B ******************")
           this.hoyYaRealizoAprender = this.usuario.sistema.temaSeleccionado.realizadoHoy;          
           this.ingresarInformacionAprender()
         }
@@ -206,7 +204,15 @@ export class PresentVerbAprenderComponent implements OnInit {
   }
 
   reproducir() {
+
+    console.log("______________________Before___________________________")
+    console.log(this.hoyRealizoAprender())
+    console.log(!this.hoyRealizoAprender())
+
     if (!this.hoyRealizoAprender()) {
+
+      console.log("_________________________________________________")
+
       this.audioService.reproducir(this.usuario.sistema.temaSeleccionado.aprender.english[this.usuario.sistema.temaSeleccionado.aprender.indiceVerboRetrocesoTemporal]);
       this.spanishVerbo = this.usuario.sistema.temaSeleccionado.aprender.spanish[this.usuario.sistema.temaSeleccionado.aprender.indiceVerboRetrocesoTemporal]
       this.englishVerbo = this.usuario.sistema.temaSeleccionado.aprender.english[this.usuario.sistema.temaSeleccionado.aprender.indiceVerboRetrocesoTemporal]
@@ -242,6 +248,10 @@ export class PresentVerbAprenderComponent implements OnInit {
   }
 
   hoyRealizoAprender(): boolean {
+
+    console.log("this.estaRutinaCompletada() " + this.estaRutinaCompletada())
+    console.log("this.ultimaFechaAprendidaEsHoy() " + this.ultimaFechaAprendidaEsHoy())
+
     this.hoyYaRealizoAprender = this.estaRutinaCompletada() || this.ultimaFechaAprendidaEsHoy();
     return this.hoyYaRealizoAprender;
   }

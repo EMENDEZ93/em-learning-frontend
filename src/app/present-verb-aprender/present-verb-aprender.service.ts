@@ -15,7 +15,7 @@ export class PresentVerbAprenderService {
 
   constructor(private http: HttpClient) { }
 
-  endpoint = 'http://localhost:8091';
+  endpoint = 'https://boiling-forest-31476.herokuapp.com';
 
   public obtenerRutina(ultimoIndiceVerboAprendido, numeroVerbosPorAprenderDiario, hojaTemaExcel):  Observable<string[]> { 
     return this.http.get<string[]>(this.endpoint+"/api/present/verb/verbosporaprender/" + ultimoIndiceVerboAprendido + "/" + numeroVerbosPorAprenderDiario+"/" + hojaTemaExcel);  

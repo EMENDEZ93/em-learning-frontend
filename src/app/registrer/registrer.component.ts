@@ -60,4 +60,8 @@ registrerFormGroup: FormGroup;
 
   }
 
+  login() {
+    this.router.navigate(['/login']);
+  }
+
 }
