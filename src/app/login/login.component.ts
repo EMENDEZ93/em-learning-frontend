@@ -53,6 +53,8 @@ export class LoginComponent implements OnInit {
       credenciales => {
         this.temaService.getTemasByCorreo(correo).subscribe(
           tema => {
+            console.log("**************** Temas ********************")
+            console.log(tema)
             this.store.dispatch(actualizar({ id: credenciales.user.uid, correo: correo, temas: tema }));
           }
         );

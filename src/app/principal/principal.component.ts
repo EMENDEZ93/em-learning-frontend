@@ -22,7 +22,6 @@ export class PrincipalComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.informacionSesionService.requiereIniciarSesion();
     this.actualizarUsuario();
   }
 

@@ -8,5 +8,7 @@ export class Tema {
     public indiceExcel;
     public rutina: Rutina;
     public aprender: Rutina;
+    public filas: number;
+    public ultimoIndiceAprendido: number;
     public configuracion: Configuracion;
 }

@@ -71,7 +71,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<mat-drawer-container class=\"em-form\">\n    <div>\n        <button (click)=\"obtenerRutina()\" type=\"button\" class=\"btn btn-primary\"> Iniciar Rutina </button>\n    </div>\n    <div class=\"container container-form-em\" *ngIf=\"hoyYaRealizoAprender == false\">\n        <div class=\"container\">\n            <div class=\"row\">\n                <div class=\"col-sm\">\n                    <div class=\"progress bar-container\">\n                        <div class=\"progress-bar progress-bar-striped active\" [ngStyle]=\"{width: barraProgreso + '%'}\"\n                            role=\"progressbar\" aria-valuenow=\"40\" aria-valuemin=\"0\" aria-valuemax=\"100\"\n                            style=\"width:40%\">\n                            {{barraProgreso}}%\n                        </div>\n                    </div>\n                    <form class=\"\" #formulario=\"ngForm\">\n                        <mat-form-field class=\"em-margin-input\" style=\"width: 75%;\" id=\"verb_input\">\n                            <input #verboEntradaInput [readonly]=\"!editable\" autocomplete=\"off\" matInput type=\"text\" placeholder=\"\"\n                                class=\"form-control {{colorSegunValidacionClass}}\" name=\"in\"\n                                (input)=\"validarVerboEntredaConVerboRutina($event.target.value); colorSegunValidacion($event.target.value);\"\n                                [(ngModel)]=\"verboEntrada\">\n                        </mat-form-field>\n                    </form>\n  \n                    <div *ngIf=\"showOptions == true\" class=\"btn-group-vertical\" role=\"group\" aria-label=\"Vertical button group\">\n                      <button *ngFor='let option of opciones; let indexOfelement=index;' id=\"{{indexOfelement + 1}}\" mdbBtn (click)=\"validarTraductorSeleccionado(option.valido)\" type=\"button\" color=\"amber\" class=\"waves-light ml-0\" mdbWavesEffect>{{indexOfelement + 1}}. {{option.descripcion}}</button>\n                    </div>\n  \n                  </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-sm\">\n                    <nav class=\"em-nav nav flex-column float-right\">\n                        <button (click)=\"reproducir()\" type=\"button\" class=\"btn btn-primary\">* Reproducir *</button>\n                        <div class=\"container-reproducir-siguiente\">\n                            <button (click)=\"reproducirSiguientePalabra()\" type=\"button\"\n                                class=\"btn btn-primary\">Reproducir</button>\n                            <select class=\"verbos-reproducir\" id=\"exampleFormControlSelect1\" [(ngModel)]=\"cantidadVerbosReproducir\">\n                                <option *ngFor='let em of [].constructor(numeroPalabras); let i = index;'  [value]=\"i\">{{i+1}}</option>\n                            </select>\n                        </div>\n                        <button (click)=\"mostrarSiguientePalabra()\" type=\"button\" class=\"btn btn-primary\">* Ayuda\n                            Siguietne Palabra*</button>\n                        <button (click)=\"mostrarAyuda()\" type=\"button\" class=\"btn btn-primary\">* Ayuda *</button>\n                    </nav>\n                </div>\n            </div>\n            <div *ngIf=\"activarAyuda\" class=\"bar-container alert alert-warning\">\n                <strong>{{palabraActual}}</strong>\n            </div>\n        </div>\n    </div>\n    <p *ngIf=\"hoyYaRealizoAprender\">La Rutina no tiene verbos por repasar-> {{hoyYaRealizoAprender}}</p>\n  </mat-drawer-container>");
+/* harmony default export */ __webpack_exports__["default"] = ("<mat-drawer-container class=\"em-form\">\n    <div>\n        <button (click)=\"obtenerRutina()\" type=\"button\" class=\"btn btn-primary\"> Iniciar Rutina </button>\n    </div>\n    <div class=\"container container-form-em\" *ngIf=\"hoyYaRealizoAprender == false\">\n        <div class=\"container\">\n            <div class=\"row\">\n                <div class=\"col-sm\">\n                    <div class=\"progress bar-container\">\n                        <div class=\"progress-bar progress-bar-striped active\" [ngStyle]=\"{width: barraProgreso + '%'}\"\n                            role=\"progressbar\" aria-valuenow=\"40\" aria-valuemin=\"0\" aria-valuemax=\"100\"\n                            style=\"width:40%\">\n                            {{barraProgreso}}%\n                        </div>\n                    </div>\n                    <form class=\"\" #formulario=\"ngForm\">\n                        <mat-form-field class=\"em-margin-input\" style=\"width: 75%;\" id=\"verb_input\">\n                            <input #verboEntradaInput [readonly]=\"!editable\" autocomplete=\"off\" matInput type=\"text\" placeholder=\"\"\n                                class=\"form-control {{colorSegunValidacionClass}}\" name=\"in\"\n                                (input)=\"validarVerboEntredaConVerboRutina($event.target.value); colorSegunValidacion($event.target.value);\"\n                                [(ngModel)]=\"verboEntrada\">\n                        </mat-form-field>\n                    </form>\n  \n                    <div *ngIf=\"showOptions == true\" class=\"btn-group-vertical\" role=\"group\" aria-label=\"Vertical button group\">\n                      <button *ngFor='let option of opciones; let indexOfelement=index;' id=\"{{indexOfelement + 1}}\" mdbBtn (click)=\"validarTraductorSeleccionado(option.valido)\" type=\"button\" color=\"amber\" class=\"waves-light ml-0\" mdbWavesEffect>{{indexOfelement + 1}}. {{option.descripcion}}</button>\n                    </div>\n  \n                  </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-sm\">\n                    <nav class=\"em-nav nav flex-column float-right\">\n                        <button id=\"ArrowUp\"  (click)=\"reproducir()\" type=\"button\" class=\"btn btn-primary\"> * Reproducir *</button>\n                        <div class=\"container-reproducir-siguiente\">\n                            <button (click)=\"reproducirSiguientePalabra()\" type=\"button\"\n                                class=\"btn btn-primary\">Reproducir</button>\n                            <select class=\"verbos-reproducir\" id=\"exampleFormControlSelect1\" [(ngModel)]=\"cantidadVerbosReproducir\">\n                                <option *ngFor='let em of [].constructor(numeroPalabras); let i = index;'  [value]=\"i\">{{i+1}}</option>\n                            </select>\n                        </div>\n                        <button (click)=\"mostrarSiguientePalabra()\" type=\"button\" class=\"btn btn-primary\">* Ayuda\n                            Siguietne Palabra*</button>\n                        <button (click)=\"mostrarAyuda()\" type=\"button\" class=\"btn btn-primary\">* Ayuda *</button>\n                    </nav>\n                </div>\n            </div>\n            <div *ngIf=\"activarAyuda\" class=\"bar-container alert alert-warning\">\n                <strong>{{palabraActual}}</strong>\n            </div>\n        </div>\n    </div>\n    <p *ngIf=\"hoyYaRealizoAprender\">La Rutina no tiene verbos por repasar-> {{hoyYaRealizoAprender}}</p>\n  </mat-drawer-container>");
 
 /***/ }),
 
@@ -84,7 +84,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("    <mat-drawer-container class=\"example-header\">\n        <div class=\"form-group\">\n            <button class=\"btn btn-primary\" (click)=\"cerrarsesion()\">Logout</button>\n        </div>\n    </mat-drawer-container>\n\n    <mat-drawer-container class=\"main-container-em\">\n        <mat-drawer class=\"menu-container\" mode=\"side\" opened>\n            <mat-list *ngFor=\"let tema of usuario.temas \">\n                <mat-list-item style=\"cursor: pointer\" [ngClass]=\"colorSegunValidacion(tema['realizadoHoy'])\" (click)=\"content(tema)\">{{tema[\"tema\"]}}</mat-list-item>\n            </mat-list>\n        </mat-drawer>\n\n\n        <div *ngIf=\"!isEmpty(usuario.sistema.temaSeleccionado)\" >\n            <div class=\"tabs-em container\">\n                <mat-tab-group class=\"em-group-tabs\">\n                    <mat-tab class=\"em-aprender-tab\" label=\"Aprender | {{ usuario.sistema.temaSeleccionado.tema }}\">\n                        <app-present-verb-aprender></app-present-verb-aprender>\n                    </mat-tab>\n                    <mat-tab class=\"em-rutina-tab\" label=\"Rutina | {{ usuario.sistema.temaSeleccionado.tema }}\">\n                        <app-present-verb [hojaTemaExcel]=\"hojaTemaExcel\"></app-present-verb>\n                    </mat-tab>\n                </mat-tab-group>\n            </div>\n        </div>\n\n    </mat-drawer-container>");
+/* harmony default export */ __webpack_exports__["default"] = ("    <mat-drawer-container class=\"example-header\">\n        <div class=\"form-group\">\n            <button class=\"btn btn-primary\" (click)=\"cerrarsesion()\">Logout</button>\n        </div>\n    </mat-drawer-container>\n\n    <mat-drawer-container class=\"main-container-em\">\n        <mat-drawer class=\"menu-container\" mode=\"side\" opened>\n            <mat-list *ngFor=\"let tema of usuario.temas \">\n                <mat-list-item style=\"cursor: pointer\" [ngClass]=\"colorSegunValidacion(tema['realizadoHoy'])\" (click)=\"content(tema)\">{{tema[\"tema\"]}}     [ {{tema[\"ultimoIndiceAprendido\"]}}/{{tema[\"filas\"]}} ] </mat-list-item>\n            </mat-list>\n        </mat-drawer>\n\n\n        <div *ngIf=\"!isEmpty(usuario.sistema.temaSeleccionado)\" >\n            <div class=\"tabs-em container\">\n                <mat-tab-group class=\"em-group-tabs\">\n                    <mat-tab class=\"em-aprender-tab\" label=\"Aprender | {{ usuario.sistema.temaSeleccionado.tema }}\">\n                        <app-present-verb-aprender></app-present-verb-aprender>\n                    </mat-tab>\n                    <mat-tab class=\"em-rutina-tab\" label=\"Rutina | {{ usuario.sistema.temaSeleccionado.tema }}\">\n                        <app-present-verb [hojaTemaExcel]=\"hojaTemaExcel\"></app-present-verb>\n                    </mat-tab>\n                </mat-tab-group>\n            </div>\n        </div>\n\n    </mat-drawer-container>");
 
 /***/ }),
 
@@ -897,6 +897,8 @@ let LoginComponent = class LoginComponent {
         const { correo, password } = this.loginFormGroup.value;
         this.autenticacionService.login(correo, password).then(credenciales => {
             this.temaService.getTemasByCorreo(correo).subscribe(tema => {
+                console.log("**************** Temas ********************");
+                console.log(tema);
                 this.store.dispatch(Object(_dominio_usuario_usuario_actions__WEBPACK_IMPORTED_MODULE_5__["actualizar"])({ id: credenciales.user.uid, correo: correo, temas: tema }));
             });
             sweetalert2__WEBPACK_IMPORTED_MODULE_7___default.a.close();
@@ -1057,11 +1059,11 @@ let PresentVerbAprenderComponent = class PresentVerbAprenderComponent {
                     this.ingresarInformacionAprender();
                 }, (error) => { });
             }
-            else {
-                console.log("************** 1.B ******************");
-                this.hoyYaRealizoAprender = this.usuario.sistema.temaSeleccionado.realizadoHoy;
-                //this.ingresarInformacionAprender()
-            }
+            /*else {
+              console.log("************** 1.B ******************")
+              this.hoyYaRealizoAprender = this.usuario.sistema.temaSeleccionado.realizadoHoy;
+              this.ingresarInformacionAprender()
+            }*/
         });
     }
     isEmpty(obj) {
@@ -1150,7 +1152,11 @@ let PresentVerbAprenderComponent = class PresentVerbAprenderComponent {
         this.usuario.sistema.temaSeleccionado.aprender.indicesVerbosAprendidos.push(this.usuario.sistema.temaSeleccionado.aprender.indiceVerboValidar);
     }
     reproducir() {
+        console.log("______________________Before___________________________");
+        //console.log(this.hoyRealizoAprender())
+        //console.log(!this.hoyRealizoAprender())
         if (!this.hoyRealizoAprender()) {
+            console.log("_________________________________________________");
             this.audioService.reproducir(this.usuario.sistema.temaSeleccionado.aprender.english[this.usuario.sistema.temaSeleccionado.aprender.indiceVerboRetrocesoTemporal]);
             this.spanishVerbo = this.usuario.sistema.temaSeleccionado.aprender.spanish[this.usuario.sistema.temaSeleccionado.aprender.indiceVerboRetrocesoTemporal];
             this.englishVerbo = this.usuario.sistema.temaSeleccionado.aprender.english[this.usuario.sistema.temaSeleccionado.aprender.indiceVerboRetrocesoTemporal];
@@ -1179,6 +1185,8 @@ let PresentVerbAprenderComponent = class PresentVerbAprenderComponent {
         return verbos;
     }
     hoyRealizoAprender() {
+        console.log("this.estaRutinaCompletada() " + this.estaRutinaCompletada());
+        console.log("this.ultimaFechaAprendidaEsHoy() " + this.ultimaFechaAprendidaEsHoy());
         this.hoyYaRealizoAprender = this.estaRutinaCompletada() || this.ultimaFechaAprendidaEsHoy();
         return this.hoyYaRealizoAprender;
     }
@@ -1403,7 +1411,6 @@ let PresentVerbComponent = class PresentVerbComponent {
         //this.obtenerRutina();
     }
     obtenerRutina() {
-        console.log("************** 2.0 ******************");
         this.intentar = true;
         console.log(this.intentar);
         this.store.select('usuario').subscribe(usuario => {
@@ -1414,17 +1421,11 @@ let PresentVerbComponent = class PresentVerbComponent {
             else {
                 this.hoyYaRealizoAprender = this.usuario.sistema.temaSeleccionado.rutina.english.length === 0;
             }
-            console.log("************** 2 ******************");
-            console.log(this.intentar);
-            console.log((this.isEmpty(this.usuario) || this.isEmpty(this.usuario.sistema.temaSeleccionado.rutina) || this.usuario.sistema.temaSeleccionado.tema !== usuario.sistema.temaSeleccionado.tema || this.intentar));
             if (this.intentar || (this.isEmpty(this.usuario) || this.isEmpty(this.usuario.sistema.temaSeleccionado.rutina) || this.usuario.sistema.temaSeleccionado.tema !== usuario.sistema.temaSeleccionado.tema)) {
-                console.log("************** 2.1 ******************");
                 this.presentVerbAprenderService.obtenerPerfilPorTema(this.usuario).subscribe(configuracion => {
                     this.usuario.sistema.temaSeleccionado.configuracion = configuracion;
                 });
                 this.presentVerbService.obtenerRutinaRepasoByConfiguracion(usuario.sistema.temaSeleccionado).subscribe((rutina) => {
-                    console.log("************** 2.3 ******************");
-                    console.log(rutina);
                     rutina.numeroVerbosAprender = rutina.english.length;
                     rutina.indiceVerboRetrocesoTemporal = 0;
                     rutina.indiceVerboValidar = 0;
@@ -1490,9 +1491,21 @@ let PresentVerbComponent = class PresentVerbComponent {
         }
     }
     handleKeyboardEvent(event) {
+        this.key = event.key;
         if (this.showOptions) {
-            this.key = event.key;
             document.getElementById(event.key).click();
+        }
+        if (this.key === "ArrowUp") {
+            document.getElementById(event.key).click();
+        }
+        if (this.key === "ArrowLeft") {
+            console.log(this.key);
+        }
+        if (this.key === "ArrowRight") {
+            console.log(this.key);
+        }
+        if (this.key === "ArrowDown") {
+            console.log(this.key);
         }
     }
     actualizarPerfil() {
@@ -1621,7 +1634,7 @@ tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])("verboEntradaInput", { static: false })
 ], PresentVerbComponent.prototype, "verboEntradaInput", void 0);
 tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["HostListener"])('document:keypress', ['$event'])
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["HostListener"])('document:keydown', ['$event'])
 ], PresentVerbComponent.prototype, "handleKeyboardEvent", null);
 PresentVerbComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -1731,7 +1744,6 @@ let PrincipalComponent = class PrincipalComponent {
         this.usuario = new _dominio_usuario_usuario_model__WEBPACK_IMPORTED_MODULE_7__["Usuario"]();
     }
     ngOnInit() {
-        this.informacionSesionService.requiereIniciarSesion();
         this.actualizarUsuario();
     }
     content(tema) {

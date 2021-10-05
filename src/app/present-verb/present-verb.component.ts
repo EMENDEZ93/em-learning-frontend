@@ -46,8 +46,6 @@ export class PresentVerbComponent implements OnInit {
 
   obtenerRutina(){
 
-    console.log("************** 2.0 ******************")
-
       this.intentar = true;
       console.log(this.intentar)
 
@@ -61,14 +59,8 @@ export class PresentVerbComponent implements OnInit {
             this.hoyYaRealizoAprender = this.usuario.sistema.temaSeleccionado.rutina.english.length === 0;
           }
 
-          console.log("************** 2 ******************")
-          console.log(this.intentar)
-          console.log(( this.isEmpty(this.usuario) || this.isEmpty(this.usuario.sistema.temaSeleccionado.rutina) || this.usuario.sistema.temaSeleccionado.tema !== usuario.sistema.temaSeleccionado.tema || this.intentar ) )
-
           if ( this.intentar || ( this.isEmpty(this.usuario) || this.isEmpty(this.usuario.sistema.temaSeleccionado.rutina) || this.usuario.sistema.temaSeleccionado.tema !== usuario.sistema.temaSeleccionado.tema ) ) {
             
-            console.log("************** 2.1 ******************")
-
             this.presentVerbAprenderService.obtenerPerfilPorTema(this.usuario).subscribe(
               configuracion => {
                 this.usuario.sistema.temaSeleccionado.configuracion = configuracion;
@@ -77,9 +69,6 @@ export class PresentVerbComponent implements OnInit {
 
           this.presentVerbService.obtenerRutinaRepasoByConfiguracion(usuario.sistema.temaSeleccionado).subscribe(
             (rutina) => {
-
-              console.log("************** 2.3 ******************")
-              console.log(rutina)
 
                 rutina.numeroVerbosAprender = rutina.english.length;
                 rutina.indiceVerboRetrocesoTemporal = 0;
