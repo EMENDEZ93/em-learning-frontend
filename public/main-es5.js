@@ -2043,11 +2043,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 usuario.sistema.temaSeleccionado.tipo = "A";
                 _this2.barraProgreso = 0;
                 _this2.repeticionesAltaComoAprendidoTemporal = 0;
-                _this2.hoyYaRealizoAprender = usuario.sistema.temaSeleccionado.realizadoHoy;
-
-                _this2.store.dispatch(Object(_dominio_usuario_usuario_actions__WEBPACK_IMPORTED_MODULE_7__["temaSeleccionado"])({
-                  temaSeleccionado: usuario.sistema.temaSeleccionado
-                }));
+                _this2.hoyYaRealizoAprender = usuario.sistema.temaSeleccionado.realizadoHoy; //this.store.dispatch(temaSeleccionado({ temaSeleccionado: usuario.sistema.temaSeleccionado }));
 
                 _this2.ingresarInformacionAprender();
               }, function (error) {});
@@ -2551,13 +2547,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony import */
 
 
-    var _dominio_usuario_usuario_actions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(
-    /*! ../dominio/usuario/usuario.actions */
-    "./src/app/dominio/usuario/usuario.actions.ts");
-    /* harmony import */
-
-
-    var _present_verb_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(
+    var _present_verb_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(
     /*! ./present-verb.service */
     "./src/app/present-verb/present-verb.service.ts");
 
@@ -2620,17 +2610,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 usuario.sistema.temaSeleccionado.rutina = rutina;
                 _this6.barraProgreso = 0;
                 _this6.hoyYaRealizoAprender = _this6.usuario.sistema.temaSeleccionado.rutina.english.length === 0;
-                _this6.intentar = false;
-
-                _this6.store.dispatch(Object(_dominio_usuario_usuario_actions__WEBPACK_IMPORTED_MODULE_7__["temaSeleccionado"])({
-                  temaSeleccionado: usuario.sistema.temaSeleccionado
-                }));
+                _this6.intentar = false; //this.store.dispatch(temaSeleccionado({ temaSeleccionado: usuario.sistema.temaSeleccionado }));
 
                 _this6.ingresarInformacionRutina();
               }, function (error) {}); // end
 
             }
           });
+          console.log("************* Fin obtenerRutina ****************** ");
         }
       }, {
         key: "validarVerboEntredaConVerboRutina",
@@ -2797,6 +2784,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         value: function reproducir() {
           if (!this.estaRutinaCompletada()) {
             this.audioService.reproducir(this.usuario.sistema.temaSeleccionado.rutina.english[this.usuario.sistema.temaSeleccionado.rutina.indiceVerboValidar]);
+            console.log("****************** reproducir ********************");
+            console.log(this.usuario.sistema.temaSeleccionado.rutina.indiceVerboValidar); //console.log(this.usuario.sistema.temaSeleccionado)
           }
         }
       }, {
@@ -2870,7 +2859,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       return [{
         type: _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]
       }, {
-        type: _present_verb_service__WEBPACK_IMPORTED_MODULE_8__["PresentVerbService"]
+        type: _present_verb_service__WEBPACK_IMPORTED_MODULE_7__["PresentVerbService"]
       }, {
         type: _present_verb_aprender_present_verb_aprender_service__WEBPACK_IMPORTED_MODULE_4__["PresentVerbAprenderService"]
       }, {

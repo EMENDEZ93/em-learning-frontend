@@ -48,11 +48,20 @@ export class PrincipalComponent implements OnInit {
 
   colorSegunValidacion(realizado) {
     if (realizado) {
-      return 'btn-success';
+      return 'btn-success outset';
     } else if (!realizado) {
-      return 'btn-primary';
+      return 'btn-primary outset';
     }
   }
+
+  colorSegunValidacionRutina(realizado) {
+    if (realizado) {
+      return '';
+    } else if (!realizado) {
+      return 'outset';
+    }
+  }
+
 
   actualizarUsuario() {
     this.store.select('usuario').subscribe(

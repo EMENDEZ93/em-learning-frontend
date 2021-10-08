@@ -31,5 +31,8 @@ export class PresentVerbService {
     return this.http.post(this.endpoint+"/api/present/verb/ultimafecharutina", JSON.stringify(actualizarUltimafecharutina), httpOptions);
   }
 
+  public actualizarTemaPorCorreo(corre: string, tema: string) {
+    return this.http.get(this.endpoint + '/api/present/verb//ultimafecharutina/' + corre + "/" + tema);
+  }
 
 }

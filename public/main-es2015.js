@@ -1055,7 +1055,7 @@ let PresentVerbAprenderComponent = class PresentVerbAprenderComponent {
                     this.barraProgreso = 0;
                     this.repeticionesAltaComoAprendidoTemporal = 0;
                     this.hoyYaRealizoAprender = usuario.sistema.temaSeleccionado.realizadoHoy;
-                    this.store.dispatch(Object(_dominio_usuario_usuario_actions__WEBPACK_IMPORTED_MODULE_7__["temaSeleccionado"])({ temaSeleccionado: usuario.sistema.temaSeleccionado }));
+                    //this.store.dispatch(temaSeleccionado({ temaSeleccionado: usuario.sistema.temaSeleccionado }));
                     this.ingresarInformacionAprender();
                 }, (error) => { });
             }
@@ -1376,9 +1376,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _present_verb_aprender_present_verb_aprender_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../present-verb-aprender/present-verb-aprender.service */ "./src/app/present-verb-aprender/present-verb-aprender.service.ts");
 /* harmony import */ var _opcion__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./opcion */ "./src/app/present-verb/opcion.ts");
 /* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @ngrx/store */ "./node_modules/@ngrx/store/fesm2015/store.js");
-/* harmony import */ var _dominio_usuario_usuario_actions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../dominio/usuario/usuario.actions */ "./src/app/dominio/usuario/usuario.actions.ts");
-/* harmony import */ var _present_verb_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./present-verb.service */ "./src/app/present-verb/present-verb.service.ts");
-
+/* harmony import */ var _present_verb_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./present-verb.service */ "./src/app/present-verb/present-verb.service.ts");
 
 
 
@@ -1437,12 +1435,13 @@ let PresentVerbComponent = class PresentVerbComponent {
                     this.barraProgreso = 0;
                     this.hoyYaRealizoAprender = this.usuario.sistema.temaSeleccionado.rutina.english.length === 0;
                     this.intentar = false;
-                    this.store.dispatch(Object(_dominio_usuario_usuario_actions__WEBPACK_IMPORTED_MODULE_7__["temaSeleccionado"])({ temaSeleccionado: usuario.sistema.temaSeleccionado }));
+                    //this.store.dispatch(temaSeleccionado({ temaSeleccionado: usuario.sistema.temaSeleccionado }));
                     this.ingresarInformacionRutina();
                 }, (error) => { });
                 // end
             }
         });
+        console.log("************* Fin obtenerRutina ****************** ");
     }
     validarVerboEntredaConVerboRutina(verboEntrada) {
         if (this.estaRutinaCompletada()) {
@@ -1562,6 +1561,9 @@ let PresentVerbComponent = class PresentVerbComponent {
     reproducir() {
         if (!this.estaRutinaCompletada()) {
             this.audioService.reproducir(this.usuario.sistema.temaSeleccionado.rutina.english[this.usuario.sistema.temaSeleccionado.rutina.indiceVerboValidar]);
+            console.log("****************** reproducir ********************");
+            console.log(this.usuario.sistema.temaSeleccionado.rutina.indiceVerboValidar);
+            //console.log(this.usuario.sistema.temaSeleccionado)
         }
     }
     mostrarAyuda() {
@@ -1613,7 +1615,7 @@ let PresentVerbComponent = class PresentVerbComponent {
 };
 PresentVerbComponent.ctorParameters = () => [
     { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"] },
-    { type: _present_verb_service__WEBPACK_IMPORTED_MODULE_8__["PresentVerbService"] },
+    { type: _present_verb_service__WEBPACK_IMPORTED_MODULE_7__["PresentVerbService"] },
     { type: _present_verb_aprender_present_verb_aprender_service__WEBPACK_IMPORTED_MODULE_4__["PresentVerbAprenderService"] },
     { type: _comun_audio_audio_service__WEBPACK_IMPORTED_MODULE_3__["AudioService"] },
     { type: _ngrx_store__WEBPACK_IMPORTED_MODULE_6__["Store"] }

@@ -37,3 +37,7 @@
   .is-active {
     background-color: red;
 }
+
+.outset {
+  border-right: rgb(0, 191, 255) 15px solid;
+}

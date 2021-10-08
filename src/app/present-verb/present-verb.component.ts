@@ -199,16 +199,13 @@ export class PresentVerbComponent implements OnInit {
 
 
   private actualizarPerfil() {
-    /*console.log("[actualizarPerfil]")
-    this.actualizarUltimafecharutina = new ActualizarUltimafecharutina();
-    //this.actualizarUltimafecharutina.correo = this.informacionSesionService.obtenerCorreo();
-    this.actualizarUltimafecharutina.nombre = this.T[this.hojaTemaExcel['tema']].tema;
-    console.log("[before]")
-    this.presentVerbService.actualizarPerfil(this.actualizarUltimafecharutina).subscribe((exito) => {
-    
+    console.log("[actualizarPerfil]")
+    this.presentVerbService.actualizarTemaPorCorreo(this.usuario.correo, this.usuario.sistema.temaSeleccionado.tema).subscribe((exito) => {
+      this.usuario.sistema.temaSeleccionado.realizadoRutinaHoy = true;
+      this.store.dispatch(temaSeleccionado({temaSeleccionado: this.usuario.sistema.temaSeleccionado}) )
     }, (error) => {
 
-    });*/
+    });
   }
 
   private esIgualVerbEntradaVerboRutina(verboEntrada: any) {

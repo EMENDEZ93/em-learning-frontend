@@ -56,10 +56,6 @@ export class PresentVerbAprenderComponent implements OnInit {
     this.store.select('usuario').subscribe(
       usuario => {
 
-        //console.log("Before **")
-        //console.log(this.isEmpty(usuario.sistema.temaSeleccionado.aprender))
-        //console.log(this.isEmpty(usuario.sistema.temaSeleccionado.aprender) || this.usuario.sistema.temaSeleccionado.tema !== usuario.sistema.temaSeleccionado.tema)
-
         if (this.isEmpty(this.usuario) || this.isEmpty(this.usuario.sistema.temaSeleccionado.aprender) || this.usuario.sistema.temaSeleccionado.tema !== usuario.sistema.temaSeleccionado.tema) {
 
           this.usuario = usuario;
@@ -78,18 +74,11 @@ export class PresentVerbAprenderComponent implements OnInit {
               this.repeticionesAltaComoAprendidoTemporal = 0;
               this.hoyYaRealizoAprender = usuario.sistema.temaSeleccionado.realizadoHoy;
 
-              //this.store.dispatch(temaSeleccionado({ temaSeleccionado: usuario.sistema.temaSeleccionado }));
               this.ingresarInformacionAprender()
             }, (error) => { }
           )
 
         } 
-        /*else {
-          console.log("************** 1.B ******************")
-          this.hoyYaRealizoAprender = this.usuario.sistema.temaSeleccionado.realizadoHoy;          
-          this.ingresarInformacionAprender()
-        }*/
-
 
     }
     )
