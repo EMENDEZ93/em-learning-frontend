@@ -82,7 +82,7 @@ export class PresentVerbComponent implements OnInit {
                 this.hoyYaRealizoAprender = this.usuario.sistema.temaSeleccionado.rutina.english.length === 0;
                 this.intentar = false;
 
-                this.store.dispatch(temaSeleccionado({ temaSeleccionado: usuario.sistema.temaSeleccionado }));
+                //this.store.dispatch(temaSeleccionado({ temaSeleccionado: usuario.sistema.temaSeleccionado }));
                 this.ingresarInformacionRutina();
               }, (error) => { }
             )
@@ -92,6 +92,9 @@ export class PresentVerbComponent implements OnInit {
   
         }
       )
+
+
+      console.log("************* Fin obtenerRutina ****************** ")
 
   }
   
@@ -259,6 +262,10 @@ export class PresentVerbComponent implements OnInit {
   reproducir(){
     if(!this.estaRutinaCompletada()) {
       this.audioService.reproducir(this.usuario.sistema.temaSeleccionado.rutina.english[this.usuario.sistema.temaSeleccionado.rutina.indiceVerboValidar]);
+
+      console.log("****************** reproducir ********************")
+      console.log(this.usuario.sistema.temaSeleccionado.rutina.indiceVerboValidar)
+      //console.log(this.usuario.sistema.temaSeleccionado)
     }
   }
 

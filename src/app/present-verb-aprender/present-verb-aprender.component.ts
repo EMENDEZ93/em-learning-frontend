@@ -78,7 +78,7 @@ export class PresentVerbAprenderComponent implements OnInit {
               this.repeticionesAltaComoAprendidoTemporal = 0;
               this.hoyYaRealizoAprender = usuario.sistema.temaSeleccionado.realizadoHoy;
 
-              this.store.dispatch(temaSeleccionado({ temaSeleccionado: usuario.sistema.temaSeleccionado }));
+              //this.store.dispatch(temaSeleccionado({ temaSeleccionado: usuario.sistema.temaSeleccionado }));
               this.ingresarInformacionAprender()
             }, (error) => { }
           )
