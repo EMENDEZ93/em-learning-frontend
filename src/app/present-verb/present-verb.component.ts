@@ -276,6 +276,7 @@ export class PresentVerbComponent implements OnInit {
   }
 
   actualizarBarraProgreso(){
+    this.activarAyuda = false;
     this.barraProgreso = (this.usuario.sistema.temaSeleccionado.rutina.indicesVerbosRepasados.length/this.usuario.sistema.temaSeleccionado.rutina.numeroVerbosRutina) * 100;
   }
 
@@ -339,9 +340,7 @@ export class PresentVerbComponent implements OnInit {
   }
 
   mostrarSiguientePalabra() {
-
     this.audioService.reproducir(this.palabraActual);
-
   }
 
 
