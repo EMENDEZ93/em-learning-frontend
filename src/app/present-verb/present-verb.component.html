@@ -13,6 +13,13 @@
                             {{barraProgreso}}%
                         </div>
                     </div>
+
+                    <form *ngIf="activarAyuda" class="">
+                        <mat-form-field class="em-margin-input" style="width: 75%;" id="verb_input">
+                            <input autocomplete="off" matInput type="text" placeholder="" class="form-control" name="in" readonly [(ngModel)]="palabraActual" style="text-align:center; background-color: #3CBC8D;">
+                        </mat-form-field>
+                    </form>
+
                     <form class="" #formulario="ngForm">
                         <mat-form-field class="em-margin-input" style="width: 75%;" id="verb_input">
                             <input #verboEntradaInput [readonly]="!editable" autocomplete="off" matInput type="text" placeholder=""
@@ -23,7 +30,8 @@
                     </form>
   
                     <div *ngIf="showOptions == true" class="btn-group-vertical" role="group" aria-label="Vertical button group">
-                      <button *ngFor='let option of opciones; let indexOfelement=index;' id="{{indexOfelement + 1}}" mdbBtn (click)="validarTraductorSeleccionado(option.valido)" type="button" color="amber" class="waves-light ml-0" mdbWavesEffect>{{indexOfelement + 1}}. {{option.descripcion}}</button>
+                      <button *ngFor='let option of opciones; let indexOfelement=index;' id="{{indexOfelement + 1}}" mdbBtn (click)="validarTraductorSeleccionado(option.valido)" 
+                      type="button" color="amber" class="waves-light ml-0" mdbWavesEffect>{{indexOfelement + 1}}. {{option.descripcion}}</button>
                     </div>
   
                   </div>
@@ -41,7 +49,7 @@
                         </div>
                         <button (click)="mostrarSiguientePalabra()" type="button" class="btn btn-primary">* Ayuda
                             Siguietne Palabra*</button>
-                        <button (click)="mostrarAyuda()" type="button" class="btn btn-primary">* Ayuda *</button>
+                        <button id="ArrowDown" (click)="mostrarAyuda()" type="button" class="btn btn-primary">* Ayuda *</button>
                     </nav>
                 </div>
             </div>

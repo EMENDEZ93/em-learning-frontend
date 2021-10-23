@@ -31,7 +31,7 @@ export class PresentVerbComponent implements OnInit {
     private store: Store<AppState>) { }
   
   verboEntrada : string;
-  spanishVerbo: string;
+  
   barraProgreso = 0;
   colorBarraProgreso = 'alert alert-danger';  
   colorSegunValidacionClass = 'border border-primary validacionVacia';
@@ -81,13 +81,12 @@ export class PresentVerbComponent implements OnInit {
                 this.barraProgreso = 0;
                 this.hoyYaRealizoAprender = this.usuario.sistema.temaSeleccionado.rutina.english.length === 0;
                 this.intentar = false;
+                this.activarAyuda = false;
 
-                //this.store.dispatch(temaSeleccionado({ temaSeleccionado: usuario.sistema.temaSeleccionado }));
                 this.ingresarInformacionRutina();
               }, (error) => { }
             )
   
-            // end
           }
   
         }
@@ -108,36 +107,60 @@ export class PresentVerbComponent implements OnInit {
     if(this.estaRutinaCompletada()){
       this.actualizarPerfil();
     } else if(this.esIgualVerbEntradaVerboRutina(verboEntrada)){
-      this.editable = false;
-      this.showOptions = true;
+      if(this.activarAyuda) {
 
-      const cuatro = false;
-      let indices : number[] = [];
-      
-      while(!cuatro) {
-      let indiceAleatoreo = Math.floor(Math.random() * this.usuario.sistema.temaSeleccionado.rutina.numeroVerbosRutina) + 0;
-        if(!indices.includes(indiceAleatoreo)) {
-          indices.push(indiceAleatoreo);
-        }
+        setTimeout(() => {
+          this.formulario.resetForm();
+          this.verboEntradaInput.nativeElement.focus();
+          }, 1);
+          this.reproducir();
 
-        if(indices.length == 4 ) {
-          if(!indices.includes(this.usuario.sistema.temaSeleccionado.rutina.indiceVerboValidar)) {
-            indices = [];
+          if(this.repeticionesPorAyuda == 5) {
+            this.activarAyuda = false;
+            this.repeticionesPorAyuda = 0;
+            this.continuarSiguienteVerbo();       
+          } else {
+            this.repeticionesPorAyuda ++;
           }
-        }
 
-        if(indices.length == 4 ) {
-          break;
-        }
-
+      } else {
+        this.continuarSiguienteVerbo();
       }
-      this.opciones = []
-      indices.forEach(element => {
-        this.opciones.push(new Opcion(this.usuario.sistema.temaSeleccionado.rutina.spanish[element], element))
-      });
-
     }
   }
+
+
+  continuarSiguienteVerbo() {
+    this.editable = false;
+    this.showOptions = true;
+
+    const cuatro = false;
+    let indices : number[] = [];
+    
+    while(!cuatro) {
+    let indiceAleatoreo = Math.floor(Math.random() * this.usuario.sistema.temaSeleccionado.rutina.numeroVerbosRutina) + 0;
+      if(!indices.includes(indiceAleatoreo)) {
+        indices.push(indiceAleatoreo);
+      }
+
+      if(indices.length == 4 ) {
+        if(!indices.includes(this.usuario.sistema.temaSeleccionado.rutina.indiceVerboValidar)) {
+          indices = [];
+        }
+      }
+
+      if(indices.length == 4 ) {
+        break;
+      }
+
+    }
+    this.opciones = []
+    indices.forEach(element => {
+      this.opciones.push(new Opcion(this.usuario.sistema.temaSeleccionado.rutina.spanish[element], element))
+    });
+
+  }
+
 
   @ViewChild("verboEntradaInput", {static: false}) verboEntradaInput: ElementRef;
 
@@ -191,7 +214,7 @@ export class PresentVerbComponent implements OnInit {
 
 
     if(this.key === "ArrowDown" ){
-      console.log(this.key)
+      document.getElementById(event.key).click();
     }
 
   }
@@ -259,22 +282,21 @@ export class PresentVerbComponent implements OnInit {
   reproducir(){
     if(!this.estaRutinaCompletada()) {
       this.audioService.reproducir(this.usuario.sistema.temaSeleccionado.rutina.english[this.usuario.sistema.temaSeleccionado.rutina.indiceVerboValidar]);
-
-      console.log("****************** reproducir ********************")
-      console.log(this.usuario.sistema.temaSeleccionado.rutina.indiceVerboValidar)
-      //console.log(this.usuario.sistema.temaSeleccionado)
     }
   }
 
 
   activarAyuda = false
   palabraActual = '';
+  repeticionesPorAyuda: number;
   mostrarAyuda() {
+    if(!this.estaRutinaCompletada()) {
     this.activarAyuda = true
-    this.palabraActual = this.usuario.sistema.temaSeleccionado.rutina.english[this.usuario.sistema.temaSeleccionado.rutina.indiceVerboValidar] + " / "+ this.usuario.sistema.temaSeleccionado.rutina.spanish[this.usuario.sistema.temaSeleccionado.rutina.indiceVerboValidar];
-    setTimeout(() => {
-      this.activarAyuda = false
-    }, 3000)
+    this.palabraActual = this.usuario.sistema.temaSeleccionado.rutina.english[this.usuario.sistema.temaSeleccionado.rutina.indiceVerboValidar] + " / "+ 
+    this.usuario.sistema.temaSeleccionado.rutina.spanish[this.usuario.sistema.temaSeleccionado.rutina.indiceVerboValidar];
+    
+    this.repeticionesPorAyuda = 0;
+    }
   }
 
 
@@ -317,11 +339,9 @@ export class PresentVerbComponent implements OnInit {
   }
 
   mostrarSiguientePalabra() {
-    this.activarAyuda = true
-    this.palabraActual = this.obtenerSiguientePalabra();
-    setTimeout(() => {
-      this.activarAyuda = false
-    }, 3000)
+
+    this.audioService.reproducir(this.palabraActual);
+
   }
 
 
