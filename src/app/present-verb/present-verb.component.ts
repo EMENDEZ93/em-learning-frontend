@@ -52,6 +52,7 @@ export class PresentVerbComponent implements OnInit {
       this.store.select('usuario').subscribe(
         usuario => {
           this.usuario = usuario; 
+          this.activarAyuda = false;
 
           if(this.isEmpty(this.usuario.sistema.temaSeleccionado.rutina)) {
             this.hoyYaRealizoAprender = false;
@@ -81,7 +82,6 @@ export class PresentVerbComponent implements OnInit {
                 this.barraProgreso = 0;
                 this.hoyYaRealizoAprender = this.usuario.sistema.temaSeleccionado.rutina.english.length === 0;
                 this.intentar = false;
-                this.activarAyuda = false;
 
                 this.ingresarInformacionRutina();
               }, (error) => { }
