@@ -1,7 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AutenticacionService } from './autenticacion.service';
-import { Autenticacion } from './autenticacion';
-import { InformacionSesionService } from '../sesion/informacion-sesion.service';
 import { Router } from '@angular/router';
 import { AppState } from '../dominio/estado/estado.reducer';
 import { Store } from '@ngrx/store';
@@ -17,7 +15,6 @@ import { TemasService } from '../principal/temas.service';
 })
 export class LoginComponent implements OnInit {
 
-  private autenticacion: Autenticacion;
   isLoggedIn = false;
   isLoginFailed = false;
 
@@ -30,7 +27,6 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.isLoggedIn = false;
-
     this.loginFormGroup = this.fb.group({
       correo: ['', Validators.required],
       password: ['', Validators.required]
@@ -40,25 +36,20 @@ export class LoginComponent implements OnInit {
 
   autenticar() {
     if (this.loginFormGroup.invalid) return;
-
     Swal.fire({
       title: 'Auto close alert!',
       didOpen: () => {
         Swal.showLoading();
       }
     })
-
     const { correo, password } = this.loginFormGroup.value;
     this.autenticacionService.login(correo, password).then(
       credenciales => {
-        this.temaService.getTemasByCorreo(correo).subscribe(
-          tema => {
-            console.log("**************** Temas ********************")
-            console.log(tema)
-            this.store.dispatch(actualizar({ id: credenciales.user.uid, correo: correo, temas: tema }));
+        this.temaService.getExcels().subscribe(
+          excels => {
+            this.store.dispatch(actualizar({ id: credenciales.user.uid, correo: correo, excels: excels }));
           }
         );
-        
         Swal.close();
         this.router.navigate(['/home']);
       }
@@ -73,9 +64,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
-
   register() {
     this.router.navigate(['/register']);
   }
-
 }

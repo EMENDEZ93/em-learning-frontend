@@ -3,9 +3,12 @@ import { InformacionSesionService } from '../sesion/informacion-sesion.service';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from '../dominio/estado/estado.reducer';
-import { temaSeleccionado } from '../dominio/usuario/usuario.actions';
+import { actualizarExcel, actualizarHoja } from '../dominio/usuario/usuario.actions';
 import { PresentVerbAprenderService } from '../present-verb-aprender/present-verb-aprender.service';
 import { Usuario } from '../dominio/usuario/usuario.model';
+import { Excel } from '../dominio/excel/excel.model';
+import { Hoja } from '../dominio/hoja/hoja.model';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-principal',
@@ -25,43 +28,26 @@ export class PrincipalComponent implements OnInit {
     this.actualizarUsuario();
   }
 
-  content(tema){
-    if(tema.configuracion == null) {
-      this.usuario.sistema.temaSeleccionado = tema;
-      this.presentVerbService.obtenerPerfilPorTema(this.usuario).subscribe(
-        configuracion => {
-          tema.configuracion = configuracion;
-          this.store.dispatch(temaSeleccionado({ temaSeleccionado: tema }));
-          this.actualizarUsuario();
-        }
-      )
-    } else {
-      this.store.dispatch(temaSeleccionado({ temaSeleccionado: tema }));
-      this.actualizarUsuario();
-    }
-  }
-
   public cerrarsesion(){
     this.informacionSesionService.cerrarSession();
     this.router.navigate(['/login']);
   }
 
-  colorSegunValidacion(realizado) {
-    if (realizado) {
+  colorSegunValidacion(ultimaFechaAprendio: Date) {
+    if (this.ultimaFechaAprendidaEsHoy(ultimaFechaAprendio)) {
       return 'btn-success outset';
-    } else if (!realizado) {
+    } else if (!this.ultimaFechaAprendidaEsHoy(ultimaFechaAprendio)) {
       return 'btn-primary outset';
     }
   }
 
-  colorSegunValidacionRutina(realizado) {
-    if (realizado) {
+  colorSegunValidacionRutina(ultimaFechaRutina: Date) {
+    if (this.ultimaFechaAprendidaEsHoy(ultimaFechaRutina)) {
       return '';
-    } else if (!realizado) {
+    } else if (!this.ultimaFechaAprendidaEsHoy(ultimaFechaRutina)) {
       return 'outset';
     }
   }
-
 
   actualizarUsuario() {
     this.store.select('usuario').subscribe(
@@ -71,9 +57,39 @@ export class PrincipalComponent implements OnInit {
     );
   }
 
-
   isEmpty(obj) {
     return Object.keys(obj).length === 0;
+  }
+
+  selectedExcel(excel: Excel) {
+    this.presentVerbService.getHojasByExcelAndCorreo(excel.archivo, this.usuario.correo).subscribe(
+      hojas => {
+        excel.hojas = hojas;
+        this.usuario.sistema.excelSeleccionado = excel;
+        this.store.dispatch(actualizarExcel({ excelSeleccionado: excel }));
+      }
+    );
+  }
+
+  selectedHoja(hoja: Hoja) {
+    this.usuario.sistema.hojaSeleccionado = hoja;
+    this.store.dispatch(actualizarHoja({ hojaSeleccionado: hoja }));
+  }
+
+  public ultimaFechaAprendidaEsHoy(ultimaFechaAprendio: Date): boolean {
+    return new Date(this.transformarDate(ultimaFechaAprendio) ) >= new Date(  this.transformarDate(Date.now()) );
+  }
+
+  private transformarDate(date){
+    return new DatePipe('en-LA').transform(date, 'shortDate'); 
+  }
+
+  getClassAlert(hoja: Hoja) {
+
+    if(hoja.porRutina == true) {
+      return "spinner-grow spinner-grow-sm"
+    }
+    return "";
   }
 
 }

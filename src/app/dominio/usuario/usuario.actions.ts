@@ -1,6 +1,7 @@
 import { createAction, props } from "@ngrx/store";
 import { Configuracion } from "../tema/configuracion/configuracion.model";
-import { Tema } from "../tema/tema.model";
+import { Excel } from '../excel/excel.model';
+import { Hoja } from '../hoja/hoja.model';
 
 export const crear = createAction(
     '[Usuario] Crear Nombre',
@@ -9,12 +10,7 @@ export const crear = createAction(
 
 export const actualizar = createAction(
     '[Usuario] Actualizar',
-    props<{ id: string, correo: string, temas: Tema[]}>()
-);
-
-export const temaSeleccionado = createAction(
-    '[Sistema] tema seleccionado',
-    props<{ temaSeleccionado: Tema}>()
+    props<{ id: string, correo: string, excels: Excel[]}>()
 );
 
 export const actualizarRutinaTemaSeleccionado = createAction(
@@ -25,4 +21,19 @@ export const actualizarRutinaTemaSeleccionado = createAction(
 export const actualizarConfiguracionTemaSeleccionado = createAction(
     '[Sistema] actualizar Configuracion Tema Seleccionado',
     props<{ configuracion: Configuracion}>()
+);
+
+export const actualizarExcels = createAction(
+    '[Sistema] actualizar Lista Excel',
+    props<{ excels: Excel[]}>()
+);
+
+export const actualizarExcel = createAction(
+    '[Sistema] actualizar Excel',
+    props<{ excelSeleccionado: Excel}>()
+);
+
+export const actualizarHoja = createAction(
+    '[Sistema] actualizar Hoja',
+    props<{ hojaSeleccionado: Hoja}>()
 );

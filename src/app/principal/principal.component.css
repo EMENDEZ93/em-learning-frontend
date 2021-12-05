@@ -4,40 +4,48 @@
     margin: 10px;
     border: 1px solid rgb(143, 136, 136);
     background-color: black;
-  }
-  
-  .example-header {
+}
+
+.excel-container {
+    right: 0px;
+}
+
+.hoja-container {
+    right: 200px;
+}
+
+.example-header {
     width: 99%;
     height: 70px;
     margin: 10px;
     border: 1px solid rgb(143, 136, 136);
     background-color: black;
-  }
+}
 
-  .menu-container {
-      width: 20%;
-      background-color: black;
-  }
-  
-  .theme{
+.menu-container {
+    width: 20%;
+    background-color: black;
+}
+
+.theme {
     color: #fff;
     background-color: #007bff;
     border-color: #007bff;
     width: 15%;
-  }
+}
 
-  .map-ripple-element{
+.map-ripple-element {
     background-color: #007bff;
-  }
+}
 
-  .tabs-em {
+.tabs-em {
     color: #fff;
-  }
+}
 
-  .is-active {
+.is-active {
     background-color: red;
 }
 
 .outset {
-  border-right: rgb(0, 191, 255) 15px solid;
+    border-right: rgb(0, 191, 255) 15px solid;
 }

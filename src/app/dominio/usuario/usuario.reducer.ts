@@ -1,68 +1,56 @@
-import { state } from "@angular/animations";
 import { createReducer, on } from "@ngrx/store";
-import { Sistema } from "../sistema/sistema.model";
-import * as usuario from "./usuario.actions";
+import * as usuarioAction from "./usuario.actions";
 import { Usuario } from "./usuario.model";
 
 export const usuarioState: Usuario = new Usuario();
 
 const _usuarioReducer = createReducer(usuarioState,
-    on( usuario.crear, (state, {nombre}) => {
+    on( usuarioAction.crear, (state, {nombre}) => {
         return {...state, nombre };
     } ),
-    on( usuario.actualizar, (state, {id, correo, temas}) => {
-        return {...state, id, correo, temas };
+    on( usuarioAction.actualizar, (state, {id, correo, excels}) => {
+        return {...state, id, correo, excels };
     } ),
-    on( usuario.temaSeleccionado, (state, {temaSeleccionado}) => {
-
+    on( usuarioAction.actualizarExcels, (state, {excels}) => {
+        return {...state, excels };
+    } ),
+    on( usuarioAction.actualizarExcel, (state, {excelSeleccionado}) => {
         return {
             ...state, 
-            temas: state.temas.map(
-                tema => {
-                    if(tema.tema === temaSeleccionado.tema) {
-                        tema.configuracion = temaSeleccionado.configuracion;
+            excels: state.excels.map(
+                oldExcel => {
+                    if(oldExcel.nombre === excelSeleccionado.nombre) {
+                        oldExcel.hojas = excelSeleccionado.hojas;
                     }
-                    return tema;
+                    return oldExcel;
                 }
             ),
             sistema:{ 
-                temaSeleccionado 
-            } 
+                ...state.sistema, 
+                excelSeleccionado 
+            }
         };
-    } )
-
-    ,
-    on( usuario.actualizarRutinaTemaSeleccionado, (state, { englishVerbs }) => {
+    } ),
+    on( usuarioAction.actualizarHoja, (state, {hojaSeleccionado}) => {
         return {
             ...state, 
             sistema:{ 
                 ...state.sistema, 
-                temaSeleccionado: { 
-                    ...state.sistema.temaSeleccionado, 
-                    rutina: { 
-                        ...state.sistema.temaSeleccionado.rutina, 
-                        englishVerbs 
-                    } 
-                } 
-            } 
+                hojaSeleccionado,
+                excelSeleccionado: {
+                    ...state.sistema.excelSeleccionado,
+                    hojas: state.sistema.excelSeleccionado.hojas.map(
+                        oldHoja => {
+                            if(oldHoja.nombre === hojaSeleccionado.nombre) {
+                                oldHoja = hojaSeleccionado;
+                            }
+                            return oldHoja;
+                        }
+                    )
+                }
+            }
         };
     } )
-
-    ,
-    on( usuario.actualizarConfiguracionTemaSeleccionado, (state, { configuracion }) => {
-        return {
-            ...state, 
-            sistema:{ 
-                ...state.sistema, 
-                temaSeleccionado: { 
-                    ...state.sistema.temaSeleccionado, 
-                    configuracion 
-                } 
-            } 
-        };
-    } )
-
-
 )
 
 export function usuarioReducer(state, action) {

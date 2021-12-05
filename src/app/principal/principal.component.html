@@ -1,28 +1,35 @@
-    <mat-drawer-container class="example-header">
-        <div class="form-group">
-            <button class="btn btn-primary" (click)="cerrarsesion()">Logout</button>
+<mat-drawer-container class="example-header">
+    <div class="form-group">
+        <button class="btn btn-primary" (click)="cerrarsesion()">Logout</button>
+    </div>
+</mat-drawer-container>
+
+<mat-drawer-container class="main-container-em">
+    <mat-drawer class="menu-containerr" position="start" mode="side" opened>
+        <mat-list *ngFor="let hoja of usuario.sistema.excelSeleccionado.hojas">
+            <mat-list-item style="cursor: pointer" [ngClass]="colorSegunValidacion(hoja['ultimaFechaAprendio']) + colorSegunValidacionRutina(hoja['ultimaFechaRutina']) " (click)="selectedHoja(hoja)">
+                <span [ngClass]="getClassAlert(hoja)"></span> {{hoja["nombre"]}} [ {{hoja["ultimoIndiceAprendido"]}}/{{hoja["filas"]}} ]
+            </mat-list-item>
+        </mat-list>
+    </mat-drawer>
+
+    <mat-drawer class="excel-container" position="end" mode="side" opened>
+        <mat-list *ngFor="let excel of usuario.excels ">
+            <mat-list-item style="cursor: pointer" class="btn-primary" (click)="selectedExcel(excel)">{{excel["nombre"]}}</mat-list-item>
+        </mat-list>
+    </mat-drawer>
+
+    <div *ngIf="!isEmpty(usuario.sistema.hojaSeleccionado)">
+        <div class="tabs-em container">
+            <mat-tab-group class="em-group-tabs">
+                <mat-tab class="em-aprender-tab" label="Aprender | {{ usuario.sistema.hojaSeleccionado.nombre }}">
+                    <app-present-verb-aprender></app-present-verb-aprender>
+                </mat-tab>
+                <mat-tab class="em-rutina-tab" label="Rutina | {{ usuario.sistema.hojaSeleccionado.nombre }}">
+                    <app-present-verb></app-present-verb>
+                </mat-tab>
+            </mat-tab-group>
         </div>
-    </mat-drawer-container>
+    </div>
 
-    <mat-drawer-container class="main-container-em">
-        <mat-drawer class="menu-container" mode="side" opened>
-            <mat-list *ngFor="let tema of usuario.temas ">
-                <mat-list-item style="cursor: pointer" [ngClass]="colorSegunValidacion(tema['realizadoHoy']) + colorSegunValidacionRutina(tema['realizadoRutinaHoy']) " (click)="content(tema)">{{tema["tema"]}}     [ {{tema["ultimoIndiceAprendido"]}}/{{tema["filas"]}} ] </mat-list-item>
-            </mat-list>
-        </mat-drawer>
-
-
-        <div *ngIf="!isEmpty(usuario.sistema.temaSeleccionado)" >
-            <div class="tabs-em container">
-                <mat-tab-group class="em-group-tabs">
-                    <mat-tab class="em-aprender-tab" label="Aprender | {{ usuario.sistema.temaSeleccionado.tema }}">
-                        <app-present-verb-aprender></app-present-verb-aprender>
-                    </mat-tab>
-                    <mat-tab class="em-rutina-tab" label="Rutina | {{ usuario.sistema.temaSeleccionado.tema }}">
-                        <app-present-verb [hojaTemaExcel]="hojaTemaExcel"></app-present-verb>
-                    </mat-tab>
-                </mat-tab-group>
-            </div>
-        </div>
-
-    </mat-drawer-container>
+</mat-drawer-container>
