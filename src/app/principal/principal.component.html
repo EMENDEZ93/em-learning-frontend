@@ -28,6 +28,12 @@
                 <mat-tab class="em-rutina-tab" label="Rutina | {{ usuario.sistema.hojaSeleccionado.nombre }}">
                     <app-present-verb></app-present-verb>
                 </mat-tab>
+                <mat-tab class="em-rutina-tab" label="Translate | {{ usuario.sistema.hojaSeleccionado.nombre }}">
+                    <app-translate></app-translate>
+                </mat-tab>
+                <mat-tab class="em-rutina-tab" label="Conversación | {{ usuario.sistema.hojaSeleccionado.nombre }}">
+                    <app-conversacion></app-conversacion>
+                </mat-tab>
             </mat-tab-group>
         </div>
     </div>

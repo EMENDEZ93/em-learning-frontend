@@ -33,6 +33,8 @@ import { RegistrerComponent } from './registrer/registrer.component';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth'
+import { ConversacionComponent } from './conversacion/conversacion.component';
+import { TranslateComponent } from './translate/translate.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,9 @@ import { AngularFireAuthModule } from '@angular/fire/auth'
     PrincipalComponent,
     PresentVerbAprenderComponent,
     LoginComponent,
-    RegistrerComponent
+    RegistrerComponent,
+    TranslateComponent,
+    ConversacionComponent
   ],
   imports: [
     BrowserModule,

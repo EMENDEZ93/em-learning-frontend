@@ -1,0 +1,4 @@
+npm ERR! cb.apply is not a function:
+    go inside "C:\Users\me\AppData\Roaming\npm\node_modules"
+    delete the 'npm' dir
+    npm install my project, and keep working as usually
