@@ -234,7 +234,7 @@ export class PresentVerbComponent implements OnInit {
   obtenerIndiceAleatoreo(){
     const existeMasVerbosPorRepasar = true;
 
-    if(this.usuario.sistema.hojaSeleccionado.rutina) {
+    if(this.usuario.sistema.hojaSeleccionado.rutina.orden) {
       while(existeMasVerbosPorRepasar){
         if(this.estaRutinaCompletada()){
           break;

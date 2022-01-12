@@ -13,20 +13,16 @@
                     </div>
 
                     <form class="">
-                        <mat-form-field class="em-margin-input" style="width: 75%;" id="verb_input">
-                            <input autocomplete="off" matInput type="text" placeholder="" class="form-control" name="in" readonly [(ngModel)]="spanishVerbo" style="text-align:center; background-color: #3CBC8D;">
-                        </mat-form-field>
+                        <p style="width: 75%; text-align:center; background-color: #3CBC8D;">{{spanishVerbo}} </p>
                     </form>
 
                     <form class="">
-                        <mat-form-field class="em-margin-input" style="width: 75%;" id="verb_input">
-                            <input autocomplete="off" matInput type="text" placeholder="" class="form-control" name="in" readonly [(ngModel)]=" englishVerbo" style="text-align:center; background-color: #3CBC8D;">
-                        </mat-form-field>
+                        <p style="width: 75%; text-align:center; background-color: #3CBC8D;">{{englishVerbo}} </p>
                     </form>
 
                     <form class="" #formulario="ngForm">
                         <mat-form-field class="em-margin-input" style="width: 75%;" id="verb_input">
-                            <input autocomplete="off" matInput type="text" placeholder="" class="form-control {{colorSegunValidacionClass}}" name="in" (input)="validarVerboEntredaConVerboPorAprender($event.target.value); colorSegunValidacion($event.target.value);" [(ngModel)]="verboEntrada">
+                            <textarea autocomplete="off" matInput type="text" placeholder="" class="form-control {{colorSegunValidacionClass}}" name="in" (input)="validarVerboEntredaConVerboPorAprender($event.target.value); colorSegunValidacion($event.target.value);" [(ngModel)]="verboEntrada"></textarea>
                         </mat-form-field>
                     </form>
                 </div>
