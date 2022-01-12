@@ -85,9 +85,29 @@ export class PrincipalComponent implements OnInit {
   }
 
   getClassAlert(hoja: Hoja) {
-
     if(hoja.porRutina == true) {
       return "spinner-grow spinner-grow-sm"
+    }
+    return "";
+  }
+
+  getClassSelectedExcel(excel: Excel) {
+    if(this.usuario.sistema.excelSeleccionado.nombre === excel.nombre) {
+      return "btn btn-secondary";
+    } else {
+      return "btn-primary";
+    }
+  }
+
+  getHojasPorRutina(excel: Excel) {
+  var contador = 0;
+    if(excel.hojas != null) {
+      excel.hojas.forEach(hoja => {
+        if(hoja.porRutina) {
+          contador++;
+        }
+      })
+        return "     " + contador.toString();
     }
     return "";
   }
