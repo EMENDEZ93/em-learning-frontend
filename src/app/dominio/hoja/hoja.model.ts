@@ -1,5 +1,7 @@
+import { Oracion } from "../conversacion/oracion.model";
 import { Rutina } from "../rutina/rutina.model";
 import { Configuracion } from "../tema/configuracion/configuracion.model";
+import { Conversacion } from '../conversacion/conversacion.models';
 
 export class Hoja {
     public id: number;
@@ -10,6 +12,7 @@ export class Hoja {
     public indiceExcel: number;
     public rutina: Rutina;
     public aprender: Rutina;
+    public conversacion: Conversacion;
     public filas: number;
     public ultimoIndiceAprendido: number;
     public configuracion: Configuracion;

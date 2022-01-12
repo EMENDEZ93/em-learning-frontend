@@ -1,25 +1,58 @@
-<div class="container">
-    <div class="chat-content">
-        <div class="card">
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">
-                    <strong>Hola Peter </strong>
-                    <span>********</span>
-                </li>
-            </ul>
+<mat-drawer-container class="em-form">
+    <div>
+        <button (click)="getRutina()" *ngIf="hoyYaRealizoAprender" type="button" class="btn btn-primary"> Iniciar Aprendizaje </button>
+    </div>
+    <div class="container container-form-em" *ngIf="hoyYaRealizoAprender == false">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm">
+                    <div class="progress bar-container">
+                        <div class="progress-bar progress-bar-striped active" [ngStyle]="{width: barraProgreso + '%'}" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:40%">
+                            {{barraProgreso}}%
+                        </div>
+                        <br>
+                    </div>
+
+                    <div *ngIf="usuario.sistema.hojaSeleccionado.conversacion">
+                        <div *ngFor='let indice of usuario.sistema.hojaSeleccionado.conversacion.indicesVerbosAprendidos; let i = index;'>
+                            <div [ngClass]="i == usuario.sistema.hojaSeleccionado.conversacion.indiceVerboRetrocesoTemporal ? 'alert alert-danger' : 'alert alert-info'">
+                                <strong>{{usuario.sistema.hojaSeleccionado.conversacion.oraciones[indice].english}}</strong>
+                            </div>
+                        </div>
+
+                        <div *ngIf="!usuario.sistema.hojaSeleccionado.conversacion.indicesVerbosAprendidos.includes(usuario.sistema.hojaSeleccionado.conversacion.indicesVerbosAprendidos)" [ngClass]="usuario.sistema.hojaSeleccionado.conversacion.indiceVerboValidar == usuario.sistema.hojaSeleccionado.conversacion.indiceVerboRetrocesoTemporal ? 'alert alert-danger' : 'alert alert-info'">
+                            <strong>-------?</strong>
+                        </div>
+
+                    </div>
+
+                    <form class="" #formulario="ngForm">
+                        <mat-form-field class="em-margin-input" style="width: 75%;" id="verb_input">
+                            <input autocomplete="off" matInput type="text" placeholder="" class="form-control {{colorSegunValidacionClass}}" name="in" (input)="validarVerboEntredaConVerboPorAprender($event.target.value); colorSegunValidacion($event.target.value);" [(ngModel)]="verboEntrada">
+                        </mat-form-field>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm">
+                    <nav class="em-nav nav flex-column float-right">
+                        <button (click)="reproducir()" type="button" class="btn btn-primary">* Reproducir *</button>
+                        <div class="container-reproducir-siguiente">
+                            <button (click)="reproducirSiguientePalabra()" type="button" class="btn btn-primary">Reproducir</button>
+                            <select class="verbos-reproducir" id="exampleFormControlSelect1" [(ngModel)]="cantidadVerbosReproducir">
+                                <option *ngFor='let em of [].constructor(numeroPalabras); let i = index;'  [value]="i">{{i+1}}</option>
+                            </select>
+                        </div>
+                        <button (click)="mostrarSiguientePalabra()" type="button" class="btn btn-primary">* Ayuda
+                            Siguietne Palabra*</button>
+                        <button (click)="mostrarAyudaConversacion()" type="button" class="btn btn-primary">* Ayuda *</button>
+                    </nav>
+                </div>
+            </div>
+            <div *ngIf="activarAyuda" class="bar-container alert alert-warning">
+                <strong>{{palabraActual}}</strong>
+            </div>
         </div>
     </div>
-    <form #sendForm="ngForm">
-        <div class="chat-send row">
-            <div class="col-2">
-                <input type="text" class="form-control" name="user" id="input-user" ngModel>
-            </div>
-            <div class="col-8">
-                <input type="text" class="form-control" name="message" id="input-message" ngModel>
-            </div>
-            <div class="col-2">
-                <button type="submit" class="btn btn-primary">Send</button>
-            </div>
-        </div>
-    </form>
-</div>
+    <p *ngIf="hoyYaRealizoAprender == true">Hoy ya realizaste esta Rutina -> {{hoyYaRealizoAprender}}</p>
+</mat-drawer-container>

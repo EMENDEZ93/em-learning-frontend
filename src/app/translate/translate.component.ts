@@ -29,7 +29,6 @@ export class TranslateComponent implements OnInit {
     private store: Store<AppState>) { }
   
   verboEntrada : string;
-  verboTraducir : string;
   
   barraProgreso = 0;
   colorBarraProgreso = 'alert alert-danger';  
@@ -104,7 +103,7 @@ export class TranslateComponent implements OnInit {
           this.formulario.resetForm();
           this.verboEntradaInput.nativeElement.focus();
           }, 1);
-          this.getVerboTraducir();
+          this.reproducir();
 
           if(this.repeticionesPorAyuda == 5) {
             this.activarAyuda = false;
@@ -160,7 +159,7 @@ export class TranslateComponent implements OnInit {
 
       this.actualizarVerbosAprendidos();
       this.obtenerIndiceAleatoreo();
-      this.getVerboTraducir();
+      this.reproducir();
       this.actualizarBarraProgreso();
   
       if(this.estaRutinaCompletada()){
@@ -200,9 +199,6 @@ export class TranslateComponent implements OnInit {
     if(this.key === "ArrowDown" ){
       document.getElementById(event.key).click();
     }
-
-    console.log(event.key)
-
   }
 
   private actualizarPerfil() {
@@ -229,7 +225,7 @@ export class TranslateComponent implements OnInit {
 
   ingresarInformacionRutina() {
     this.obtenerIndiceAleatoreo();
-    this.getVerboTraducir();
+    this.reproducir();
   }  
 
   obtenerIndiceAleatoreo(){
@@ -385,11 +381,5 @@ export class TranslateComponent implements OnInit {
 
         this.verboEntradaInput.nativeElement.focus();
   }
-
-
-  getVerboTraducir() {
-    this.verboTraducir = this.usuario.sistema.hojaSeleccionado.rutina.spanish[this.usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar]
-  }
-
 
 }

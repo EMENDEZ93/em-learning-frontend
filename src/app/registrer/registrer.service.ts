@@ -3,9 +3,11 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Observable } from 'rxjs';
 import { Registrer } from '../login/register';
+
 @Injectable({
   providedIn: 'root'
 })
+
 export class RegistrerService {
 
   private autenticarseUrl = 'https://boiling-forest-31476.herokuapp.com/api/present/verb/perfil';

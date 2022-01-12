@@ -9,4 +9,5 @@ export class Rutina {
     repeticionesAltaComoAprendido: number;
     indicesVerbosRepasados: number[] = [];
     numeroVerbosRutina: number = 0;
+    orden: boolean;
 }

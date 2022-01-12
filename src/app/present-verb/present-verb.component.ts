@@ -233,15 +233,30 @@ export class PresentVerbComponent implements OnInit {
 
   obtenerIndiceAleatoreo(){
     const existeMasVerbosPorRepasar = true;
-    while(existeMasVerbosPorRepasar){
-      if(this.estaRutinaCompletada()){
-        break;
+
+    if(this.usuario.sistema.hojaSeleccionado.rutina) {
+      while(existeMasVerbosPorRepasar){
+        if(this.estaRutinaCompletada()){
+          break;
+        }
+        const indiceAleatoreo = this.usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar ++; 
+        if(!this.usuario.sistema.hojaSeleccionado.rutina.indicesVerbosRepasados.includes(indiceAleatoreo)){
+          this.usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar = indiceAleatoreo;
+          break;
+        } 
       }
-      const indiceAleatoreo = Math.floor(Math.random() * this.usuario.sistema.hojaSeleccionado.rutina.numeroVerbosRutina) + 0 
-      if(!this.usuario.sistema.hojaSeleccionado.rutina.indicesVerbosRepasados.includes(indiceAleatoreo)){
-        this.usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar = indiceAleatoreo;
-        break;
-      } 
+    } else {
+      while(existeMasVerbosPorRepasar){
+        if(this.estaRutinaCompletada()){
+          break;
+        }
+        const indiceAleatoreo = Math.floor(Math.random() * this.usuario.sistema.hojaSeleccionado.rutina.numeroVerbosRutina) + 0 
+        if(!this.usuario.sistema.hojaSeleccionado.rutina.indicesVerbosRepasados.includes(indiceAleatoreo)){
+          this.usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar = indiceAleatoreo;
+          break;
+        } 
+      }
+
     }
   }
 
