@@ -20,15 +20,17 @@
 
                     <form class="" #formulario="ngForm">
                         <mat-form-field class="em-margin-input" style="width: 75%;" id="verb_input">
-                            <input #verboEntradaInput [readonly]="!editable" autocomplete="off" matInput type="text" placeholder="" class="form-control {{colorSegunValidacionClass}}" name="in" (input)="validarVerboEntredaConVerboRutina($event.target.value); colorSegunValidacion($event.target.value);"
-                                [(ngModel)]="verboEntrada">
+                            <textarea #verboEntradaInput [readonly]="!editable" autocomplete="off" matInput type="text" placeholder="" class="form-control {{colorSegunValidacionClass}}" name="in" (input)="validarVerboEntredaConVerboRutina($event.target.value); colorSegunValidacion($event.target.value);"
+                                [(ngModel)]="verboEntrada"> </textarea>
                         </mat-form-field>
                     </form>
 
-                    <div *ngIf="showOptions == true" class="btn-group-vertical" role="group" aria-label="Vertical button group">
+                    <div *ngIf="showOptions == true && !this.usuario.sistema.hojaSeleccionado.rutina.orden" class="btn-group-vertical" role="group" aria-label="Vertical button group">
                         <button *ngFor='let option of opciones; let indexOfelement=index;' id="{{indexOfelement + 1}}" mdbBtn (click)="validarTraductorSeleccionado(option.valido)" type="button" color="amber" class="waves-light ml-0" mdbWavesEffect>{{indexOfelement + 1}}. {{option.descripcion}}</button>
                     </div>
-
+                    <div *ngIf="showOptions == true && this.usuario.sistema.hojaSeleccionado.rutina.orden" class="btn-group-vertical" role="group" aria-label="Vertical button group">
+                        <button *ngFor='let option of opciones; let indexOfelement=index;' id="{{indexOfelement + 1}}" mdbBtn (click)="validarTraductorSeleccionado(option.valido)" type="button" color="amber" class="waves-light ml-0" style="width: 75%;" mdbWavesEffect>{{indexOfelement + 1}}. {{option.descripcion}}</button>
+                    </div>
                 </div>
             </div>
             <div class="row">

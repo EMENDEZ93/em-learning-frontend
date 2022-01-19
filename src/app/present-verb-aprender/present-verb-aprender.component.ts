@@ -102,10 +102,6 @@ export class PresentVerbAprenderComponent implements OnInit {
   private actualizacionPerfil() {
     this.presentVerbService.getUpdateHojaById(this.usuario.sistema.hojaSeleccionado.id).subscribe(
       (hoja) => {
-
-          console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-          console.log(hoja)
-
           this.usuario.sistema.hojaSeleccionado = hoja;
           this.store.dispatch(actualizarHoja({hojaSeleccionado: this.usuario.sistema.hojaSeleccionado}) )
           this.hoyRealizoAprender();
@@ -120,6 +116,13 @@ export class PresentVerbAprenderComponent implements OnInit {
   private configuracionAprender() {
     this.formulario.resetForm();
     this.obtenerSiguienteIndice();
+
+    if(this.usuario.sistema.hojaSeleccionado.aprender.orden) {
+      if(this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal > 0) {
+        this.verboEntrada = this.usuario.sistema.hojaSeleccionado.aprender.english[this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal - 1]
+      }
+    }
+
     this.reproducir();
   }
 
