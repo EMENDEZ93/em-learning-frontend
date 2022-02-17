@@ -35,6 +35,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth'
 import { ConversacionComponent } from './conversacion/conversacion.component';
 import { TranslateComponent } from './translate/translate.component';
+import { SpeakingComponent } from './speaking/speaking.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { TranslateComponent } from './translate/translate.component';
     LoginComponent,
     RegistrerComponent,
     TranslateComponent,
-    ConversacionComponent
+    ConversacionComponent,
+    SpeakingComponent
   ],
   imports: [
     BrowserModule,

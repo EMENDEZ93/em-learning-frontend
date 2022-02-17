@@ -135,7 +135,7 @@ export class PresentVerbAprenderComponent implements OnInit {
     this.reproducir();
   }
 
-  obtenerSiguienteIndice() {
+ /* obtenerSiguienteIndice() {
     if (!this.estaRutinaCompletada()) {
       if (this.esIgualrIndiceVerboRetrocesoTemporalIndiceVerboValidar()) {
         if (this.esIgualRepeticionAlcaComoAprendioTemporalRepeticionAltaComoAprendido()) {
@@ -151,12 +151,42 @@ export class PresentVerbAprenderComponent implements OnInit {
 
       } else {
         this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal++;
+        console.log("this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal")
+        console.log(this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal)
+      }
+
+    } else {
+      console.log('------- Rutina Completada 2 --------')
+    }
+  }*/
+
+
+  obtenerSiguienteIndice() {
+    if (!this.estaRutinaCompletada()) {
+      if (this.esIgualrIndiceVerboRetrocesoTemporalIndiceVerboValidar()) {
+        if (this.esIgualRepeticionAlcaComoAprendioTemporalRepeticionAltaComoAprendido()) {
+          this.actualizarVerbosAprendidos();
+          this.actualizarBarraProgreso();
+          this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboValidar++;
+          this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal = 0;
+          this.repeticionesAltaComoAprendidoTemporal = 0;
+          this.repeticionesAltaComoAprendidoTemporal++;
+          this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal++;
+        
+        } else {
+          //this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal = 0;
+          this.repeticionesAltaComoAprendidoTemporal++;
+        }
+
+      } else {
+        this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal++;
       }
 
     } else {
       console.log('------- Rutina Completada 2 --------')
     }
   }
+
   private esIgualRepeticionAlcaComoAprendioTemporalRepeticionAltaComoAprendido() {
     return this.repeticionesAltaComoAprendidoTemporal == this.usuario.sistema.hojaSeleccionado.repeticionesAltaComoAprendido;
   }
