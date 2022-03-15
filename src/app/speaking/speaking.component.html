@@ -3,38 +3,9 @@
 
 
     <div>
-        <button (click)="obtenerRutina()" type="button" class="btn btn-primary"> Iniciar Rutina </button>
+        <button (click)="obtenerRutina()" type="button" class="btn btn-primary">Iniciar Speaking</button>
     </div>
     <div class="container container-form-em" *ngIf="hoyYaRealizoAprender == false">
-
-        <div *ngIf="voiceActiveSectionDisabled; else voicesection;">
-            <button id="record" type="button" (click)="startVoiceRecognition()">Record</button>
-        </div>
-        <ng-template #voicesection>
-            <ng-container *ngIf="!voiceActiveSectionError; else failure">
-                <ng-container *ngIf="voiceText; else start">
-                    <span>{{voiceText}}</span>
-                </ng-container>
-                <ng-template #start>
-                    <ng-container *ngIf="voiceActiveSectionListening; else beginning">
-                        <span>Listening...</span>
-                    </ng-container>
-                    <ng-template #beginning>
-                        <span>Start talking...</span>
-                    </ng-template>
-                </ng-template>
-            </ng-container>
-            <ng-template #failure>
-                <span>Didn't catch that</span>
-            </ng-template>
-            <div>
-                <button id="close" (click)="closeVoiceRecognition()">Close</button>
-                <button id="start_voice" (click)="startVoiceRecognition()">Restart</button>
-            </div>
-        </ng-template>
-
-
-
         <div class="container">
             <div class="row">
                 <div class="col-sm">
@@ -46,8 +17,8 @@
 
                     <form class="">
                         <mat-form-field class="em-margin-input" style="width: 75%;" id="verb_input">
-                            <input autocomplete="off" id="entrada" matInput type="text" placeholder="" class="form-control" name="in" readonly [(ngModel)]="usuario.sistema.hojaSeleccionado.rutina.english[usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar]" style="text-align:center; background-color: #3CBC8D;"
-                                autofocus>
+                            <input *ngIf="isEmpty(usuario.sistema.hojaSeleccionado.rutina.english) === false" autocomplete="off" id="entrada" matInput type="text" placeholder="" class="form-control" name="in" readonly [(ngModel)]="usuario.sistema.hojaSeleccionado.rutina.english[usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar]"
+                                style="text-align:center; background-color: #3CBC8D;" autofocus>
                         </mat-form-field>
                     </form>
 
@@ -64,8 +35,40 @@
                     <div *ngIf="showOptions == true && this.usuario.sistema.hojaSeleccionado.rutina.orden" class="btn-group-vertical" role="group" aria-label="Vertical button group">
                         <button *ngFor='let option of opciones; let indexOfelement=index;' id="{{indexOfelement + 1}}" mdbBtn (click)="validarTraductorSeleccionado(option.valido)" type="button" color="amber" class="waves-light ml-0" style="width: 75%;" mdbWavesEffect>{{indexOfelement + 1}}. {{option.descripcion}}</button>
                     </div>
+
+                    <div>
+                        <div *ngIf="voiceActiveSectionDisabled; else voicesection;">
+                            <button id="record" type="button" (click)="startVoiceRecognition()">Record</button>
+                        </div>
+                        <ng-template #voicesection>
+                            <ng-container *ngIf="!voiceActiveSectionError; else failure">
+                                <ng-container *ngIf="voiceText; else start">
+                                    <span>{{voiceText}}</span>
+                                </ng-container>
+                                <ng-template #start>
+                                    <ng-container *ngIf="voiceActiveSectionListening; else beginning">
+                                        <span>Listening...</span>
+                                    </ng-container>
+                                    <ng-template #beginning>
+                                        <span>Start talking...</span>
+                                    </ng-template>
+                                </ng-template>
+                            </ng-container>
+                            <ng-template #failure>
+                                <span>Didn't catch that</span>
+                            </ng-template>
+                            <div>
+                                <button id="close" class="btn btn-primary" (click)="closeVoiceRecognition()">Close</button>
+                                <button id="start_voice" class="btn btn-primary" (click)="startVoiceRecognition()">Restart</button>
+                            </div>
+                        </ng-template>
+                    </div>
+
                 </div>
+
             </div>
+
+
             <div class="row">
                 <div class="col-sm">
                     <nav class="em-nav nav flex-column float-right">

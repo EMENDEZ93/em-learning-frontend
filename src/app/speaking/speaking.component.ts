@@ -211,7 +211,7 @@ export class SpeakingComponent {
 	// ************************
 
 
-	usuario: Usuario;
+	usuario: Usuario = new Usuario();
 	hojaActual: string = "";
 
 	@Input() hojaTemaExcel: any;
@@ -225,7 +225,6 @@ export class SpeakingComponent {
 	cantidadVerbosReproducir = 0;
 	patt1 = /\w+/g;
 	hoyYaRealizoAprender = true;
-	intentar = false;
 	numeroPalabras = 0;
 
 
@@ -235,25 +234,12 @@ export class SpeakingComponent {
 
 
 	obtenerRutina() {
-		this.intentar = true;
-		console.log(this.intentar)
-
 		this.store.select('usuario').subscribe(
 			usuario => {
-
 				this.usuario = usuario;
 				this.activarAyuda = false;
-
-				if (this.isEmpty(this.usuario.sistema.hojaSeleccionado.rutina)) {
-
-					if (this.isEmpty(this.usuario.sistema.hojaSeleccionado.rutina)) {
-						this.hoyYaRealizoAprender = false;
-					} else {
-						this.hoyYaRealizoAprender = this.usuario.sistema.hojaSeleccionado.rutina.english.length === 0;
-					}
-
-					if (this.intentar || (this.isEmpty(this.usuario) || this.isEmpty(this.usuario.sistema.hojaSeleccionado.rutina) || this.hojaActual !== usuario.sistema.hojaSeleccionado.nombre)) {
-
+				if(usuario.sistema.accion === "speaking") {
+					if ( (this.isEmpty(this.usuario) || this.isEmpty(this.usuario.sistema.hojaSeleccionado.rutina) || this.hojaActual !== usuario.sistema.hojaSeleccionado.nombre)) {	  
 						this.presentVerbService.getFilasRutina(usuario.sistema.hojaSeleccionado.id).subscribe(
 							(rutina) => {
 								this.hojaActual = usuario.sistema.hojaSeleccionado.nombre;
@@ -266,8 +252,7 @@ export class SpeakingComponent {
 								usuario.sistema.hojaSeleccionado.tipo = "B";
 								usuario.sistema.hojaSeleccionado.rutina = rutina;
 								this.barraProgreso = 0;
-								this.hoyYaRealizoAprender = this.usuario.sistema.hojaSeleccionado.rutina.english.length === 0;
-								this.intentar = false;
+								this.hoyYaRealizoAprender = this.ultimaFechaAprendidaEsHoy(usuario.sistema.hojaSeleccionado.ultimaFechaSpeaking);;
 								this.ingresarInformacionRutina();
 								this.getNumeroPalabras();
 							}, (error) => { }
@@ -276,8 +261,8 @@ export class SpeakingComponent {
 					}
 
 				}
-
 			}
+
 		)
 		console.log("************* Fin obtenerRutina ****************** ")
 	}
@@ -403,10 +388,11 @@ export class SpeakingComponent {
 	private actualizarPerfil() {
 		if (!this.ultimaFechaAprendidaEsHoy(this.usuario.sistema.hojaSeleccionado.ultimaFechaRutina)) {
 			console.log("[actualizarPerfil]")
-			this.presentVerbService.updateRutinaById(this.usuario.sistema.hojaSeleccionado.id).subscribe(
+			this.presentVerbService.updateSpeakingById(this.usuario.sistema.hojaSeleccionado.id).subscribe(
 				(hoja) => {
 					this.usuario.sistema.hojaSeleccionado = hoja;
-					this.usuario.sistema.hojaSeleccionado.realizadoRutinaHoy = true;
+					this.usuario.sistema.hojaSeleccionado.realizadoSpeakingHoy = true;
+					this.usuario.sistema.hojaSeleccionado.speaking = false;
 					this.store.dispatch(actualizarHoja({ hojaSeleccionado: this.usuario.sistema.hojaSeleccionado }))
 				}, (error) => {
 					console.log(error)
@@ -466,8 +452,14 @@ export class SpeakingComponent {
 	}
 
 	isEmpty(obj) {
-		if (obj === undefined) return true;
-		return Object.keys(obj).length === 0;
+		try {
+			console.log("is Empty -> ");
+			console.log(obj);
+			if (undefined === obj) return true;
+			return Object.keys(obj).length === 0;	
+		} catch (ex) {
+			return true
+		}
 	}
 
 	actualizarVerbosAprendidos() {
@@ -481,6 +473,7 @@ export class SpeakingComponent {
 
 	reproducir() {
 		if (!this.ultimaFechaAprendidaEsHoy(this.usuario.sistema.hojaSeleccionado.ultimaFechaRutina) && !this.estaRutinaCompletada()) {
+			console.log("Reproduccion:SpeakingComponente");
 			this.audioService.reproducir(this.usuario.sistema.hojaSeleccionado.rutina.english[this.usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar]);
 		}
 		this.getNumeroPalabras();
@@ -543,8 +536,11 @@ export class SpeakingComponent {
 
 
 	public ultimaFechaAprendidaEsHoy(ultimaFechaAprendio: Date): boolean {
-		return new Date(this.transformarDate(ultimaFechaAprendio)) >= new Date(this.transformarDate(Date.now()));
-	}
+		if(undefined === ultimaFechaAprendio) {
+		  return false;
+		}
+		return new Date(this.transformarDate(ultimaFechaAprendio) ) >= new Date(  this.transformarDate(Date.now()) );
+	  }
 
 	private transformarDate(date) {
 		return new DatePipe('en-LA').transform(date, 'shortDate');

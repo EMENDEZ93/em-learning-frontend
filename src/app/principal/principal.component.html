@@ -7,8 +7,8 @@
 <mat-drawer-container class="main-container-em">
     <mat-drawer class="menu-containerr" position="start" mode="side" opened>
         <mat-list *ngFor="let hoja of usuario.sistema.excelSeleccionado.hojas">
-            <mat-list-item style="cursor: pointer" [ngClass]="colorSegunValidacion(hoja['ultimaFechaAprendio']) + colorSegunValidacionRutina(hoja['ultimaFechaRutina'])" (click)="selectedHoja(hoja)">
-                <span [ngClass]="getClassAlert(hoja)"></span> {{hoja["nombre"]}} [ {{hoja["ultimoIndiceAprendido"]}}/{{hoja["filas"]}} ]
+            <mat-list-item style="cursor: pointer" [ngClass]="colorSegunValidacion(hoja['ultimaFechaAprendio']) + colorSegunValidacionRutina(hoja['ultimaFechaRutina']) + colorSegunValidacionSpeaking(hoja['ultimaFechaSpeaking'])" (click)="selectedHoja(hoja)">
+                <span [ngClass]="getClassPorRutina(hoja)"></span> <span [ngClass]="getClassSpeaking(hoja)" style="color: blue;"></span> {{hoja["nombre"]}} [ {{hoja["ultimoIndiceAprendido"]}}/{{hoja["filas"]}} ]
             </mat-list-item>
         </mat-list>
     </mat-drawer>
@@ -21,14 +21,20 @@
 
     <div *ngIf="!isEmpty(usuario.sistema.hojaSeleccionado)">
         <div class="tabs-em container">
-            <mat-tab-group class="em-group-tabs">
-                <mat-tab class="em-aprender-tab" label="Aprender | {{ usuario.sistema.hojaSeleccionado.nombre }}">
-                    <app-present-verb-aprender></app-present-verb-aprender>
-                </mat-tab>
-                <mat-tab class="em-rutina-tab" label="Rutina | {{ usuario.sistema.hojaSeleccionado.nombre }}">
-                    <app-present-verb></app-present-verb>
-                </mat-tab>
-            </mat-tab-group>
+
+            <button class="tablink" (click)="openPage('Home', 'aprender')">Aprender</button>
+            <button class="tablink" (click)="openPage('News', 'rutina')" id="defaultOpen">Rutina</button>
+            <button class="tablink" (click)="openPage('Contact', 'speaking')">Speaking</button>
+
+            <div id="Home" class="tabcontent">
+                <app-present-verb-aprender></app-present-verb-aprender>
+            </div>
+            <div id="News" class="tabcontent">
+                <app-present-verb></app-present-verb>
+            </div>
+            <div id="Contact" class="tabcontent">
+                <app-speaking></app-speaking>
+            </div>
         </div>
     </div>
 

@@ -1,6 +1,8 @@
 import { createReducer, on } from "@ngrx/store";
 import * as usuarioAction from "./usuario.actions";
 import { Usuario } from "./usuario.model";
+import { Sistema } from '../sistema/sistema.model';
+import { state } from "@angular/animations";
 
 export const usuarioState: Usuario = new Usuario();
 
@@ -18,13 +20,13 @@ const _usuarioReducer = createReducer(usuarioState,
         return {
             ...state, 
             excels: state.excels.map(
-                oldExcel => {
-                    if(oldExcel.nombre === excelSeleccionado.nombre) {
-                        oldExcel.hojas = excelSeleccionado.hojas;
-                    }
-                    return oldExcel;
-                }
-            ),
+                oldExcel => oldExcel.nombre === excelSeleccionado.nombre 
+                ? {
+                    ...oldExcel,
+                    hojas: excelSeleccionado.hojas
+                } 
+                : oldExcel
+                ),
             sistema:{ 
                 ...state.sistema, 
                 excelSeleccionado 
@@ -50,7 +52,17 @@ const _usuarioReducer = createReducer(usuarioState,
                 }
             }
         };
-    } )
+    } ),
+    
+    on (usuarioAction.actualizarAccion, (state, {accion}) => {
+        return {
+            ...state,
+            sistema:{ 
+                ...state.sistema, 
+                accion
+            }
+        }
+    })
 )
 
 export function usuarioReducer(state, action) {

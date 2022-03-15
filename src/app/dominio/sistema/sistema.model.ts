@@ -5,4 +5,5 @@ import { Oracion } from '../conversacion/oracion.model';
 export class Sistema {
     public excelSeleccionado: Excel = new Excel();
     public hojaSeleccionado: Hoja = new Hoja();
+    public accion: string = '';
 }

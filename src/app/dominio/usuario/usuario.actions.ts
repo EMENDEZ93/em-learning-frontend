@@ -37,3 +37,8 @@ export const actualizarHoja = createAction(
     '[Sistema] actualizar Hoja',
     props<{ hojaSeleccionado: Hoja}>()
 );
+
+export const actualizarAccion = createAction(
+    '[Sistema] actualizar Accion',
+    props<{ accion: string}>()
+);
