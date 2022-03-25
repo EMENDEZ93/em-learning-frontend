@@ -287,7 +287,7 @@ export class PresentVerbComponent implements OnInit {
   }
 
   reproducir(){
-    if(!this.ultimaFechaAprendidaEsHoy(this.usuario.sistema.hojaSeleccionado.ultimaFechaRutina) && !this.estaRutinaCompletada()) {
+    if(this.usuario.sistema.accion === "rutina" && !this.ultimaFechaAprendidaEsHoy(this.usuario.sistema.hojaSeleccionado.ultimaFechaRutina) && !this.estaRutinaCompletada()) {
       this.audioService.reproducir(this.usuario.sistema.hojaSeleccionado.rutina.english[this.usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar]);
       console.log("Reproduccion:PresentVerbComponente");
     }

@@ -22,6 +22,12 @@
                         </mat-form-field>
                     </form>
 
+                    <form class="">
+                        <mat-form-field style="width: 75%;">
+                            <input autocomplete="off" matInput type="text" placeholder="" class="form-control" name="in" readonly [(ngModel)]="said" style="text-align:center; background-color: #3cabbc;">
+                        </mat-form-field>
+                    </form>
+
                     <form class="" #formulario="ngForm">
                         <mat-form-field class="em-margin-input" style="width: 75%;" id="verb_input">
                             <textarea #verboEntradaInput [readonly]="!editable" autocomplete="off" matInput type="text" placeholder="" class="form-control {{colorSegunValidacionClass}}" name="in" (input)="validarVerboEntredaConVerboRutina($event.target.value); colorSegunValidacion($event.target.value);"
@@ -58,8 +64,8 @@
                                 <span>Didn't catch that</span>
                             </ng-template>
                             <div>
-                                <button id="close" class="btn btn-primary" (click)="closeVoiceRecognition()">Close</button>
-                                <button id="start_voice" class="btn btn-primary" (click)="startVoiceRecognition()">Restart</button>
+                                <button id="Alt" class="btn btn-primary" (click)="closeVoiceRecognition()">Close</button>
+                                <button id="AltGraph" class="btn btn-primary" (click)="startVoiceRecognition()">Restart</button>
                             </div>
                         </ng-template>
                     </div>
@@ -82,7 +88,6 @@
                         <button (click)="mostrarSiguientePalabra()" type="button" class="btn btn-primary">* Ayuda
                             Siguietne Palabra*</button>
                         <button id="ArrowDown" (click)="mostrarAyuda()" type="button" class="btn btn-primary">* Ayuda *</button>
-                        <button id="Enter" (click)="spelling()" type="button" class="btn btn-primary">* Spelling *</button>
                     </nav>
                 </div>
             </div>

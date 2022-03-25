@@ -24,6 +24,7 @@ export class SpeakingComponent {
 	//voiceText: '';
 	voiceText: string = '';
 	voiceTextPivot: string = '';
+	said = '';
 
 	constructor(
 		private ngZone: NgZone,
@@ -101,14 +102,23 @@ export class SpeakingComponent {
 	validarSpeaking(voiceText: string) {
 		console.log("----------- validarSpeaking ------------")
 		console.log(voiceText)
+		this.said = voiceText;
+		
+		console.log("voiceText != null -> " + voiceText != null)
+		console.log("voiceText.trim() != '' -> " + voiceText.trim() != '')
 		if (voiceText != null && voiceText.trim() != '') {
 
-			if (voiceText.toUpperCase() == this.usuario.sistema.hojaSeleccionado
-				.rutina.english[this.usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar].toUpperCase()) {
-				console.log("Exitosoooooooooooooooooooooooooooooo")
-				this.validarVerboEntredaConVerboRutina(voiceText);
+			let verboValida = this.usuario.sistema.hojaSeleccionado.rutina.english[this.usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar].toUpperCase().replace(/\?/g, '');
+			let original = this.usuario.sistema.hojaSeleccionado.rutina.english[this.usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar];
+			if(verboValida == voiceText.toUpperCase()) {
+				this.validarVerboEntredaConVerboRutina(original);
+				this.verboEntrada = original;
 				this.voiceText = '';
-
+			} else if (voiceText.toUpperCase() == this.usuario.sistema.hojaSeleccionado
+				.rutina.english[this.usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar].toUpperCase()) {
+				this.validarVerboEntredaConVerboRutina(original);
+				this.verboEntrada = original;
+				this.voiceText = '';
 			} else {
 
 				if (this.voiceText != null && this.voiceText.trim() != '') {
@@ -116,9 +126,6 @@ export class SpeakingComponent {
 					var arrayVoiceTextUnion = (this.voiceTextPivot + voiceText).match(this.patt1);
 					var arrayEsperado = this.usuario.sistema.hojaSeleccionado.rutina.english[this.usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar].match(this.patt1);
 					var arrayEsperadoString = this.usuario.sistema.hojaSeleccionado.rutina.english[this.usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar].toUpperCase();
-
-					console.log(arrayVoiceTextUnion)
-					console.log(arrayEsperado)
 
 					let i;
 					let verbos = '';
@@ -135,7 +142,10 @@ export class SpeakingComponent {
 
 					if (i > 0) {
 						for (let x = 0; x < (parseInt(i)); x++) {
-							verbos = verbos + arrayEsperado[x] + ' ';
+							verbos = verbos + arrayEsperado[x];
+							if(verbos.length < arrayEsperadoString.length) {
+								verbos += ' ';
+							}
 						}
 					}
 
@@ -158,8 +168,6 @@ export class SpeakingComponent {
 						}
 					}
 
-
-
 					if(verbos != null && verbos.trim() != '' && verbosOriginal != null && verbosOriginal.trim() != '' ) {
 						if(verbosOriginal.match(this.patt1).length > verbos.match(this.patt1).length) {
 							this.voiceTextPivot =verbosOriginal; 
@@ -174,37 +182,66 @@ export class SpeakingComponent {
 						this.voiceTextPivot = verbosOriginal; 
 					}
 
-
-					console.log(arrayEsperadoString)
-					console.log(this.voiceTextPivot.toUpperCase())
-					console.log(arrayEsperadoString.length)
-					console.log(this.voiceTextPivot.toUpperCase().length)
-					console.log(arrayEsperadoString === this.voiceTextPivot.toUpperCase())
-
-
-					console.log(verbos)
-					console.log(verbosOriginal)
-					console.log(this.voiceTextPivot)
 					this.voiceText = this.voiceTextPivot;
-
-					if((arrayEsperadoString + " ").replace(/\?/g, "").replace(/\,/g, '').replace(/\./g, '') == this.voiceTextPivot.toUpperCase()) {
-						console.log("Exitoso 222222222222222222222")
+					if((arrayEsperadoString + " ").replace("?", "").replace(/\,/g, '').replace(/\./g, '').replace(`'`, " ") == this.voiceTextPivot.toUpperCase()) {
 						this.validarVerboEntredaConVerboRutina(arrayEsperadoString);
+						this.verboEntrada = arrayEsperadoString.toLowerCase();
 						this.voiceText = '';
 					} else {
-						this.verboEntrada = this.voiceTextPivot;
+						let voic = "";
+						for (let i = 0; i < this.voiceTextPivot.length; i++) {
+							if(this.voiceTextPivot.charAt(i) === " ") {
+								if(arrayEsperadoString.charAt(i) === "'" || arrayEsperadoString.charAt(i) === "?") {
+									voic += " ";
+								} else {
+									voic += this.voiceTextPivot.charAt(i);
+								}							
+							} else {
+								voic += this.voiceTextPivot.charAt(i);
+							}
+						}
+
+						this.verboEntrada = voic;
+						this.voiceTextPivot = this.verboEntrada;
+
+						console.log("this.voiceTextPivot -> " + this.voiceTextPivot);
+						
+						if((arrayEsperadoString).replace(/\?/g, '').replace(/\,/g, '').replace(/\./g, '').replace(`'`, " ") == this.voiceTextPivot.toUpperCase().toUpperCase().replace(/\?/g, '').replace(/\,/g, '').replace(/\./g, '').replace(`'`, " ").trim()) {
+							this.validarVerboEntredaConVerboRutina(arrayEsperadoString);
+							this.verboEntrada = arrayEsperadoString.toLowerCase();
+							this.voiceText = '';
+						} else {
+
+							console.log("this.voiceTextPivot before else -> " + this.voiceTextPivot);
+							voic = "";
+							for (let i = 0; i < this.voiceTextPivot.length; i++) {
+								if(this.voiceTextPivot.charAt(i) === " ") {
+									console.log("arrayEsperadoString -> " + arrayEsperadoString)
+									console.log("arrayEsperadoString.charAt(i) -> " + arrayEsperadoString.charAt(i))
+
+									if(arrayEsperadoString.charAt(i) === "'" || arrayEsperadoString.charAt(i) === "?") {
+										voic += arrayEsperadoString.charAt(i);
+									} else if( arrayEsperadoString.charAt(i) === "," || arrayEsperadoString.charAt(i) === ".") {
+										voic += arrayEsperadoString.charAt(i) + " ";
+									} else {
+										voic += this.voiceTextPivot.charAt(i);
+									}							
+								} else {
+									voic += this.voiceTextPivot.charAt(i);
+								}
+							}
+
+							this.verboEntrada = voic;
+							this.voiceTextPivot = this.verboEntrada;
+							console.log("this.voiceTextPivot else -> " + this.voiceTextPivot);
+	
+						}
 					}
-
-
 				}
-
 			}
-
-
+		} else {
+			console.log("if -> Else");
 		}
-
-
-
 	}
 
 
@@ -336,7 +373,7 @@ export class SpeakingComponent {
 
 	@ViewChild("verboEntradaInput", { static: false }) verboEntradaInput: ElementRef;
 	validarTraductorSeleccionado(indiceOpcion) {
-		if (indiceOpcion == this.usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar) {
+		if (this.usuario.sistema.accion === "speaking" && indiceOpcion == this.usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar) {
 
 			this.actualizarVerbosAprendidos();
 			this.obtenerIndiceAleatoreo();
@@ -363,30 +400,37 @@ export class SpeakingComponent {
 	handleKeyboardEvent(event: KeyboardEvent) {
 		this.key = event.key;
 
-		if (this.showOptions) {
-			document.getElementById(event.key).click();
-		}
-		if (this.key === "Control") {
-			document.getElementById(event.key).click();
-			console.log("zz")
+		if(this.usuario.sistema.accion === "speaking") {
 
-		}
-		if (this.key === "ArrowLeft") {
-			console.log(this.key)
-		}
-		if (this.key === "Enter") {
-			document.getElementById(event.key).click();
-		}
-		if (this.key === "ArrowDown") {
-			document.getElementById(event.key).click();
-		}
+			if (this.showOptions) {
+				document.getElementById(event.key).click();
+			}
+			if (this.key === "Control") {
+				document.getElementById(event.key).click();
+			}
+			if (this.key === "ArrowLeft") {
+				console.log(this.key)
+			}
+			if (this.key === "ArrowDown") {
+				document.getElementById(event.key).click();
+			}
+	
+			if (this.key === "Alt") {
+				document.getElementById(event.key).click();
+			}
 
-		console.log(event.key)
-
+			if (this.key === "AltGraph") {
+				document.getElementById(event.key).click();
+			}
+	
+			console.log(event.key)
+	
+		}
+		
 	}
 
 	private actualizarPerfil() {
-		if (!this.ultimaFechaAprendidaEsHoy(this.usuario.sistema.hojaSeleccionado.ultimaFechaRutina)) {
+		if (!this.ultimaFechaAprendidaEsHoy(this.usuario.sistema.hojaSeleccionado.ultimaFechaSpeaking)) {
 			console.log("[actualizarPerfil]")
 			this.presentVerbService.updateSpeakingById(this.usuario.sistema.hojaSeleccionado.id).subscribe(
 				(hoja) => {
@@ -453,8 +497,6 @@ export class SpeakingComponent {
 
 	isEmpty(obj) {
 		try {
-			console.log("is Empty -> ");
-			console.log(obj);
 			if (undefined === obj) return true;
 			return Object.keys(obj).length === 0;	
 		} catch (ex) {
@@ -545,47 +587,6 @@ export class SpeakingComponent {
 	private transformarDate(date) {
 		return new DatePipe('en-LA').transform(date, 'shortDate');
 	}
-
-
-	spelling() {
-
-		if (
-			this.formulario.form.value["in"] === undefined ||
-			this.formulario.form.value["in"] === null ||
-			this.formulario.form.value["in"].trim() === ''
-		) {
-			let spell = this.usuario.sistema.hojaSeleccionado.rutina
-				.english[this.usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar].toUpperCase();
-
-			if (spell.includes(" ")) {
-				this.audioService.reproducir(spell.split(' ')[0].split(""));
-			} else {
-				this.audioService.reproducir(spell.split("").toString());
-			}
-		} else {
-
-			let spell = this.usuario.sistema.hojaSeleccionado.rutina
-				.english[this.usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar].toUpperCase()
-				.replace(this.formulario.form.value["in"].toUpperCase(), "")
-				.split("").toString();
-
-			if (spell.startsWith(" ")) {
-				spell = spell.substring(2);
-				if (spell.includes(" ")) {
-					spell = spell.split(', ')[0];
-				}
-			}
-
-			if (spell.includes(" ")) {
-				spell = spell.split(', ')[0];
-			}
-
-			this.audioService.reproducir(spell);
-		}
-
-		this.verboEntradaInput.nativeElement.focus();
-	}
-
 
 	getNumeroPalabras() {
 		var arrayEsperado = this.usuario.sistema.hojaSeleccionado.rutina.english[this.usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar].match(this.patt1);
