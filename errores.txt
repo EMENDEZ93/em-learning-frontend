@@ -5,3 +5,12 @@ npm ERR! cb.apply is not a function:
 
 
     ng build
+
+
+npm uninstall -g @angular/cli
+npm cache clean --force
+To verify: ng --version /* You will get the error message, then u have uninstalled */
+
+Using following commands to re-install :
+
+npm install -g @angular/cli

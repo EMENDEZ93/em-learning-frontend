@@ -72,6 +72,10 @@ export class PrincipalComponent implements OnInit {
   }
 
   selectedExcel(excel: Excel) {
+
+    console.log("********** selectedExcel(excel: Excel) **********")
+    console.log(excel)
+
     this.presentVerbService.getHojasByExcelAndCorreo(excel.archivo, this.usuario.correo).subscribe(
       hojas => {
         excel.hojas = hojas;
@@ -116,8 +120,25 @@ export class PrincipalComponent implements OnInit {
     if(this.usuario.sistema.excelSeleccionado.nombre === excel.nombre) {
       return "btn btn-secondary";
     } else {
+
+      if('TERMINADO' === excel.estado) {
+        return "btn btn-success";
+      }
+      
       return "btn-primary";
     }
+  }
+
+  getClassCiclo(excel: Excel) {
+    if('CICLO' === excel.incluir && 'ACTUALIZADO' === excel.estado) {
+      return "spinner-grow spinner-grow-sm"
+    }
+
+    if('CICLO' === excel.incluir && 'ACTUALIZAR' === excel.estado) {
+      return "spinner-grow spinner-grow-sm"
+    }
+
+    return "";
   }
 
   getHojasPorRutina(excel: Excel) {
@@ -146,6 +167,14 @@ export class PrincipalComponent implements OnInit {
   }
 
 
+  incluirCiclo(excel: Excel) {
+    this.presentVerbService.updateIncluir(excel.id).subscribe(
+      excelactualizado => {
+        excel.incluir = excelactualizado.incluir ;
+        this.store.dispatch(actualizarExcel({ excelSeleccionado: excel }));
+      },
+    )
+  }
 
 
 

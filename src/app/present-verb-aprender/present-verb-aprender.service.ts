@@ -7,6 +7,7 @@ import { Configuracion } from '../dominio/tema/configuracion/configuracion.model
 import { Rutina } from '../dominio/rutina/rutina.model';
 import { Hoja } from '../dominio/hoja/hoja.model';
 import { Sistema } from '../dominio/sistema/sistema.model';
+import { Excel } from '../dominio/excel/excel.model';
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +34,7 @@ export class PresentVerbAprenderService {
 
 
   public getHojasByExcelAndCorreo(excel: string, correo: string): Observable<Hoja[]> {
+
     return this.http.get<Hoja[]>(this.endpoint+"/api/present/verb/hojas/" + excel + "/" + correo);
   }
 
@@ -44,4 +46,8 @@ export class PresentVerbAprenderService {
     return this.http.get<Hoja>(this.endpoint+"/api/present/verb/hoja/" + idHoja);
   }
 
+  public updateIncluir(idExcel: string): Observable<Excel> {
+    return this.http.get<Excel>(this.endpoint+"/api/present/verb/excels/incluir/" + idExcel);
+  }
+  
 }

@@ -17,8 +17,8 @@ export class TemasService {
     return this.http.get<string[]>(this.endpoint+"/api/present/verb/temas/edwin.mendez@em.com.co");
   }
 
-  public getExcels(): Observable<Excel[]> {
-    return this.http.get<Excel[]>(this.endpoint+"/api/present/verb/excels");
+  public getExcels(correo: string): Observable<Excel[]> {
+    return this.http.get<Excel[]>(this.endpoint+"/api/present/verb/excels/" + correo);
   }
 
 }

@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
     const { correo, password } = this.loginFormGroup.value;
     this.autenticacionService.login(correo, password).then(
       credenciales => {
-        this.temaService.getExcels().subscribe(
+        this.temaService.getExcels(correo).subscribe(
           excels => {
             this.store.dispatch(actualizar({ id: credenciales.user.uid, correo: correo, excels: excels }));
           }
