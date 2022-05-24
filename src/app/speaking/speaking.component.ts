@@ -318,7 +318,7 @@ export class SpeakingComponent {
 					this.formulario.resetForm();
 					this.verboEntradaInput.nativeElement.focus();
 				}, 1);
-				this.reproducir();
+				//this.reproducir();
 
 				if (this.repeticionesPorAyuda == 5) {
 					this.activarAyuda = false;
@@ -377,7 +377,7 @@ export class SpeakingComponent {
 
 			this.actualizarVerbosAprendidos();
 			this.obtenerIndiceAleatoreo();
-			this.reproducir();
+			//this.reproducir();
 			this.actualizarBarraProgreso();
 
 			if (this.estaRutinaCompletada()) {
@@ -454,7 +454,7 @@ export class SpeakingComponent {
 
 	ingresarInformacionRutina() {
 		this.obtenerIndiceAleatoreo();
-		this.reproducir();
+		//this.reproducir();
 	}
 
 	obtenerIndiceAleatoreo() {
