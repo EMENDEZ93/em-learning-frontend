@@ -2,12 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ActualizarPerfilPresentVerb } from './actualizar-perfil-present-verb';
-import { Usuario } from '../dominio/usuario/usuario.model';
-import { Configuracion } from '../dominio/tema/configuracion/configuracion.model';
 import { Rutina } from '../dominio/rutina/rutina.model';
 import { Hoja } from '../dominio/hoja/hoja.model';
 import { Sistema } from '../dominio/sistema/sistema.model';
 import { Excel } from '../dominio/excel/excel.model';
+import { environment_url } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +15,7 @@ export class PresentVerbAprenderService {
 
   constructor(private http: HttpClient) { }
 
-  endpoint = 'https://boiling-forest-31476.herokuapp.com';
+  endpoint = environment_url;
 
   public obtenerRutina(ultimoIndiceVerboAprendido, numeroVerbosPorAprenderDiario, hojaTemaExcel):  Observable<string[]> { 
     return this.http.get<string[]>(this.endpoint+"/api/present/verb/verbosporaprender/" + ultimoIndiceVerboAprendido + "/" + numeroVerbosPorAprenderDiario+"/" + hojaTemaExcel);  

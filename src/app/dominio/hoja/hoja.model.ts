@@ -13,7 +13,7 @@ export class Hoja {
     public indiceExcel: number;
     public rutina: Rutina;
     public aprender: Rutina;
-    public conversacion: Conversacion;
+    public conversacion: Conversacion = new Conversacion();
     public filas: number;
     public ultimoIndiceAprendido: number;
     public configuracion: Configuracion;

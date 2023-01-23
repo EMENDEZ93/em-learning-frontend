@@ -5,8 +5,8 @@ import { AppState } from '../dominio/estado/estado.reducer';
 import { Store } from '@ngrx/store';
 import { actualizar } from '../dominio/usuario/usuario.actions';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import Swal from 'sweetalert2'
 import { TemasService } from '../principal/temas.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
     Swal.fire({
       title: 'Auto close alert!',
       didOpen: () => {
-        Swal.showLoading();
+        Swal.close();
       }
     })
     const { correo, password } = this.loginFormGroup.value;

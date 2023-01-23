@@ -3,7 +3,7 @@ import { Autenticacion } from './autenticacion';
 import { Observable } from 'rxjs';
 import { InformacionAutorizacion } from './informacion-autorizacion';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +20,7 @@ export class AutenticacionService {
   }
 
   login(correo: string, password: string) {
-    return this.auth.auth.signInWithEmailAndPassword(correo, password);
+    return this.auth.signInWithEmailAndPassword(correo, password);
   }
 
 

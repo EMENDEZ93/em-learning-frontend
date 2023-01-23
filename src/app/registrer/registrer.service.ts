@@ -1,7 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Observable } from 'rxjs';
+import { environment_url } from 'src/environments/environment';
 import { Registrer } from '../login/register';
 
 @Injectable({
@@ -10,7 +11,7 @@ import { Registrer } from '../login/register';
 
 export class RegistrerService {
 
-  private autenticarseUrl = 'https://boiling-forest-31476.herokuapp.com/api/present/verb/perfil';
+  private autenticarseUrl = environment_url + '/api/present/verb/perfil';
 
   constructor(private http: HttpClient, public auth: AngularFireAuth) { }
 
@@ -20,7 +21,7 @@ export class RegistrerService {
   }
 
   crearUsuario(nombre:string, correo:string, password:string) {
-    return this.auth.auth.createUserWithEmailAndPassword(correo, password);
+    return this.auth.createUserWithEmailAndPassword(correo, password);
   }
 
 

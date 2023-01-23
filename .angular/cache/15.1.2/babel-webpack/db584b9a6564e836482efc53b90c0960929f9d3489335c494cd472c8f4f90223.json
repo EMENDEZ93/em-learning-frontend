@@ -1,0 +1,1 @@
+{"ast":null,"code":"import { Sistema } from \"../sistema/sistema.model\";\nexport class Usuario {\n  constructor() {\n    this.sistema = new Sistema();\n  }\n}","map":null,"metadata":{},"sourceType":"module","externalDependencies":[]}

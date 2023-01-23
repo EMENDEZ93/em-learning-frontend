@@ -9,7 +9,7 @@ import { Usuario } from '../dominio/usuario/usuario.model';
 import { Excel } from '../dominio/excel/excel.model';
 import { Hoja } from '../dominio/hoja/hoja.model';
 import { DatePipe } from '@angular/common';
-import { MatTabChangeEvent } from '@angular/material';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-principal',

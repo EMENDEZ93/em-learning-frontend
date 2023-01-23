@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Router } from '@angular/router';
 import { InformacionPresentVerbService } from './informacion-present-verb.service';
 

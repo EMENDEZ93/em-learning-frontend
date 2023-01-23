@@ -20,9 +20,12 @@
                             </div>
                         </div>
 
-                        <div *ngIf="!usuario.sistema.hojaSeleccionado.conversacion.indicesVerbosAprendidos.includes(usuario.sistema.hojaSeleccionado.conversacion.indicesVerbosAprendidos)" [ngClass]="usuario.sistema.hojaSeleccionado.conversacion.indiceVerboValidar == usuario.sistema.hojaSeleccionado.conversacion.indiceVerboRetrocesoTemporal ? 'alert alert-danger' : 'alert alert-info'">
+
+                        <!--
+                            <div *ngIf="usuario != null && !usuario.sistema.hojaSeleccionado.conversacion.indicesVerbosAprendidos.includes(usuario.sistema.hojaSeleccionado.conversacion.indicesVerbosAprendidos)" [ngClass]="usuario.sistema.hojaSeleccionado.conversacion.indiceVerboValidar == usuario.sistema.hojaSeleccionado.conversacion.indiceVerboRetrocesoTemporal ? 'alert alert-danger' : 'alert alert-info'">
                             <strong>-------?</strong>
                         </div>
+                        -->
 
                     </div>
 

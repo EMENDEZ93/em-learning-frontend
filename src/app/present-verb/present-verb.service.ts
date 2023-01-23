@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { ActualizarUltimafecharutina } from '../servicios/actualizar-ultimafecharutina';
 import { Rutina } from '../dominio/rutina/rutina.model';
 import { Hoja } from '../dominio/hoja/hoja.model';
+import { environment_url } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class PresentVerbService {
 
   constructor(private http: HttpClient) { }
 
-  endpoint = 'https://boiling-forest-31476.herokuapp.com';
+  endpoint = environment_url;
 
   public obtenerRutina(ultimoIndiceVerboAprendido, hojaTemaExcel):  Observable<string[]> { 
     return this.http.get<string[]>(this.endpoint + '/api/present/verb/' + ultimoIndiceVerboAprendido + "/" + hojaTemaExcel);

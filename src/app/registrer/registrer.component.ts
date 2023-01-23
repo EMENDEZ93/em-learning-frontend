@@ -32,8 +32,7 @@ registrerFormGroup: FormGroup;
     Swal.fire({
       title: 'Auto close alert!',
       didOpen: () => {
-        Swal.showLoading()
-
+        Swal.close()
       }})
 
 
