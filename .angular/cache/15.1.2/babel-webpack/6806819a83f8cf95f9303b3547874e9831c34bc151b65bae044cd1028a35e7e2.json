@@ -1,0 +1,1 @@
+{"ast":null,"code":"export class Opcion {\n  constructor(descripcion, valido) {\n    this.descripcion = descripcion;\n    this.valido = valido;\n  }\n}","map":null,"metadata":{},"sourceType":"module","externalDependencies":[]}
