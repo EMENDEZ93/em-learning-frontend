@@ -147,7 +147,7 @@ export class PresentVerbAprenderComponent implements OnInit {
           this.actualizarVerbosAprendidos();
           this.actualizarBarraProgreso();
           this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboValidar++;
-          this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal = 0;
+          //this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal = 0;
           this.repeticionesAltaComoAprendidoTemporal = 0;
           this.repeticionesAltaComoAprendidoTemporal++;
           this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal++;
