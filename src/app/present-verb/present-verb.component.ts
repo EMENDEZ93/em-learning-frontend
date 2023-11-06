@@ -29,6 +29,7 @@ export class PresentVerbComponent implements OnInit {
     private store: Store<AppState>) { }
   
   verboEntrada : string;
+  fonetica: string;
   
   barraProgreso = 0;
   colorBarraProgreso = 'alert alert-danger';  
@@ -288,7 +289,16 @@ export class PresentVerbComponent implements OnInit {
 
   reproducir(){
     if(this.usuario.sistema.accion === "rutina" && !this.ultimaFechaAprendidaEsHoy(this.usuario.sistema.hojaSeleccionado.ultimaFechaRutina) && !this.estaRutinaCompletada()) {
-      this.audioService.reproducir(this.usuario.sistema.hojaSeleccionado.rutina.english[this.usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar]);
+      let speakFast = this.usuario.sistema.hojaSeleccionado.rutina.allSpeakFast[this.usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar];
+      if(speakFast !== 'NO_APLICA') {
+        this.audioService.reproducir(speakFast);
+        console.log("this.audioService.reproducir(speakFast)");
+      } else {
+        this.audioService.reproducir(this.usuario.sistema.hojaSeleccionado.rutina.english[this.usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar]);      
+      }
+
+      this.fonetica = this.usuario.sistema.hojaSeleccionado.rutina.fonetica[this.usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar]
+
       console.log("Reproduccion:PresentVerbComponente");
     }
     this.getNumeroPalabras();

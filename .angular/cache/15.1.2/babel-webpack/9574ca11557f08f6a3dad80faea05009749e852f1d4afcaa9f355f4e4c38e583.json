@@ -1,1 +1,0 @@
-{"ast":null,"code":"import { Excel } from '../excel/excel.model';\nimport { Hoja } from '../hoja/hoja.model';\nexport class Sistema {\n  constructor() {\n    this.excelSeleccionado = new Excel();\n    this.hojaSeleccionado = new Hoja();\n    this.accion = '';\n  }\n}","map":null,"metadata":{},"sourceType":"module","externalDependencies":[]}

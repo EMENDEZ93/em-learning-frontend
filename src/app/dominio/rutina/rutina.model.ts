@@ -2,6 +2,8 @@
 export class Rutina { 
     english: string[];
     spanish: string[];
+    allSpeakFast: string[];
+    fonetica: string[];
     numeroVerbosAprender: number;
     indiceVerboValidar: number = 0;
     indiceVerboRetrocesoTemporal: number = 0;
