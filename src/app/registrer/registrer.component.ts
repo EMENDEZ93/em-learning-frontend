@@ -37,11 +37,32 @@ registrerFormGroup: FormGroup;
 
 
     const {nombre, correo, password} = this.registrerFormGroup.value;
-    this.registerServices.crearUsuario(nombre, correo, password).then(
+    var perfil = new Registrer('informacion.user.uid', correo, password);
+    this.registerServices.register(perfil).subscribe(
+      success => {
+        Swal.close();
+        this.router.navigate(['/login']);
+      },
+      error => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: error.message,
+          footer: '<a href="">Why do I have this issue?</a>'
+        })
+      }
+    );
+
+    Swal.close();
+    this.router.navigate(['/login']);
+
+
+
+    /*this.registerServices.crearUsuario(nombre, correo, password).then(
       informacion => {
         console.log(informacion.user.uid);
 
-        var perfil = new Registrer(informacion.user.uid, correo, password);
+        var perfil = new Registrer('informacion.user.uid', correo, password);
         this.registerServices.register(perfil).subscribe();
 
         Swal.close();
@@ -55,7 +76,7 @@ registrerFormGroup: FormGroup;
         text: error.message,
         footer: '<a href="">Why do I have this issue?</a>'
       })
-    });
+    });*/
 
   }
 

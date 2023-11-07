@@ -84,7 +84,4 @@ import { SpeakingComponent } from './speaking/speaking.component';
   bootstrap: [AppComponent]
 })
 export class AppModule { 
-  constructor() {
-    const firebaseApp = initializeApp(environment.firebase);
-  }
 }

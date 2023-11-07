@@ -43,7 +43,24 @@ export class LoginComponent implements OnInit {
       }
     })
     const { correo, password } = this.loginFormGroup.value;
-    this.autenticacionService.login(correo, password).then(
+
+    this.temaService.getExcels(correo).subscribe(
+      excels => {
+        this.store.dispatch(actualizar({ id: 'credenciales.user.uid', correo: correo, excels: excels }));
+        Swal.close();
+        this.router.navigate(['/home']);
+      },
+      error => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: error.message,
+          footer: '<a href="">Why do I have this issue?</a>'
+        })
+      }
+    );
+
+    /*this.autenticacionService.login(correo, password).then(
       credenciales => {
         this.temaService.getExcels(correo).subscribe(
           excels => {
@@ -61,7 +78,7 @@ export class LoginComponent implements OnInit {
         footer: '<a href="">Why do I have this issue?</a>'
       })
 
-    });
+    });*/
   }
 
   register() {
