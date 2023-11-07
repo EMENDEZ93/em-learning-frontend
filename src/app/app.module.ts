@@ -37,6 +37,11 @@ import { ConversacionComponent } from './conversacion/conversacion.component';
 import { TranslateComponent } from './translate/translate.component';
 import { SpeakingComponent } from './speaking/speaking.component';
 
+
+import { initializeApp } from 'firebase/app';
+import { provideAuth, Auth } from '@angular/fire/auth';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -81,4 +86,8 @@ import { SpeakingComponent } from './speaking/speaking.component';
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule { 
+  constructor() {
+    const firebaseApp = initializeApp(environment.firebase);
+  }
+}

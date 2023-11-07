@@ -5,6 +5,7 @@ import { InformacionAutorizacion } from './informacion-autorizacion';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 
+
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 @Injectable({
