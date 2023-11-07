@@ -38,9 +38,6 @@ import { TranslateComponent } from './translate/translate.component';
 import { SpeakingComponent } from './speaking/speaking.component';
 
 
-import { initializeApp } from 'firebase/app';
-import { provideAuth, Auth } from '@angular/fire/auth';
-
 
 @NgModule({
   declarations: [
