@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { InformacionPresentVerb } from '../sesion/informacion-present-verb';
 import { ActualizarPerfilPresentVerb } from './actualizar-perfil-present-verb';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class PresentVerbAprenderService {
 
   constructor(private http: HttpClient) { }
 
-  endpoint = 'http://192.168.1.9:81';
+  endpoint = environment.apiUrl;
 
   public obtenerRutina(ultimoIndiceVerboAprendido, numeroVerbosPorAprenderDiario, hojaTemaExcel):  Observable<string[]> { 
 

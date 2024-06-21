@@ -3,13 +3,14 @@ import { Autenticacion } from './autenticacion';
 import { Observable } from 'rxjs';
 import { InformacionAutorizacion } from './informacion-autorizacion';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AutenticacionService {
 
-  private autenticarseUrl = 'http://192.168.1.9:81/api/autenticacion';
+  private autenticarseUrl = environment.apiUrl + '/api/autenticacion';
 
   constructor(private http: HttpClient) { }
 

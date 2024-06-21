@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ActualizarUltimafecharutina } from './actualizar-ultimafecharutina';
+import { environment } from 'src/environments/environment';
+
 
 @Injectable({
   providedIn: 'root'
@@ -9,8 +11,7 @@ export class ActualizarUltimafecharutinaTemasService {
 
   constructor(private http: HttpClient) { }
 
-  endpoint = 'http://192.168.1.9:81';
-
+  endpoint = environment.apiUrl;
 
   public actualizarPerfil(actualizarUltimafecharutina: ActualizarUltimafecharutina){
 
