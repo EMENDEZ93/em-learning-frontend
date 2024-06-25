@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, HostListener, ElementRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { PresentVerbAprenderService } from './present-verb-aprender.service';
 import { ActualizarPerfilPresentVerb } from './actualizar-perfil-present-verb';
@@ -8,6 +8,8 @@ import { AppState } from '../dominio/estado/estado.reducer';
 import { actualizarHoja } from '../dominio/usuario/usuario.actions';
 import { Usuario } from '../dominio/usuario/usuario.model';
 import { DatePipe } from '@angular/common';
+import { Opcion } from '../present-verb/opcion';
+import { PresentVerbService } from '../present-verb/present-verb.service';
 
 export interface Brand {
   value: string;
@@ -21,202 +23,355 @@ export interface Brand {
 })
 export class PresentVerbAprenderComponent implements OnInit {
 
-  actualizarPerfilPresentVerb: ActualizarPerfilPresentVerb;
-
-  @Input() hojaTemaExcel: any;
-  @ViewChild('formulario', { static: false }) formulario;
 
   usuario: Usuario;
   hojaActual: string = "";
 
-  verboEntrada: string;
+  @Input() hojaTemaExcel: any;
+  @ViewChild('formulario', {static: false}) formulario;
+  
+  constructor(
+    public http: HttpClient, 
+    private presentVerbService: PresentVerbService,
+    private audioService : AudioService, 
+    private store: Store<AppState>) { }
+  
+  verboEntrada : string;
   spanishVerbo: string;
   englishVerbo: string;
-  speakFast: string;
   fonetica: string;
-  repeticionesAltaComoAprendidoTemporal = 0;
+  
   barraProgreso = 0;
-  colorBarraProgreso = 'alert alert-danger';
+  colorBarraProgreso = 'alert alert-danger';  
   colorSegunValidacionClass = 'border border-primary validacionVacia';
-  hoyYaRealizoAprender = true;
-  numeroPalabras = 0;
   cantidadVerbosReproducir = 0;
   patt1 = /\w+/g;
-
-  estado = false;
-
-  constructor(
-    public http: HttpClient,
-    private presentVerbService: PresentVerbAprenderService,
-    private audioService: AudioService,
-    private store: Store<AppState>) { }
+  hoyYaRealizoAprender = true;
+  numeroPalabras = 0;
 
   ngOnInit() {
   }
 
-  getRutina() {
-    this.getUsuario(true);
+  obtenerRutina(){ 
+    this.obtenerRutinaDos(true);
+    console.log(" obtenerRutinaDos ")
+
   }
 
-  getUsuario(estade: boolean) {
-    this.store.select('usuario').subscribe(
-      usuario => {
-        if(usuario.sistema.accion === "aprender") {
-          if (  this.isEmpty(this.usuario) || this.isEmpty(this.usuario.sistema.hojaSeleccionado.aprender) || this.hojaActual !== usuario.sistema.hojaSeleccionado.nombre) {         
-            this.hojaActual = usuario.sistema.hojaSeleccionado.nombre;
-            this.usuario = usuario;
-            this.presentVerbService.getRutinaByConfiguration(usuario.sistema).subscribe(
-              (aprender) => {
-                aprender.numeroVerbosAprender = aprender.english.length;
-                aprender.indiceVerboRetrocesoTemporal = 0;
-                aprender.indiceVerboValidar = 0;
-                aprender.indicesVerbosAprendidos = [];
-                usuario.sistema.hojaSeleccionado.aprender = aprender;
-                usuario.sistema.hojaSeleccionado.tipo = "A";
-                this.barraProgreso = 0;
-                this.repeticionesAltaComoAprendidoTemporal = 0;
-                this.hoyYaRealizoAprender = usuario.sistema.hojaSeleccionado.realizadoHoy;
-                this.ingresarInformacionAprender()
-              }, (error) => {
-                console.log("*****************************************")
-                console.log(error)
-               }
-            )
-          } 
-      }
+  obtenerRutinaDos(state: Boolean){
+      this.store.select('usuario').subscribe(
+            usuario => {     
+                 this.usuario = usuario; 
+                 this.activarAyuda = false;
+                 if(usuario.sistema.accion === "aprender") {
+                     if ((this.isEmpty(this.usuario.sistema.hojaSeleccionado.rutina) || this.hojaActual !== usuario.sistema.hojaSeleccionado.nombre)  ) {
+                          this.presentVerbService.getFilasRutina(usuario.sistema.hojaSeleccionado.id).subscribe(
+                            (rutina) => {
+                                   this.hojaActual = usuario.sistema.hojaSeleccionado.nombre;
+                                   rutina.numeroVerbosAprender = rutina.english.length;
+                                   rutina.indiceVerboRetrocesoTemporal = 0;
+                                   rutina.indiceVerboValidar = 0;
+                                   rutina.indicesVerbosAprendidos = [];
+                                   rutina.indicesVerbosRepasados = [];
+                                   rutina.numeroVerbosRutina = rutina.english.length;
+                                   usuario.sistema.hojaSeleccionado.tipo = "B";
+                                   usuario.sistema.hojaSeleccionado.rutina = rutina;
+                                   this.barraProgreso = 0;
 
-      }
-    );
+                                   console.log("this.hoyYaRealizoAprender: " + usuario.sistema.hojaSeleccionado.ultimaFechaAprendio)
+                                   this.hoyYaRealizoAprender = this.ultimaFechaAprendidaEsHoy(usuario.sistema.hojaSeleccionado.ultimaFechaAprendio);
+                                   this.ingresarInformacionRutina();
+                                   this.getNumeroPalabras();
+                                 }, (error) => { }
+                          )
+                    } else {
+                      console.log("ELSe**************")
+                    }
+                }
+            }
+        )
   }
+  
+
+  @Input() editable: boolean = true;
+  @Input() showOptions: boolean = false;
+  opciones : Opcion[] = [];
+  validarVerboEntredaConVerboRutina(verboEntrada){    
+    if(this.estaRutinaCompletada()){
+      this.actualizarPerfil();
+    } else if(this.esIgualVerbEntradaVerboRutina(verboEntrada)){
+      if(this.activarAyuda) {
+
+        setTimeout(() => {
+          this.formulario.resetForm();
+          this.verboEntradaInput.nativeElement.focus();
+          }, 1);
+
+          this.reproducir();
+          if(this.repeticionesPorAyuda == 5) {
+            this.activarAyuda = false;
+            this.repeticionesPorAyuda = 0;
+            this.continuarSiguienteVerbo(); 
+            this.getNumeroPalabras();
+            this.completarConOracionAnterior();
+
+          } else {
+            this.repeticionesPorAyuda ++;
+          }
+
+      } else {
+        //this.continuarSiguienteVerbo();
+        this.getNumeroPalabras();
+        this.completarConOracionAnterior();
 
 
-  isEmpty(obj) {
-    if (obj === undefined) return true;
-    return Object.keys(obj).length === 0;
-  }
+        // ----
+        this.actualizarVerbosAprendidos();
+        this.obtenerIndiceAleatoreo();
+        this.reproducir();
+        this.actualizarBarraProgreso();
+    
+        if(this.estaRutinaCompletada()){
+          this.actualizarPerfil();
+        }
+  
+        this.editable = true;
+        this.showOptions = false;
+  
+        setTimeout(() => {
+          this.formulario.resetForm();
+          this.verboEntradaInput.nativeElement.focus();
+          }, 1)
+        // ----
 
-  validarVerboEntredaConVerboPorAprender(verboEntrada) {
-    if (this.estaRutinaCompletada()) {
-      this.actualizacionPerfil();
-    } else if (this.esIgualVerbEntradaVerboRutina(verboEntrada)) {
-      this.configuracionAprender();
-      if (this.estaRutinaCompletada()) {
-        this.actualizacionPerfil();
+
       }
     }
   }
 
-  private actualizacionPerfil() {
-    this.presentVerbService.getUpdateHojaById(this.usuario.sistema.hojaSeleccionado.id).subscribe(
-      (hoja) => {
-          this.usuario.sistema.hojaSeleccionado = hoja;
-          this.store.dispatch(actualizarHoja({hojaSeleccionado: this.usuario.sistema.hojaSeleccionado}) )
-          this.hoyRealizoAprender();
-            },
-      (error) => {
-        console.log("************************************************")
-        console.log(error)
-      }
-    );
-  }
 
-  private configuracionAprender() {
-    this.formulario.resetForm();
-    this.obtenerSiguienteIndice();
-
-    if(this.usuario.sistema.hojaSeleccionado.aprender.orden) {
-      if(this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal > 0) {
-        this.verboEntrada = this.usuario.sistema.hojaSeleccionado.aprender.english[this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal - 1]
+  completarConOracionAnterior() {
+    if(this.usuario.sistema.hojaSeleccionado.rutina.orden) {
+      if(this.usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar > 0) {
+        this.verboEntrada = this.usuario.sistema.hojaSeleccionado.rutina.english[this.usuario.sistema.hojaSeleccionado.rutina.indiceVerboRetrocesoTemporal - 1]
       }
     }
+  }
 
-    this.reproducir();
+  continuarSiguienteVerbo() {
+    this.editable = false;
+    this.showOptions = true;
+
+    const cuatro = false;
+    let indices : number[] = [];
+    
+    while(!cuatro) {
+
+    let indiceAleatoreo = Math.floor(Math.random() * this.usuario.sistema.hojaSeleccionado.rutina.numeroVerbosRutina) + 0;
+      if(!indices.includes(indiceAleatoreo)) {
+        indices.push(indiceAleatoreo);
+      }
+
+      if(indices.length == 4 ) {
+        if(!indices.includes(this.usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar)) {
+          indices = [];
+        }
+      }
+
+      if(this.usuario.sistema.hojaSeleccionado.rutina.numeroVerbosRutina < 4 && indices.length == this.usuario.sistema.hojaSeleccionado.rutina.numeroVerbosRutina ) {
+        break;
+      }
+
+      if(indices.length == 4) {
+        break;
+      }
+    }
+    this.opciones = []
+    indices.forEach(element => {
+      this.opciones.push(new Opcion(this.usuario.sistema.hojaSeleccionado.rutina.spanish[element], element))
+    });
+  }
+
+  @ViewChild("verboEntradaInput", {static: false}) verboEntradaInput: ElementRef;
+  validarTraductorSeleccionado(indiceOpcion) {
+    //if(indiceOpcion == this.usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar ) {
+
+      this.actualizarVerbosAprendidos();
+      this.obtenerIndiceAleatoreo();
+      this.reproducir();
+      this.actualizarBarraProgreso();
+  
+      if(this.estaRutinaCompletada()){
+        this.actualizarPerfil();
+      }
+
+      this.editable = true;
+      this.showOptions = false;
+
+      setTimeout(() => {
+        this.formulario.resetForm();
+        this.verboEntradaInput.nativeElement.focus();
+        }, 1)
+
+    //}
+  }
+
+  key : string;
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) { 
+    this.key = event.key;
+    
+    if(this.showOptions) {
+      document.getElementById(event.key).click();
+    }
+    if(this.key === "Control" ){
+      document.getElementById(event.key).click();
+      console.log("zz")
+
+    }
+    if(this.key === "ArrowLeft" ){
+      console.log(this.key)
+    }
+    if(this.key === "Enter" ){
+      document.getElementById(event.key).click();
+    }
+    if(this.key === "ArrowDown" ){
+      document.getElementById(event.key).click();
+    }
+
+    console.log(event.key)
+
+  }
+
+  private actualizarPerfil() {
+    if(!this.ultimaFechaAprendidaEsHoy(this.usuario.sistema.hojaSeleccionado.ultimaFechaAprendio)) {
+      this.presentVerbService.updateRutinaById(this.usuario.sistema.hojaSeleccionado.id, 'APRENDER').subscribe(
+        (hoja) => {
+        this.usuario.sistema.hojaSeleccionado = hoja;  
+        this.usuario.sistema.hojaSeleccionado.realizadoRutinaHoy = true;
+        this.store.dispatch(actualizarHoja({hojaSeleccionado: this.usuario.sistema.hojaSeleccionado}) )
+      }, (error) => {
+          console.log(error)
+      });
+
+    } else {
+      console.log("Ya esta actualizado [actualizarPerfil]")
+    }
+
   }
 
   private esIgualVerbEntradaVerboRutina(verboEntrada: any) {
-    this.obtenerNumerosPalabras();
-    return verboEntrada.toUpperCase() == this.usuario.sistema.hojaSeleccionado.aprender.english[this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal].toUpperCase();
+    return verboEntrada.toUpperCase() == this.usuario.sistema.hojaSeleccionado.rutina.english[this.usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar].toUpperCase();
   }
 
-  ingresarInformacionAprender() {
+  ingresarInformacionRutina() {
+    this.obtenerIndiceAleatoreo();
     this.reproducir();
-  }
+  }  
 
-  obtenerSiguienteIndice() {
-    if (!this.estaRutinaCompletada()) {
-      if (this.esIgualrIndiceVerboRetrocesoTemporalIndiceVerboValidar()) {
-        if (this.esIgualRepeticionAlcaComoAprendioTemporalRepeticionAltaComoAprendido()) {
-          this.actualizarVerbosAprendidos();
-          this.actualizarBarraProgreso();
-          this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboValidar++;
-          this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal = 0;
-          this.repeticionesAltaComoAprendidoTemporal = 0;
-          this.repeticionesAltaComoAprendidoTemporal++;
-          this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal++;
-        
-        } else {
-          //this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal = 0;
-          this.repeticionesAltaComoAprendidoTemporal++;
+  obtenerIndiceAleatoreo(){
+    const existeMasVerbosPorRepasar = true;
+
+    if(this.usuario.sistema.hojaSeleccionado.rutina.orden) {
+      while(existeMasVerbosPorRepasar){
+        if(this.estaRutinaCompletada()){
+          break;
         }
-
-      } else {
-        this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal++;
+        const indiceAleatoreo = this.usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar ++; 
+        if(!this.usuario.sistema.hojaSeleccionado.rutina.indicesVerbosRepasados.includes(indiceAleatoreo)){
+          this.usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar = indiceAleatoreo;
+          break;
+        } 
+      }
+    } else {
+      while(existeMasVerbosPorRepasar){
+        if(this.estaRutinaCompletada()){
+          break;
+        }
+        const indiceAleatoreo = Math.floor(Math.random() * this.usuario.sistema.hojaSeleccionado.rutina.numeroVerbosRutina) + 0 
+        if(!this.usuario.sistema.hojaSeleccionado.rutina.indicesVerbosRepasados.includes(indiceAleatoreo)){
+          this.usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar = indiceAleatoreo;
+          break;
+        } 
       }
 
-    } else {
-      console.log('------- Rutina Completada 2 --------')
     }
   }
 
-  private esIgualRepeticionAlcaComoAprendioTemporalRepeticionAltaComoAprendido() {
-    return this.repeticionesAltaComoAprendidoTemporal == this.usuario.sistema.hojaSeleccionado.repeticionesAltaComoAprendido;
-  }
-
-
-  esIgualrIndiceVerboRetrocesoTemporalIndiceVerboValidar() {
-    return this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal == this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboValidar;
-  }
-
-  estaRutinaCompletada() {
-    if(!this.isEmpty(this.usuario.sistema.hojaSeleccionado.aprender)) {
-      const rutinaCompletada = Array.from({ length: this.usuario.sistema.hojaSeleccionado.aprender.numeroVerbosAprender }, (v, k) => k);
-      const rutinaActual = this.usuario.sistema.hojaSeleccionado.aprender.indicesVerbosAprendidos;
-      if (this.isEmpty(rutinaActual)) {
-        return false;
-      }
-      return JSON.stringify(rutinaCompletada.sort()) == JSON.stringify(rutinaActual.sort());
-    } else {
-      return true;
+  estaRutinaCompletada(){
+    const rutinaCompletada =  Array.from({length: this.usuario.sistema.hojaSeleccionado.rutina.numeroVerbosRutina}, (v, k) => k); 
+    const rutinaActual =  this.usuario.sistema.hojaSeleccionado.rutina.indicesVerbosRepasados; 
+    if(this.isEmpty(rutinaActual)) {
+      return false;
     }
+    return JSON.stringify(rutinaCompletada.sort()) == JSON.stringify(rutinaActual.sort());
   }
 
-  actualizarVerbosAprendidos() {
-    this.usuario.sistema.hojaSeleccionado.aprender.indicesVerbosAprendidos.push(this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboValidar);
+  isEmpty(obj) {
+    if(obj === undefined) return true;
+    return Object.keys(obj).length === 0;
   }
 
-  reproducir() {
-    if (!this.hoyRealizoAprender()) {
-      console.log("Reproduccion:PresentVerbAprenderComponente");
-      this.speakFast = this.usuario.sistema.hojaSeleccionado.aprender.allSpeakFast[this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal]
-      if(this.speakFast !== 'NO_APLICA') {
-        this.audioService.reproducir(this.speakFast);
+  actualizarVerbosAprendidos(){
+    this.usuario.sistema.hojaSeleccionado.rutina.indicesVerbosRepasados.push(this.usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar);
+  }
+
+  actualizarBarraProgreso(){
+    this.activarAyuda = false;
+    this.barraProgreso = (this.usuario.sistema.hojaSeleccionado.rutina.indicesVerbosRepasados.length/this.usuario.sistema.hojaSeleccionado.rutina.numeroVerbosRutina) * 100;
+  }
+
+  reproducir(){
+    if(this.usuario.sistema.accion === "aprender" && !this.ultimaFechaAprendidaEsHoy(this.usuario.sistema.hojaSeleccionado.ultimaFechaAprendio) && !this.estaRutinaCompletada()) {
+      let speakFast = this.usuario.sistema.hojaSeleccionado.rutina.allSpeakFast[this.usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar];
+      if(speakFast !== 'NO_APLICA') {
+        this.audioService.reproducir(speakFast);
         console.log("this.audioService.reproducir(speakFast)");
       } else {
-        this.audioService.reproducir(this.usuario.sistema.hojaSeleccionado.aprender.english[this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal]);
+        this.audioService.reproducir(this.usuario.sistema.hojaSeleccionado.rutina.english[this.usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar]);      
       }
-      this.spanishVerbo = this.usuario.sistema.hojaSeleccionado.aprender.spanish[this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal]
-      this.englishVerbo = this.usuario.sistema.hojaSeleccionado.aprender.english[this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal]
-      this.fonetica = this.usuario.sistema.hojaSeleccionado.aprender.fonetica[this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal]
-      this.obtenerNumerosPalabras();
+
+      this.spanishVerbo = this.usuario.sistema.hojaSeleccionado.rutina.spanish[this.usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar];
+      this.englishVerbo = this.usuario.sistema.hojaSeleccionado.rutina.english[this.usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar];
+      this.fonetica =     this.usuario.sistema.hojaSeleccionado.rutina.fonetica[this.usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar];
+
+      console.log("Reproduccion:PresentVerbComponente");
+    }
+    this.getNumeroPalabras();
+  }
+
+
+  activarAyuda = false
+  palabraActual = '';
+  repeticionesPorAyuda: number;
+  mostrarAyuda() {
+    if(!this.estaRutinaCompletada()) {
+    this.activarAyuda = true
+    this.palabraActual = this.usuario.sistema.hojaSeleccionado.rutina.english[this.usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar] + " / "+ 
+    this.usuario.sistema.hojaSeleccionado.rutina.spanish[this.usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar];
+    
+    this.repeticionesPorAyuda = 0;
+    }
+  }
+
+
+  colorSegunValidacion(verboEntrada) {
+    if (verboEntrada.trim() == "") {
+      this.colorSegunValidacionClass = 'border border-primary validacionVacia';
+    } else if (this.usuario.sistema.hojaSeleccionado.rutina.english[this.usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar].toUpperCase().includes(verboEntrada.toUpperCase())) {
+      this.colorSegunValidacionClass = 'border border-success validacionExitosa';
+    } else {
+      this.colorSegunValidacionClass = 'border border-danger validacionError';
     }
   }
 
   reproducirSiguientePalabra() {
+    console.log("reproducirSiguientePalabra")
     this.audioService.reproducir(this.obtenerSiguientePalabra());
   }
 
   obtenerSiguientePalabra() {
-    var arrayEsperado = this.usuario.sistema.hojaSeleccionado.aprender.english[this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal].match(this.patt1);
+    var arrayEsperado = this.usuario.sistema.hojaSeleccionado.rutina.english[this.usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar].match(this.patt1);
     var arrayActual = this.verboEntrada == null || this.verboEntrada.trim() == '' ? [''] : this.verboEntrada.match(this.patt1);
 
     let i;
@@ -235,82 +390,76 @@ export class PresentVerbAprenderComponent implements OnInit {
       verbos = verbos + arrayEsperado[x] + ' ';
     }
     return verbos;
-
-  }
-
-  hoyRealizoAprender(): boolean {
-    this.hoyYaRealizoAprender = this.estaRutinaCompletada() || this.ultimaFechaAprendidaEsHoy();
-    return this.hoyYaRealizoAprender;
-  }
-
-  actualizarBarraProgreso() {
-    this.barraProgreso = (this.usuario.sistema.hojaSeleccionado.aprender.indicesVerbosAprendidos.length / this.usuario.sistema.hojaSeleccionado.aprender.numeroVerbosAprender) * 100;
-  }
-
-  activarAyuda = false
-  palabraActual = '';
-  mostrarAyuda() {
-    this.activarAyuda = true
-    this.palabraActual = this.usuario.sistema.hojaSeleccionado.aprender.english[this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboValidar];
-    setTimeout(() => {
-      this.activarAyuda = false
-    }, 3000)
   }
 
   mostrarSiguientePalabra() {
-    this.activarAyuda = true
-    this.palabraActual = this.obtenerSiguientePalabra();
-    setTimeout(() => {
-      this.activarAyuda = false
-    }, 3000)
+    console.log("mostrarSiguientePalabra")
+    this.audioService.reproducir(this.palabraActual);
   }
 
-  colorSegunValidacion(verboEntrada) {
-    if (verboEntrada.trim() == "") {
-      this.colorSegunValidacionClass = 'border border-primary validacionVacia';
-    } else if (this.usuario.sistema.hojaSeleccionado.aprender.english[this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal].toUpperCase().includes(verboEntrada.toUpperCase())) {
-      this.colorSegunValidacionClass = 'border border-success validacionExitosa';
-    } else {
-      this.colorSegunValidacionClass = 'border border-danger validacionError';
-    }
-  }
 
-  obtenerNumerosPalabras() {
-    this.hoyYaRealizoAprender = this.usuario.sistema.hojaSeleccionado.realizadoHoy;
-    if(!this.hoyYaRealizoAprender) {
-      this.hoyYaRealizoAprender = this.usuario.sistema.hojaSeleccionado.aprender.english.length <= 0;
-    }
-    
-    if (!this.usuario.sistema.hojaSeleccionado.realizadoHoy && this.usuario.sistema.hojaSeleccionado.aprender.english.length > 0 ) {
-      var arrayEsperado = this.usuario.sistema.hojaSeleccionado.aprender.english[this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal].match(this.patt1);
-      var arrayActual = this.verboEntrada == null || this.verboEntrada.trim() == '' ? [''] : this.verboEntrada.match(this.patt1);
-      let i;
-      let verbos = '';
-      for (i = 0; i < arrayEsperado.length; i++) {
-        if (i >= arrayActual.length) {
-          break;
-        }
-        if (arrayEsperado[i].toUpperCase() != arrayActual[i].toUpperCase()) {
-          break;
-        }
-      }
-      this.numeroPalabras = arrayEsperado.length - i;
-    }
-  }
-
-  public ultimaFechaAprendidaEsHoy(): boolean {
-    return new Date(this.transformarDate(this.usuario.sistema.hojaSeleccionado.ultimaFechaAprendio) ) >= new Date(  this.transformarDate(Date.now()) );
-  }
-
-  public ultimaFechaAprendidaEsHoyDos(ultimaFechaAprendio: Date): boolean {
-    if(undefined === ultimaFechaAprendio) {
+  public ultimaFechaAprendidaEsHoy(ultimaFechaAprendio: Date): boolean {
+    if(undefined === ultimaFechaAprendio || null === ultimaFechaAprendio) {
       return false;
     }
+    
+    console.log("ultimaFechaAprendio: " + ultimaFechaAprendio);
+
     return new Date(this.transformarDate(ultimaFechaAprendio) ) >= new Date(  this.transformarDate(Date.now()) );
   }
 
   private transformarDate(date){
     return new DatePipe('en-LA').transform(date, 'shortDate'); 
   }
+
+
+  spelling() {
+
+        if(
+          this.formulario.form.value["in"] === undefined ||
+          this.formulario.form.value["in"] === null ||
+          this.formulario.form.value["in"].trim() === '' 
+        ) {
+          let spell = this.usuario.sistema.hojaSeleccionado.rutina
+          .english[this.usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar].toUpperCase();
+
+          if(spell.includes(" ")) {
+            console.log("spelling if")
+            this.audioService.reproducir(spell.split(' ')[0].split(""));
+          } else {
+            console.log("spelling else")
+            this.audioService.reproducir(spell.split("").toString());
+          }
+        } else {
+
+          let spell = this.usuario.sistema.hojaSeleccionado.rutina
+          .english[this.usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar].toUpperCase()
+          .replace(this.formulario.form.value["in"].toUpperCase(), "")
+          .split("").toString();
+  
+          if(spell.startsWith(" ")) {
+            spell = spell.substring(2);
+            if(spell.includes(" ")) {
+              spell = spell.split(', ')[0];
+            }
+          }
+
+          if(spell.includes(" ")) {
+            spell = spell.split(', ')[0];
+          }
+  
+          console.log("spelling")
+          this.audioService.reproducir(spell);
+        }
+
+        this.verboEntradaInput.nativeElement.focus();
+  }
+
+
+  getNumeroPalabras() {
+    var arrayEsperado = this.usuario.sistema.hojaSeleccionado.rutina.english[this.usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar].match(this.patt1);
+    this.numeroPalabras = arrayEsperado.length; 
+  }
+
 
 }

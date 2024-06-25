@@ -36,8 +36,8 @@ export class PresentVerbService {
     return this.http.get<Rutina>(this.endpoint + '/api/present/verb/filas/rutina/' + idHoja);
   }
 
-  public updateRutinaById(idHoja: number): Observable<Hoja>{
-    return this.http.get<Hoja>(this.endpoint+"/api/present/verb/hoja/rutina/" + idHoja);
+  public updateRutinaById(idHoja: number, tipoActualizacion: string): Observable<Hoja>{
+    return this.http.get<Hoja>(this.endpoint+"/api/present/verb/hoja/rutina/" + idHoja + "/" + tipoActualizacion);
   }
 
   public updateSpeakingById(idHoja: number): Observable<Hoja>{

@@ -405,8 +405,8 @@ export class SpeakingComponent {
 			if (this.showOptions) {
 				document.getElementById(event.key).click();
 			}
-			if (this.key === "Control") {
-				document.getElementById(event.key).click();
+			if (this.key === "ArrowRight") {
+				document.getElementById("ArrowRight").click();
 			}
 			if (this.key === "ArrowLeft") {
 				console.log(this.key)
@@ -423,7 +423,7 @@ export class SpeakingComponent {
 				document.getElementById(event.key).click();
 			}
 	
-			console.log(event.key)
+			console.log("Click" + event.key)
 	
 		}
 		
@@ -513,14 +513,36 @@ export class SpeakingComponent {
 		this.barraProgreso = (this.usuario.sistema.hojaSeleccionado.rutina.indicesVerbosRepasados.length / this.usuario.sistema.hojaSeleccionado.rutina.numeroVerbosRutina) * 100;
 	}
 
+
 	reproducir() {
-		if (!this.ultimaFechaAprendidaEsHoy(this.usuario.sistema.hojaSeleccionado.ultimaFechaRutina) && !this.estaRutinaCompletada()) {
-			console.log("Reproduccion:SpeakingComponente");
-			this.audioService.reproducir(this.usuario.sistema.hojaSeleccionado.rutina.english[this.usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar]);
+		if(this.usuario.sistema.accion === "speaking" && !this.ultimaFechaAprendidaEsHoy(this.usuario.sistema.hojaSeleccionado.ultimaFechaSpeaking) && !this.estaRutinaCompletada()) {
+			let speakFast = this.usuario.sistema.hojaSeleccionado.rutina.allSpeakFast[this.usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar];
+			if(speakFast !== 'NO_APLICA' && speakFast !== '') {
+			  this.audioService.reproducir(speakFast);
+			  console.log("this.audioService.reproducir({" + speakFast+ "})");
+			} else {
+			  this.audioService.reproducir(this.usuario.sistema.hojaSeleccionado.rutina.english[this.usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar]);      
+			}
 		}
 		this.getNumeroPalabras();
 	}
 
+	intentos = 0;
+	intentos_alta =1;
+	next() {
+		if(this.intentos == this.intentos_alta) { 
+			if (!this.ultimaFechaAprendidaEsHoy(this.usuario.sistema.hojaSeleccionado.ultimaFechaSpeaking) && !this.estaRutinaCompletada()) {
+				let sentence = this.usuario.sistema.hojaSeleccionado.rutina.english[this.usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar];
+				console.log(sentence);
+				this.verboEntrada = sentence;
+				this.validarVerboEntredaConVerboRutina(sentence);
+			}	
+			this.intentos = 0;
+		} else {
+			this.reproducir();
+			this.intentos++;
+		}
+	}
 
 	activarAyuda = false
 	palabraActual = '';
@@ -592,6 +614,5 @@ export class SpeakingComponent {
 		var arrayEsperado = this.usuario.sistema.hojaSeleccionado.rutina.english[this.usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar].match(this.patt1);
 		this.numeroPalabras = arrayEsperado.length;
 	}
-
 
 }

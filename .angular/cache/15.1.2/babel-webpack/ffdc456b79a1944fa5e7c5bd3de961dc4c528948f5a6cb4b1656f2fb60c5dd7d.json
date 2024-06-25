@@ -1,1 +1,0 @@
-{"ast":null,"code":"export class Registrer {\n  constructor(id, correo, contrasena) {\n    this.id = id;\n    this.correo = correo;\n    this.contrasena = contrasena;\n    this.ultimoIndiceAprendido = 0;\n  }\n}","map":null,"metadata":{},"sourceType":"module","externalDependencies":[]}

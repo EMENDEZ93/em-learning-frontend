@@ -17,14 +17,16 @@
 
                     <form class="">
                         <mat-form-field class="em-margin-input" style="width: 75%;" id="verb_input">
-                            <input *ngIf="isEmpty(usuario.sistema.hojaSeleccionado.rutina.english) === false" autocomplete="off" id="entrada" matInput type="text" placeholder="" class="form-control" name="in" readonly [(ngModel)]="usuario.sistema.hojaSeleccionado.rutina.english[usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar]"
-                                style="text-align:center; background-color: #3CBC8D;" autofocus>
+                            <input *ngIf="isEmpty(usuario.sistema.hojaSeleccionado.rutina.english) === false" autocomplete="off" id="entrada" matInput type="text" placeholder="" class="form-control" name="in" readonly 
+                            [(ngModel)]="usuario.sistema.hojaSeleccionado.rutina.english[usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar]"
+                                style="text-align:center; background-color: #3CBC8D; color: revert;" autofocus>
                         </mat-form-field>
                     </form>
 
                     <form class="">
                         <mat-form-field style="width: 75%;">
-                            <input autocomplete="off" matInput type="text" placeholder="" class="form-control" name="in" readonly [(ngModel)]="said" style="text-align:center; background-color: #3cabbc;">
+                            <input autocomplete="off" matInput type="text" placeholder="" class="form-control" name="in" readonly 
+                            [(ngModel)]="usuario.sistema.hojaSeleccionado.rutina.fonetica[usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar]" style="text-align:center; background-color: #3cabbc; color: revert;">
                         </mat-form-field>
                     </form>
 
@@ -78,7 +80,8 @@
             <div class="row">
                 <div class="col-sm">
                     <nav class="em-nav nav flex-column float-right">
-                        <button id="Control" (click)="reproducir()" type="button" class="btn btn-primary"> * Reproducir *</button>
+                        <button id="ArrowRight" (click)="next()" type="button" class="btn btn-primary"> * Next {{this.intentos}} / {{this.intentos_alta}} *</button>
+                        <button id="ArrowLeft" (click)="reproducir()" type="button" class="btn btn-primary"> * Reproducir *</button>
                         <div class="container-reproducir-siguiente">
                             <button (click)="reproducirSiguientePalabra()" type="button" class="btn btn-primary">Reproducir</button>
                             <select class="verbos-reproducir" id="exampleFormControlSelect1" [(ngModel)]="cantidadVerbosReproducir">

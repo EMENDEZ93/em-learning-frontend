@@ -49,3 +49,8 @@ Thumbs.db
 .angualr/
 .angualr
 .angualr*
+.angualr/cache
+.angualr/cache/*
+*.angualr/cache/*
+*.angualr
+

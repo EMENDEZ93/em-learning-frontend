@@ -36,6 +36,7 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth'
 import { ConversacionComponent } from './conversacion/conversacion.component';
 import { TranslateComponent } from './translate/translate.component';
 import { SpeakingComponent } from './speaking/speaking.component';
+import { ReadingComponent } from './reading/reading.component';
 
 
 
@@ -49,7 +50,8 @@ import { SpeakingComponent } from './speaking/speaking.component';
     RegistrerComponent,
     TranslateComponent,
     ConversacionComponent,
-    SpeakingComponent
+    SpeakingComponent,
+    ReadingComponent
   ],
   imports: [
     BrowserModule,

@@ -211,7 +211,7 @@ export class PresentVerbComponent implements OnInit {
 
   private actualizarPerfil() {
     if(!this.ultimaFechaAprendidaEsHoy(this.usuario.sistema.hojaSeleccionado.ultimaFechaRutina)) {
-      this.presentVerbService.updateRutinaById(this.usuario.sistema.hojaSeleccionado.id).subscribe(
+      this.presentVerbService.updateRutinaById(this.usuario.sistema.hojaSeleccionado.id, 'RUTINA').subscribe(
         (hoja) => {
         this.usuario.sistema.hojaSeleccionado = hoja;  
         this.usuario.sistema.hojaSeleccionado.realizadoRutinaHoy = true;

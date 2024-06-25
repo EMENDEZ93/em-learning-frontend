@@ -35,12 +35,12 @@
     <div *ngIf="!isEmpty(usuario.sistema.hojaSeleccionado)">
         <div class="tabs-em container">
 
-            <button class="tablink" (click)="openPage('Home', 'aprender')">Aprender | {{usuario.sistema.hojaSeleccionado.nombre}}</button>
+            <button class="tablink" (click)="openPage('translate', 'translate')">Translate | {{usuario.sistema.hojaSeleccionado.nombre}}</button>
             <button class="tablink" (click)="openPage('News', 'rutina')" id="defaultOpen">Rutina | {{usuario.sistema.hojaSeleccionado.nombre}}</button>
             <button class="tablink" (click)="openPage('Contact', 'speaking')">Speaking | {{usuario.sistema.hojaSeleccionado.nombre}}</button>
 
-            <div id="Home" class="tabcontent">
-                <app-present-verb-aprender></app-present-verb-aprender>
+            <div id="translate" class="tabcontent">
+                <app-translate></app-translate>
             </div>
             <div id="News" class="tabcontent">
                 <app-present-verb></app-present-verb>

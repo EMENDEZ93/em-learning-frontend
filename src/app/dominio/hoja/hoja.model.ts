@@ -22,6 +22,7 @@ export class Hoja {
     public ultimaFechaAprendio: Date;
     public ultimaFechaRutina: Date;
     public ultimaFechaSpeaking: Date;
+    public ultimaFechaTranslate: Date;
     public porRutina: Boolean;
     public speaking: Boolean;
 
