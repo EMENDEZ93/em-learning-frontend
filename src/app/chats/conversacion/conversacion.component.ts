@@ -11,7 +11,7 @@ export class ConversacionComponent implements OnInit {
 
 
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+    
   }
 
 }

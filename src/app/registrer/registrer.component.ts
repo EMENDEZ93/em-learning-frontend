@@ -14,7 +14,9 @@ export class RegistrerComponent implements OnInit {
 
 registrerFormGroup: FormGroup;
 
-  constructor(private fb: FormBuilder, private registerServices: RegistrerService,
+  constructor(
+    private fb: FormBuilder, 
+    private registerServices: RegistrerService,
     private router: Router) { }
 
   

@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild, Input, ElementRef, HostListener } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { AudioService } from '../comun/audio/audio.service';
 import { Opcion } from './opcion';
 import { Store } from '@ngrx/store';
@@ -23,7 +22,6 @@ export class PresentVerbComponent implements OnInit {
   @ViewChild('formulario', {static: false}) formulario;
   
   constructor(
-    public http: HttpClient, 
     private presentVerbService: PresentVerbService,
     private audioService : AudioService, 
     private store: Store<AppState>) { }
@@ -365,7 +363,6 @@ export class PresentVerbComponent implements OnInit {
 
 
   spelling() {
-
         if(
           this.formulario.form.value["in"] === undefined ||
           this.formulario.form.value["in"] === null ||

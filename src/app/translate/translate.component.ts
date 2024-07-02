@@ -1,5 +1,4 @@
 import { DatePipe } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, HostListener, Input, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AudioService } from '../comun/audio/audio.service';
@@ -24,7 +23,6 @@ export class TranslateComponent implements OnInit {
   @ViewChild('formulario', {static: false}) formulario;
   
   constructor(
-    public http: HttpClient, 
     private presentVerbService: PresentVerbService,
     private audioService : AudioService, 
     private store: Store<AppState>) { }

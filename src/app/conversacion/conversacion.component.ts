@@ -1,5 +1,4 @@
 import { DatePipe } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AudioService } from '../comun/audio/audio.service';
@@ -37,7 +36,6 @@ export class ConversacionComponent implements OnInit {
   patt1 = /\w+/g;
 
   constructor(
-    public http: HttpClient,
     private audioService: AudioService,
     private store: Store<AppState>,
     private conversacionService: ConversacionService
