@@ -125,5 +125,8 @@
             }
         }
     },
-    "defaultProject": "em-learning"
+    "defaultProject": "em-learning",
+    "cli": {
+      "analytics": "1e3c1019-d8b8-40df-888f-c155d43ff149"
+    }
 }
