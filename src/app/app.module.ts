@@ -52,7 +52,6 @@ import { SpeakingComponent } from './speaking/speaking.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserModule,
     BrowserAnimationsModule,
     MatTabsModule,
     MatInputModule,
