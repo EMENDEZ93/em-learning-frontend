@@ -32,6 +32,8 @@ export class PresentVerbAprenderComponent implements OnInit {
   verboEntrada: string;
   spanishVerbo: string;
   englishVerbo: string;
+  foneticaVerbo: string;
+
   repeticionesAltaComoAprendidoTemporal = 0;
   barraProgreso = 0;
   colorBarraProgreso = 'alert alert-danger';
@@ -81,8 +83,14 @@ export class PresentVerbAprenderComponent implements OnInit {
                }
             )
           } 
+      } else {
+        console.log("*************** elsessssssssssssss **************************")
       }
 
+      },
+      (error) => {
+        console.log("*****************************************")
+        console.log(error)
       }
     );
   }
@@ -198,6 +206,7 @@ export class PresentVerbAprenderComponent implements OnInit {
       this.audioService.reproducir(this.usuario.sistema.hojaSeleccionado.aprender.english[this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal]);
       this.spanishVerbo = this.usuario.sistema.hojaSeleccionado.aprender.spanish[this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal]
       this.englishVerbo = this.usuario.sistema.hojaSeleccionado.aprender.english[this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal]
+      this.foneticaVerbo = this.usuario.sistema.hojaSeleccionado.aprender.fonetica[this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal]
       this.obtenerNumerosPalabras();
     }
   }
@@ -230,7 +239,7 @@ export class PresentVerbAprenderComponent implements OnInit {
   }
 
   hoyRealizoAprender(): boolean {
-    this.hoyYaRealizoAprender = this.estaRutinaCompletada() || this.ultimaFechaAprendidaEsHoy();
+    this.hoyYaRealizoAprender = this.estaRutinaCompletada() || this.ultimaFechaAprendidaEsHoy();    
     return this.hoyYaRealizoAprender;
   }
 
