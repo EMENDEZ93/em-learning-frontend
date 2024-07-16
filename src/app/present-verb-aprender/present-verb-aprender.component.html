@@ -22,7 +22,7 @@
 
                     <form class="" #formulario="ngForm">
                         <mat-form-field class="em-margin-input" style="width: 75%;" id="verb_input">
-                            <textarea autocomplete="off" matInput type="text" placeholder="" class="form-control {{colorSegunValidacionClass}}" name="in" (input)="validarVerboEntredaConVerboPorAprender($event.target.value); colorSegunValidacion($event.target.value);" [(ngModel)]="verboEntrada"></textarea>
+                            <textarea autocomplete="off" matInput type="text" placeholder="{{englishVerbo}}" class="form-control {{colorSegunValidacionClass}}" name="in" (input)="validarVerboEntredaConVerboPorAprender($event.target.value); colorSegunValidacion($event.target.value);" [(ngModel)]="verboEntrada"></textarea>
                         </mat-form-field>
                     </form>
                 </div>

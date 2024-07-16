@@ -148,8 +148,8 @@ export class PresentVerbAprenderComponent implements OnInit {
           this.actualizarBarraProgreso();
           this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboValidar++;
           //this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal = 0;
-          this.repeticionesAltaComoAprendidoTemporal = 0;
-          this.repeticionesAltaComoAprendidoTemporal++;
+          this.repeticionesAltaComoAprendidoTemporal = 1;
+          //this.repeticionesAltaComoAprendidoTemporal++;
           this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal++;
         
         } else {
@@ -167,7 +167,7 @@ export class PresentVerbAprenderComponent implements OnInit {
   }
 
   private esIgualRepeticionAlcaComoAprendioTemporalRepeticionAltaComoAprendido() {
-    return this.repeticionesAltaComoAprendidoTemporal == this.usuario.sistema.hojaSeleccionado.repeticionesAltaComoAprendido;
+    return this.repeticionesAltaComoAprendidoTemporal >= this.usuario.sistema.hojaSeleccionado.repeticionesAltaComoAprendido;
   }
 
 
