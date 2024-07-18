@@ -313,4 +313,9 @@ export class PresentVerbAprenderComponent implements OnInit {
     return new DatePipe('en-LA').transform(date, 'shortDate'); 
   }
 
+  autocompletar() {
+    this.verboEntrada = this.usuario.sistema.hojaSeleccionado.aprender.english[this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal];
+    this.validarVerboEntredaConVerboPorAprender(this.verboEntrada);
+  }
+
 }
