@@ -33,6 +33,7 @@ export class PresentVerbAprenderComponent implements OnInit {
   spanishVerbo: string;
   englishVerbo: string;
   foneticaVerbo: string;
+  slangVerbo: string;
 
   repeticionesAltaComoAprendidoTemporal = 0;
   barraProgreso = 0;
@@ -203,7 +204,18 @@ export class PresentVerbAprenderComponent implements OnInit {
   reproducir() {
     if (!this.hoyRealizoAprender()) {
       console.log("Reproduccion:PresentVerbAprenderComponente");
-      this.audioService.reproducir(this.usuario.sistema.hojaSeleccionado.aprender.english[this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal]);
+
+      this.slangVerbo = this.usuario.sistema.hojaSeleccionado.aprender.allSpeakFast[this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal];
+
+      // if que valida que no sea diferente de NO_APLICA
+      if (this.slangVerbo !== "NO_APLICA") {
+        this.audioService.reproducir(this.slangVerbo);
+      } else {
+        this.audioService.reproducir(this.usuario.sistema.hojaSeleccionado.aprender.english[this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal]);
+      }
+      
+      //this.audioService.reproducir(this.usuario.sistema.hojaSeleccionado.aprender.english[this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal]);
+
       this.spanishVerbo = this.usuario.sistema.hojaSeleccionado.aprender.spanish[this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal]
       this.englishVerbo = this.usuario.sistema.hojaSeleccionado.aprender.english[this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal]
       this.foneticaVerbo = this.usuario.sistema.hojaSeleccionado.aprender.fonetica[this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal]
