@@ -8,6 +8,7 @@ import { AppState } from '../dominio/estado/estado.reducer';
 import { actualizarHoja } from '../dominio/usuario/usuario.actions';
 import { Usuario } from '../dominio/usuario/usuario.model';
 import { DatePipe } from '@angular/common';
+import { Example } from '../dominio/rutina/example.model';
 
 export interface Brand {
   value: string;
@@ -34,6 +35,7 @@ export class PresentVerbAprenderComponent implements OnInit {
   englishVerbo: string;
   foneticaVerbo: string;
   slangVerbo: string;
+  examples: Example;
 
   repeticionesAltaComoAprendidoTemporal = 0;
   barraProgreso = 0;
@@ -219,6 +221,7 @@ export class PresentVerbAprenderComponent implements OnInit {
       this.spanishVerbo = this.usuario.sistema.hojaSeleccionado.aprender.spanish[this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal]
       this.englishVerbo = this.usuario.sistema.hojaSeleccionado.aprender.english[this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal]
       this.foneticaVerbo = this.usuario.sistema.hojaSeleccionado.aprender.fonetica[this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal]
+      this.examples = this.usuario.sistema.hojaSeleccionado.aprender.example[this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal];
       this.obtenerNumerosPalabras();
     }
   }

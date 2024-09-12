@@ -20,8 +20,25 @@
                             <label style="width: 75%;">{{foneticaVerbo}}</label>
                             <label style="width: 75%;">{{spanishVerbo}}</label>
                         </mat-form-field>
+
+                        <div class="col-sm">
+                            <table >
+                                <div *ngFor='let example of examples'>
+                                    <tr>
+                                        <td>{{example.english}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>{{example.fonetica}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>{{example.spanish}}</td>
+                                    </tr>
+                                </div>    
+                            </table>    
+                        </div>
                     </form>
                 </div>
+
             </div>
             <div class="row">
                 <div class="col-sm">
