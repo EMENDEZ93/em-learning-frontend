@@ -94,3 +94,13 @@ display: -webkit-inline-box;
 p {
   color: white;
 }
+
+table, th, td {
+  border: 1px solid rgb(251, 242, 242);
+  border-collapse: collapse;
+  border-style: dotted;
+}
+
+table {
+  width: 80%;
+}

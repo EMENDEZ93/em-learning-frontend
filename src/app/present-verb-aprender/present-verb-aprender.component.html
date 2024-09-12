@@ -21,21 +21,27 @@
                             <label style="width: 75%;">{{spanishVerbo}}</label>
                         </mat-form-field>
 
-                        <div class="col-sm">
-                            <table >
-                                <div *ngFor='let example of examples'>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>N°</th>
+                                    <th>Example</th>
+                                    <th>Translate</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <ng-container *ngFor="let example of examples.slice().reverse(); let i = index;">
                                     <tr>
-                                        <td>{{example.english}}</td>
+                                        <th rowspan="2"> {{i}}</th>
+                                        <th>{{example.english}}</th>
+                                        <td rowspan="2">{{example.spanish}}</td>
                                     </tr>
                                     <tr>
                                         <td>{{example.fonetica}}</td>
                                     </tr>
-                                    <tr>
-                                        <td>{{example.spanish}}</td>
-                                    </tr>
-                                </div>    
-                            </table>    
-                        </div>
+                                </ng-container>
+                            </tbody>
+                        </table>
                     </form>
                 </div>
 

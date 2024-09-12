@@ -5,7 +5,7 @@ export class Rutina {
     spanish: string[];
     fonetica: string[];
     allSpeakFast: string[];
-    example: Example[];
+    example: Example[][];
     numeroVerbosAprender: number;
     indiceVerboValidar: number = 0;
     indiceVerboRetrocesoTemporal: number = 0;

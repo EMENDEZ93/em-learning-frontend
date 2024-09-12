@@ -9,6 +9,8 @@ import { actualizarHoja } from '../dominio/usuario/usuario.actions';
 import { Usuario } from '../dominio/usuario/usuario.model';
 import { DatePipe } from '@angular/common';
 import { Example } from '../dominio/rutina/example.model';
+import { of } from 'rxjs';
+import { filter, defaultIfEmpty } from 'rxjs/operators';
 
 export interface Brand {
   value: string;
@@ -35,7 +37,8 @@ export class PresentVerbAprenderComponent implements OnInit {
   englishVerbo: string;
   foneticaVerbo: string;
   slangVerbo: string;
-  examples: Example;
+  examples: Example[];
+  numero_examples: number;
 
   repeticionesAltaComoAprendidoTemporal = 0;
   barraProgreso = 0;
@@ -221,7 +224,11 @@ export class PresentVerbAprenderComponent implements OnInit {
       this.spanishVerbo = this.usuario.sistema.hojaSeleccionado.aprender.spanish[this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal]
       this.englishVerbo = this.usuario.sistema.hojaSeleccionado.aprender.english[this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal]
       this.foneticaVerbo = this.usuario.sistema.hojaSeleccionado.aprender.fonetica[this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal]
+
+      this.usuario.sistema.hojaSeleccionado.aprender.example[this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal];
+
       this.examples = this.usuario.sistema.hojaSeleccionado.aprender.example[this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal];
+      this.numero_examples = this.examples.length
       this.obtenerNumerosPalabras();
     }
   }
@@ -328,9 +335,18 @@ export class PresentVerbAprenderComponent implements OnInit {
     return new DatePipe('en-LA').transform(date, 'shortDate'); 
   }
 
+
+
+  
   autocompletar() {
-    this.verboEntrada = this.usuario.sistema.hojaSeleccionado.aprender.english[this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal];
-    this.validarVerboEntredaConVerboPorAprender(this.verboEntrada);
+    if(this.numero_examples > 0) {
+      this.numero_examples--;
+      this.audioService.reproducir(this.examples[this.numero_examples].english);
+      console.log("Verbo Entrada: " + this.examples[this.numero_examples].english);
+    } else {
+      this.verboEntrada = this.usuario.sistema.hojaSeleccionado.aprender.english[this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal];
+      this.validarVerboEntredaConVerboPorAprender(this.verboEntrada);
+    }
   }
 
 }
