@@ -104,3 +104,31 @@ table, th, td {
 table {
   width: 80%;
 }
+
+.table-small-font {
+  font-size: 12px;
+}
+
+.table-medium-font {
+  font-size: 13px;
+}
+
+.table-large-font {
+  font-size: 20px;
+}
+
+
+.fixed-footer {
+  position: fixed;
+  bottom: 0;
+  width: 43%;
+  background-color: white;
+  text-align: center;
+  padding: 10px 0;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.table-medium-font {
+  font-size: 16px;
+  margin-bottom: 60px; /* Añadir margen inferior para evitar que la tabla cubra el botón */
+}

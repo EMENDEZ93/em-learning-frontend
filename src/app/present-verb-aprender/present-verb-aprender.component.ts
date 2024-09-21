@@ -9,8 +9,7 @@ import { actualizarHoja } from '../dominio/usuario/usuario.actions';
 import { Usuario } from '../dominio/usuario/usuario.model';
 import { DatePipe } from '@angular/common';
 import { Example } from '../dominio/rutina/example.model';
-import { of } from 'rxjs';
-import { filter, defaultIfEmpty } from 'rxjs/operators';
+
 
 export interface Brand {
   value: string;
@@ -27,8 +26,6 @@ export class PresentVerbAprenderComponent implements OnInit {
   actualizarPerfilPresentVerb: ActualizarPerfilPresentVerb;
 
   @Input() hojaTemaExcel: any;
-  @ViewChild('formulario', { static: false }) formulario;
-
   usuario: Usuario;
   hojaActual: string = "";
 
@@ -133,7 +130,7 @@ export class PresentVerbAprenderComponent implements OnInit {
   }
 
   private configuracionAprender() {
-    this.formulario.resetForm();
+  
     this.obtenerSiguienteIndice();
 
     if(this.usuario.sistema.hojaSeleccionado.aprender.orden) {
@@ -334,18 +331,44 @@ export class PresentVerbAprenderComponent implements OnInit {
   private transformarDate(date){
     return new DatePipe('en-LA').transform(date, 'shortDate'); 
   }
-
-
-
   
   autocompletar() {
     if(this.numero_examples > 0) {
       this.numero_examples--;
       this.audioService.reproducir(this.examples[this.numero_examples].english);
       console.log("Verbo Entrada: " + this.examples[this.numero_examples].english);
+
+      const row = document.getElementById(`fila_${this.numero_examples}`);
+      const row_ = document.getElementById(`fila_${this.numero_examples}_`);
+
+      if (row) {
+        row.style.backgroundColor = 'green';
+        row_.style.backgroundColor = 'green';
+        row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+
     } else {
       this.verboEntrada = this.usuario.sistema.hojaSeleccionado.aprender.english[this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal];
       this.validarVerboEntredaConVerboPorAprender(this.verboEntrada);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      this.resetRowColors();
+    }
+  }
+
+  reproducir_individual(index: number): void {
+    this.audioService.reproducir(this.examples[index].english);
+  }
+
+  private resetRowColors(): void {
+    for (let i = 0; i < this.examples.length; i++) {
+      const row = document.getElementById(`fila_${i}`);
+      const row_ = document.getElementById(`fila_${i}_`);
+      if (row) {
+        row.style.backgroundColor = '';
+      }
+      if (row_) {
+        row_.style.backgroundColor = '';
+      }
     }
   }
 
