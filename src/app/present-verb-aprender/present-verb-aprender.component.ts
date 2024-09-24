@@ -154,19 +154,15 @@ export class PresentVerbAprenderComponent implements OnInit {
   obtenerSiguienteIndice() {
     if (!this.estaRutinaCompletada()) {
       if (this.esIgualrIndiceVerboRetrocesoTemporalIndiceVerboValidar()) {
-        if (this.esIgualRepeticionAlcaComoAprendioTemporalRepeticionAltaComoAprendido()) {
+        //if (this.esIgualRepeticionAlcaComoAprendioTemporalRepeticionAltaComoAprendido()) {
           this.actualizarVerbosAprendidos();
           this.actualizarBarraProgreso();
-          this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboValidar++;
-          //this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal = 0;
+          this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboValidar++;      
           this.repeticionesAltaComoAprendidoTemporal = 1;
+          this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal++;    
+        //} else {      
           //this.repeticionesAltaComoAprendidoTemporal++;
-          this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal++;
-        
-        } else {
-          //this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal = 0;
-          this.repeticionesAltaComoAprendidoTemporal++;
-        }
+        //}
 
       } else {
         this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal++;
@@ -352,6 +348,11 @@ export class PresentVerbAprenderComponent implements OnInit {
       this.validarVerboEntredaConVerboPorAprender(this.verboEntrada);
       window.scrollTo({ top: 0, behavior: 'smooth' });
       this.resetRowColors();
+
+      
+      const row = document.getElementById('th_main');
+      row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
     }
   }
 
