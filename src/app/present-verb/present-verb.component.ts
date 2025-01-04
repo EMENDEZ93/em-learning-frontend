@@ -77,42 +77,6 @@ export class PresentVerbComponent implements OnInit {
         )
   }
   
-
-  @Input() editable: boolean = true;
-  @Input() showOptions: boolean = false;
-  opciones : Opcion[] = [];
-  validarVerboEntredaConVerboRutina(verboEntrada){    
-    if(this.estaRutinaCompletada()){
-      this.actualizarPerfil();
-    } else if(this.esIgualVerbEntradaVerboRutina(verboEntrada)){
-      if(this.activarAyuda) {
-
-        setTimeout(() => {
-          this.formulario.resetForm();
-          this.verboEntradaInput.nativeElement.focus();
-          }, 1);
-
-          this.reproducir();
-          if(this.repeticionesPorAyuda == 5) {
-            this.activarAyuda = false;
-            this.repeticionesPorAyuda = 0;
-            this.continuarSiguienteVerbo(); 
-            this.getNumeroPalabras();
-            this.completarConOracionAnterior();
-
-          } else {
-            this.repeticionesPorAyuda ++;
-          }
-
-      } else {
-        this.continuarSiguienteVerbo();
-        this.getNumeroPalabras();
-        this.completarConOracionAnterior();
-      }
-    }
-  }
-
-
   completarConOracionAnterior() {
     if(this.usuario.sistema.hojaSeleccionado.rutina.orden) {
       if(this.usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar > 0) {
@@ -177,33 +141,6 @@ export class PresentVerbComponent implements OnInit {
         }, 1)
 
     }
-  }
-
-  key : string;
-  @HostListener('document:keydown', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent) { 
-    this.key = event.key;
-    
-    if(this.showOptions) {
-      document.getElementById(event.key).click();
-    }
-    if(this.key === "Control" ){
-      document.getElementById(event.key).click();
-      console.log("zz")
-
-    }
-    if(this.key === "ArrowLeft" ){
-      console.log(this.key)
-    }
-    if(this.key === "Enter" ){
-      document.getElementById(event.key).click();
-    }
-    if(this.key === "ArrowDown" ){
-      document.getElementById(event.key).click();
-    }
-
-    console.log(event.key)
-
   }
 
   private actualizarPerfil() {
@@ -407,6 +344,41 @@ export class PresentVerbComponent implements OnInit {
   getNumeroPalabras() {
     var arrayEsperado = this.usuario.sistema.hojaSeleccionado.rutina.english[this.usuario.sistema.hojaSeleccionado.rutina.indiceVerboValidar].match(this.patt1);
     this.numeroPalabras = arrayEsperado.length; 
+  }
+
+
+  @Input() editable: boolean = true;
+  @Input() showOptions: boolean = false;
+  opciones : Opcion[] = [];
+  validarVerboEntredaConVerboRutina(verboEntrada){    
+    if(this.estaRutinaCompletada()){
+      this.actualizarPerfil();
+    } else if(this.esIgualVerbEntradaVerboRutina(verboEntrada)){
+      if(this.activarAyuda) {
+
+        setTimeout(() => {
+          this.formulario.resetForm();
+          this.verboEntradaInput.nativeElement.focus();
+          }, 1);
+
+          this.reproducir();
+          if(this.repeticionesPorAyuda == 5) {
+            this.activarAyuda = false;
+            this.repeticionesPorAyuda = 0;
+            this.continuarSiguienteVerbo(); 
+            this.getNumeroPalabras();
+            this.completarConOracionAnterior();
+
+          } else {
+            this.repeticionesPorAyuda ++;
+          }
+
+      } else {
+        this.continuarSiguienteVerbo();
+        this.getNumeroPalabras();
+        this.completarConOracionAnterior();
+      }
+    }
   }
 
 }

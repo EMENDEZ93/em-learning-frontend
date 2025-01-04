@@ -23,7 +23,7 @@ export class AudioService {
     this.reproductor.voiceURI = "Google UK English Female";
 
     this.reproductor.pitch = audioGeneroAleatorio; // velocidad de voz [0.1 - 10]
-    //this.reproductor.volume = 1; //
+    this.reproductor.volume = 1.5; //
     this.reproductor.rate = 2;
 
     (<any>window).speechSynthesis.speak(this.reproductor);  

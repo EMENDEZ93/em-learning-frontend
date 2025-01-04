@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, ElementRef, HostListener, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AudioService } from '../comun/audio/audio.service';
 import { AppState } from '../dominio/estado/estado.reducer';
@@ -180,33 +180,6 @@ export class TranslateComponent implements OnInit {
         }, 1)
 
     }
-  }
-
-  key : string;
-  @HostListener('document:keydown', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent) { 
-    this.key = event.key;
-    
-    if(this.showOptions) {
-      document.getElementById(event.key).click();
-    }
-    if(this.key === "Control" ){
-      //document.getElementById(event.key).click();
-      //console.log("zz")
-
-    }
-    if(this.key === "ArrowLeft" ){
-      console.log(this.key)
-    }
-    if(this.key === "Enter" ){
-      document.getElementById(event.key).click();
-    }
-    if(this.key === "ArrowDown" ){
-      document.getElementById(event.key).click();
-    }
-
-    console.log(event.key)
-
   }
 
   private actualizarPerfil() {
