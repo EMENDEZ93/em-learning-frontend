@@ -1,5 +1,4 @@
 <div class="em-form">
-
     <table *ngIf="hoyYaRealizoAprender == false" class="table-medium-font">
         <tbody>
             <tr>
@@ -54,5 +53,9 @@
             </tbody>
         </table>
         <p *ngIf="hoyYaRealizoAprender == true">Hoy ya realizaste esta Rutina -> {{hoyYaRealizoAprender}}</p>
-    </div>
+    </div>    
+</div>
+
+<div class="fixed-footer">
+    <button class="autocompletar" (click)="autocompletar()">Botón</button>
 </div>

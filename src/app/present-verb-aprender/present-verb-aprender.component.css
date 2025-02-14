@@ -116,11 +116,30 @@ table {
 .fixed-footer {
   position: fixed;
   bottom: 0;
-  width: 43%;
+  width: 30vh;
   background-color: white;
   text-align: center;
   padding: 10px 0;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  left: 0vw;
+  height: 15vh;
+}
+
+.autocompletar {
+    position: fixed;
+    bottom: auto;
+    left: 1vh;
+    width: 28vh;
+    height: 13vh;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 21px;
+    cursor: pointer;
+    z-index: 9999;
 }
 
 .table-container {
@@ -158,4 +177,9 @@ table {
 .table-container-sin-imagen {
   height: 31vmax; /* Limita la altura del contenedor */
   overflow: auto; /* Permite el scroll */
+}
+
+.fixedbutton {
+  left: 2pc;
+  position: absolute;
 }
