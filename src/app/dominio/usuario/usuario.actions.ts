@@ -13,6 +13,11 @@ export const actualizar = createAction(
     props<{ id: string, correo: string, excels: Excel[]}>()
 );
 
+export const actualizarEspaciosTrabajo = createAction(
+    '[Usuario] Actualizar',
+    props<{ id: string, correo: string, espaciosTrabajo: string[] }>()
+);
+
 export const actualizarRutinaTemaSeleccionado = createAction(
     '[Sistema] actualizar Rutina Tema Seleccionado',
     props<{ englishVerbs: string[]}>()

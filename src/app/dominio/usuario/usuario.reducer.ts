@@ -7,43 +7,46 @@ import { state } from "@angular/animations";
 export const usuarioState: Usuario = new Usuario();
 
 const _usuarioReducer = createReducer(usuarioState,
-    on( usuarioAction.crear, (state, {nombre}) => {
-        return {...state, nombre };
-    } ),
-    on( usuarioAction.actualizar, (state, {id, correo, excels}) => {
-        return {...state, id, correo, excels };
-    } ),
-    on( usuarioAction.actualizarExcels, (state, {excels}) => {
-        return {...state, excels };
-    } ),
-    on( usuarioAction.actualizarExcel, (state, {excelSeleccionado}) => {
+    on(usuarioAction.crear, (state, { nombre }) => {
+        return { ...state, nombre };
+    }),
+    on(usuarioAction.actualizar, (state, { id, correo, excels }) => {
+        return { ...state, id, correo, excels };
+    }),
+    on(usuarioAction.actualizarEspaciosTrabajo, (state, { id, correo, espaciosTrabajo }) => {
+        return { ...state, id, correo, espaciosTrabajo };
+    }),
+    on(usuarioAction.actualizarExcels, (state, { excels }) => {
+        return { ...state, excels };
+    }),
+    on(usuarioAction.actualizarExcel, (state, { excelSeleccionado }) => {
         return {
-            ...state, 
+            ...state,
             excels: state.excels.map(
-                oldExcel => oldExcel.nombre === excelSeleccionado.nombre 
-                ? {
-                    ...oldExcel,
-                    hojas: excelSeleccionado.hojas
-                } 
-                : oldExcel
-                ),
-            sistema:{ 
-                ...state.sistema, 
-                excelSeleccionado 
+                oldExcel => oldExcel.nombre === excelSeleccionado.nombre
+                    ? {
+                        ...oldExcel,
+                        hojas: excelSeleccionado.hojas
+                    }
+                    : oldExcel
+            ),
+            sistema: {
+                ...state.sistema,
+                excelSeleccionado
             }
         };
-    } ),
-    on( usuarioAction.actualizarHoja, (state, {hojaSeleccionado}) => {
+    }),
+    on(usuarioAction.actualizarHoja, (state, { hojaSeleccionado }) => {
         return {
-            ...state, 
-            sistema:{ 
-                ...state.sistema, 
+            ...state,
+            sistema: {
+                ...state.sistema,
                 hojaSeleccionado,
                 excelSeleccionado: {
                     ...state.sistema.excelSeleccionado,
                     hojas: state.sistema.excelSeleccionado.hojas.map(
                         oldHoja => {
-                            if(oldHoja.nombre === hojaSeleccionado.nombre) {
+                            if (oldHoja.nombre === hojaSeleccionado.nombre) {
                                 oldHoja = hojaSeleccionado;
                             }
                             return oldHoja;
@@ -52,13 +55,13 @@ const _usuarioReducer = createReducer(usuarioState,
                 }
             }
         };
-    } ),
-    
-    on (usuarioAction.actualizarAccion, (state, {accion}) => {
+    }),
+
+    on(usuarioAction.actualizarAccion, (state, { accion }) => {
         return {
             ...state,
-            sistema:{ 
-                ...state.sistema, 
+            sistema: {
+                ...state.sistema,
                 accion
             }
         }

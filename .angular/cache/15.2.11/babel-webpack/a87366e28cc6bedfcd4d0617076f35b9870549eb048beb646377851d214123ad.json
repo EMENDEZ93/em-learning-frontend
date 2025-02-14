@@ -1,1 +1,0 @@
-{"ast":null,"code":"import { Conversacion } from '../conversacion/conversacion.models';\nexport class Hoja {\n  constructor() {\n    this.conversacion = new Conversacion();\n  }\n}","map":null,"metadata":{},"sourceType":"module","externalDependencies":[]}

@@ -22,4 +22,8 @@ export class TemasService {
     return this.http.get<Excel[]>(this.endpoint+"/api/present/verb/excels/" + correo);
   }
 
+  public getEspaciosTrabajo(): Observable<string[]> {
+    return this.http.get<string[]>(this.endpoint+"/api/present/verb/espacios/trabajo");
+  }
+
 }

@@ -36,6 +36,9 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth'
 import { ConversacionComponent } from './conversacion/conversacion.component';
 import { TranslateComponent } from './translate/translate.component';
 import { SpeakingComponent } from './speaking/speaking.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -64,6 +67,12 @@ import { SpeakingComponent } from './speaking/speaking.component';
     MatListModule,
     MatProgressBarModule,
     MatDialogModule,
+    
+    
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+
     AlertModule.forRoot(),
     NgbModule,
     MatSelectModule,

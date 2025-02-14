@@ -4,6 +4,7 @@ export class Rutina {
     english: string[];
     spanish: string[];
     fonetica: string[];
+    images: string[];
     allSpeakFast: string[];
     example: Example[][];
     numeroVerbosAprender: number;

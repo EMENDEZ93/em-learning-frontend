@@ -32,9 +32,8 @@ export class PresentVerbAprenderService {
   }
 
 
-  public getHojasByExcelAndCorreo(excel: string, correo: string): Observable<Hoja[]> {
-
-    return this.http.get<Hoja[]>(this.endpoint+"/api/present/verb/hojas/" + excel + "/" + correo);
+  public getHojasByExcelAndCorreo(excel: string, correo: string, espaciosTrabajo: string): Observable<Hoja[]> {
+    return this.http.get<Hoja[]>(this.endpoint+"/api/present/verb/hojas/" + excel + "/"+ espaciosTrabajo +"/" + correo);
   }
 
   public getRutinaByConfiguration(sistem: Sistema): Observable<Rutina> {
@@ -47,6 +46,10 @@ export class PresentVerbAprenderService {
 
   public updateIncluir(idExcel: string): Observable<Excel> {
     return this.http.get<Excel>(this.endpoint+"/api/present/verb/excels/incluir/" + idExcel);
+  }
+
+  public obtenerExcelPorEspacioTrabajo(espaciosTrabajo: string, correo: string): Observable<Excel[]> {
+    return this.http.get<Excel[]>(this.endpoint+"/api/present/verb/excels/" + espaciosTrabajo +"/" + correo);
   }
   
 }

@@ -50,7 +50,7 @@ width: 15%;
 }
 
 .bar-container {
-width: 75%;
+  width: 100%;
 }
 
 .em-margin-input{
@@ -102,21 +102,16 @@ table, th, td {
 }
 
 table {
-  width: 80%;
+  width: 100%;
 }
 
 .table-small-font {
   font-size: 12px;
 }
 
-.table-medium-font {
-  font-size: 13px;
-}
-
 .table-large-font {
   font-size: 20px;
 }
-
 
 .fixed-footer {
   position: fixed;
@@ -128,7 +123,39 @@ table {
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.table-medium-font {
-  font-size: 16px;
-  margin-bottom: 60px; /* Añadir margen inferior para evitar que la tabla cubra el botón */
+.table-container {
+  height: 10vmax; /* Limita la altura del contenedor */
+  overflow: auto; /* Permite el scroll */
+}
+
+.mat-header-row {
+  position: sticky;
+  top: 0; /* Fija el encabezado en la parte superior */
+  z-index: 10; /* Asegura que quede sobre las filas */
+  background-color: #ffffff; /* Fondo blanco para el encabezado */
+  border-bottom: 2px solid #ccc; /* Borde para separar encabezado */
+}
+
+
+.image-container {
+  display: flex;           /* Flexbox para alinear elementos */
+  justify-content: center; /* Centrado horizontal */
+  align-items: center;     /* Centrado vertical */
+  height: 65vh;            /* Asegura que el contenedor ocupe toda la celda */
+}
+
+.responsive-image {
+  max-width: 100%; /* Imagen no excede el ancho de la celda */
+  width: auto;    /* Mantiene la proporción original */
+  max-height: 65vh; /* Límite máximo de altura */
+}
+
+.success {
+  background-color: #505055;
+  border-left: 6px solid #04AA6D;
+}
+
+.table-container-sin-imagen {
+  height: 31vmax; /* Limita la altura del contenedor */
+  overflow: auto; /* Permite el scroll */
 }
