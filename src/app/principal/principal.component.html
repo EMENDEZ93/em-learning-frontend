@@ -11,9 +11,9 @@
         </mat-list>
     </mat-drawer>
 
-    <div *ngIf="!isEmpty(usuario.sistema.hojaSeleccionado)">
+    <div *ngIf="!isEmpty(usuario.sistema.hojaSeleccionado)" class="main-container-present-verb-aprender">
         <div class="tabs-em container">
-            <div id="Home" class="tabcontent">
+            <div id="Home">
                 <app-present-verb-aprender></app-present-verb-aprender>
             </div>
         </div>
@@ -29,7 +29,8 @@
               </div>
             </mat-list>
         </mat-drawer-container>
-        <mat-list *ngFor="let excel of usuario.excels ">
+
+        <mat-list  class="ho-container" *ngFor="let excel of usuario.excels ">
             <div style="display: flex; color: #f9e509;">
                 <mat-list-item style="cursor: pointer" Class="btn-primary" (click)="selectedExcel(excel)">
                     {{excel["nombre"]}}

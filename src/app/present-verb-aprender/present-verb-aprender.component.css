@@ -117,10 +117,10 @@ table {
   position: fixed;
   bottom: 0;
   width: 30vh;
-  background-color: white;
+  background-color: rgb(138 138 138);
   text-align: center;
   padding: 10px 0;
-  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 -2px 5px #022802;
   left: 0vw;
   height: 15vh;
 }
@@ -132,7 +132,7 @@ table {
     width: 28vh;
     height: 13vh;
     background-color: #007bff;
-    color: #fff;
+    color: rgb(138 138 138);
     border: none;
     display: flex;
     align-items: center;
@@ -182,4 +182,25 @@ table {
 .fixedbutton {
   left: 2pc;
   position: absolute;
+}
+
+.background-row {
+  background-color: #022802;
+  text-align: center;
+  color: #f9e509;
+}
+
+
+.progress {
+  display: flex;
+  height: 1rem;
+  overflow: hidden;
+  line-height: 0;
+  font-size: .75rem;
+  background-color: rgb(138 138 138);;
+  border-radius: .25rem;
+}
+
+.table-medium-font{
+  width: 70em;
 }

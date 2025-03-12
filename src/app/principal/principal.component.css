@@ -46,7 +46,13 @@
 
 .tabs-em {
     color: #fff;
+    max-width: 100%;
 }
+
+.container-tab {
+    width: 100vw;
+}
+
 
 .is-active {
     background-color: red;
@@ -101,6 +107,7 @@ html {
     display: none;
     padding: 10px 20px;
     height: 100%;
+    width: 100%;
 }
 
 .visible {
@@ -117,4 +124,8 @@ html {
 
 #static-spinner {
     animation: none !important;
-  }
+}
+
+.main-container-present-verb-aprender{
+    width: 70vw
+}

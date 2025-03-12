@@ -1,61 +1,44 @@
-<div class="em-form">
-    <table *ngIf="hoyYaRealizoAprender == false" class="table-medium-font">
-        <tbody>
-            <tr>
-                <td>
-                    <div class="progress">
-                        <div class="progress-bar" [ngStyle]="{'width': barraProgreso + '%;'}">
-                            {{barraProgreso}}%
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                  <div class="image-container">
-                    <img *ngIf="images !== 'NO_APLICA' && images !== undefined && images !== null" 
-                      [src]="'data:image/png;base64,' + images" 
-                      alt="Imagen" 
-                      class="responsive-image">
-                  </div>
-                </td>
-            </tr>     
-        </tbody>
-    </table>
 
-    <div class="table-container">
-        <table *ngIf="hoyYaRealizoAprender == false" class="table-medium-font">
+    <div class="table-container-sin-imagen">
+   
+        <table *ngIf="hoyYaRealizoAprender == false">
             <tbody>
-                <tr id="th_main" style="background-color: #3CBC8D; text-align: center; color: #f9e509;">
+                <tr id="th_main" style="background-color: #022802; text-align: center; color: rgb(138 138 138);">
+                    <td [innerHTML]="spanishVerbo | replaceNewline"></td>
                     <td>
-                        <b>{{englishVerbo}}</b>
+                        <img *ngIf="images !== 'NO_APLICA' && images !== undefined && images !== null" 
+                        [src]="'data:image/png;base64,' + images" 
+                        alt="Imagen" 
+                        class="responsive-image">
+                        <br>
+                        {{englishVerbo | replaceNewline}}
                     </td>
+                    <td [innerHTML]="foneticaVerbo | replaceNewline"></td>
                 </tr>
-                <tr style="background-color: #3CBC8D; text-align: center; color: #f9e509;">
-                    <td>{{foneticaVerbo}}</td>
-                </tr>
-                <tr style="background-color: #3CBC8D; text-align: center; color: #f9e509;">
-                    <td>{{spanishVerbo}}</td>
-                </tr>
-                <ng-container *ngIf="examples && examples.length > 0" style="color: #f9e509;">
+                <ng-container *ngIf="examples && examples.length > 0" style="color: rgb(138 138 138);">
                     <ng-container *ngFor="let example of examples; let i = index;" id="fila_{i}">
-                        <tr id="fila_{{i}}" style="text-align: center; color: #f9e509;">
-                            <td>{{example.english}}</td>
-                        </tr>
-                        <tr id="fila_{{i}}_fonetica" style="text-align: center; color: #f9e509;">
-                            <td>{{example.fonetica}}</td>
-                        </tr>
-                        <tr id="fila_{{i}}_spanish" style="text-align: center; color: #f9e509;">
-                            <td>{{example.spanish}}</td>
+                        <tr id="fila_{{i}}" style="text-align: center; color: rgb(138 138 138);">
+                            <td [innerHTML]="example.spanish | replaceNewline"></td>
+                            <td>
+                                <div *ngIf="example.imagen !== 'NO_APLICA' && example.imagen !== undefined && example.imagen !== null">
+                                    <img [src]="'data:image/png;base64,' + example.imagen" 
+                                    alt="Imagen" 
+                                    class="responsive-image">
+                                    <br>
+                                </div>
+                                {{example.english | replaceNewline}}
+                                <br>
+                                <span style="font-size: xx-small;">{{example.spanish | replaceNewline}}</span>
+                            </td>      
+                            <td [innerHTML]="example.fonetica | replaceNewline"></td>
                         </tr>
                     </ng-container>
                 </ng-container>
             </tbody>
         </table>
         <p *ngIf="hoyYaRealizoAprender == true">Hoy ya realizaste esta Rutina -> {{hoyYaRealizoAprender}}</p>
-    </div>    
-</div>
+    </div>   
 
 <div class="fixed-footer">
-    <button class="autocompletar" (click)="autocompletar()">Botón</button>
+    <button class="autocompletar" (click)="autocompletar()">Next</button>
 </div>

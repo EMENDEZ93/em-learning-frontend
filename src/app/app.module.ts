@@ -39,6 +39,7 @@ import { SpeakingComponent } from './speaking/speaking.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import { ReplaceNewlinePipe } from './present-verb-aprender/replace-newline.pipe';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { MatSortModule } from '@angular/material/sort';
     RegistrerComponent,
     TranslateComponent,
     ConversacionComponent,
-    SpeakingComponent
+    SpeakingComponent,
+    ReplaceNewlinePipe
   ],
   imports: [
     BrowserModule,

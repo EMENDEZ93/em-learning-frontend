@@ -16,8 +16,8 @@ export const environment = {
 };
 
 //export const environment_url = "http://localhost:5000"
-export const environment_url = "http://192.168.1.8:8091"
-//export const environment_url = "http://localhost:8091"
+//export const environment_url = "http://192.168.1.8:8091"
+export const environment_url = "http://localhost:8091"
 
 /*
  * For easier debugging in development mode, you can import the following file

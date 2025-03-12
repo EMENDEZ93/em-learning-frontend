@@ -3,4 +3,5 @@ export class Example {
     spanish: string;
     fonetica: string;
     speakFast: string;
+    imagen: string;
 }

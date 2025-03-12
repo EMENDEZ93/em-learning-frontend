@@ -200,7 +200,6 @@ export class PresentVerbAprenderComponent implements OnInit {
 
   reproducir() {
     if (!this.hoyRealizoAprender()) {
-      console.log("Reproduccion:PresentVerbAprenderComponente");
 
       this.slangVerbo = this.usuario.sistema.hojaSeleccionado.aprender.allSpeakFast[this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal];
 
@@ -336,12 +335,13 @@ export class PresentVerbAprenderComponent implements OnInit {
       
       const speakFast = this.examples[this.numero_examples].speakFast;
 
-      console.log("SpeakFast: " + speakFast)
-
       if (speakFast !== 'NO_APLICA' && speakFast !== '' && speakFast !== null && speakFast !== undefined) {
-        this.audioService.reproducir(speakFast);
+        //this.audioService.reproducir(speakFast);
+        this.reproducirCallBak_(speakFast);
+
       } else {
-        this.audioService.reproducir(this.examples[this.numero_examples].english);
+        //this.audioService.reproducir(this.examples[this.numero_examples].english);
+        this.reproducirCallBak_(this.examples[this.numero_examples].english);
       }
   
       // Restablecer el color de fondo de todas las celdas a negro
@@ -351,15 +351,16 @@ export class PresentVerbAprenderComponent implements OnInit {
       const row_fonetica = document.getElementById(`fila_${this.numero_examples}_fonetica`);
       const row_spanish = document.getElementById(`fila_${this.numero_examples}_spanish`);
       if (row) {
-        row.style.backgroundColor = 'green';
-        row.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        row.style.backgroundColor = '#022802';
+        row.style.fontWeight = 'bold';
+        row.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
       if (row_fonetica) {
-        row_fonetica.style.backgroundColor = 'green';
+        row_fonetica.style.backgroundColor = '#022802';
       }
 
       if (row_spanish) {    
-        row_spanish.style.backgroundColor = 'green';
+        row_spanish.style.backgroundColor = '#022802';
       }
 
       this.numero_examples++;
@@ -398,11 +399,6 @@ export class PresentVerbAprenderComponent implements OnInit {
       this.verboEntradaInput.resetForm();
     }
   }
-
-  reproducir_individual(index: number): void {
-    this.audioService.reproducir(this.examples[index].english);
-  }
-
 
   @Input() editable: boolean = true;
   @Input() showOptions: boolean = false;
@@ -465,6 +461,20 @@ export class PresentVerbAprenderComponent implements OnInit {
         this.reproducir();
       }      
     }
+
+    if(this.key === "Shift" ){
+      this.audioService.detener();
+    }
+
+    if(this.key === " " ){
+      if (this.slangVerbo !== "NO_APLICA") {
+        this.audioService.reproducir(this.slangVerbo);
+      } else {
+        this.audioService.reproducir(this.usuario.sistema.hojaSeleccionado.aprender.english[this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal]);
+      }
+    }
+    
+
     console.log(event.key)
   }
 
@@ -476,6 +486,18 @@ export class PresentVerbAprenderComponent implements OnInit {
     const index = this.usuario.sistema.hojaSeleccionado.aprender.indicesVerbosAprendidos.indexOf(0);
     if (index > -1) {
       this.usuario.sistema.hojaSeleccionado.aprender.indicesVerbosAprendidos.splice(index, 1);
+    }
+  }
+
+  reproducirCallBak_(verb: string) {
+    this.audioService.reproducirCallBack(verb, () => {
+      this.accionPostReproduccion();
+    });
+  }
+
+  accionPostReproduccion() {
+    if (this.numero_examples < this.examples.length) {
+      this.autocompletar();
     }
   }
 
