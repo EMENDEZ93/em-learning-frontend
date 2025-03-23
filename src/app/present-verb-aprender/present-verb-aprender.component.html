@@ -3,8 +3,7 @@
    
         <table *ngIf="hoyYaRealizoAprender == false">
             <tbody>
-                <tr id="th_main" style="background-color: #022802; text-align: center; color: rgb(138 138 138);">
-                    <td [innerHTML]="spanishVerbo | replaceNewline"></td>
+                <tr id="th_main" style="background-color: #022802; text-align: left; color: rgb(138 138 138);">
                     <td>
                         <img *ngIf="images !== 'NO_APLICA' && images !== undefined && images !== null" 
                         [src]="'data:image/png;base64,' + images" 
@@ -13,12 +12,12 @@
                         <br>
                         {{englishVerbo | replaceNewline}}
                     </td>
+                    <td [innerHTML]="spanishVerbo | replaceNewline"></td>
                     <td [innerHTML]="foneticaVerbo | replaceNewline"></td>
                 </tr>
                 <ng-container *ngIf="examples && examples.length > 0" style="color: rgb(138 138 138);">
                     <ng-container *ngFor="let example of examples; let i = index;" id="fila_{i}">
-                        <tr id="fila_{{i}}" style="text-align: center; color: rgb(138 138 138);">
-                            <td [innerHTML]="example.spanish | replaceNewline"></td>
+                        <tr id="fila_{{i}}" style="text-align: left; color: rgb(138 138 138);">
                             <td>
                                 <div *ngIf="example.imagen !== 'NO_APLICA' && example.imagen !== undefined && example.imagen !== null">
                                     <img [src]="'data:image/png;base64,' + example.imagen" 
@@ -27,9 +26,9 @@
                                     <br>
                                 </div>
                                 {{example.english | replaceNewline}}
-                                <br>
-                                <span style="font-size: xx-small;">{{example.spanish | replaceNewline}}</span>
+                                <!-- <br><span style="font-size: xx-small;">{{example.spanish | replaceNewline}}</span>-->
                             </td>      
+                            <td [innerHTML]="example.spanish | replaceNewline"></td>
                             <td [innerHTML]="example.fonetica | replaceNewline"></td>
                         </tr>
                     </ng-container>

@@ -474,6 +474,13 @@ export class PresentVerbAprenderComponent implements OnInit {
       }
     }
     
+    if(this.key === "ArrowUp" ){
+      this.devolverse();
+    }
+
+    if(this.key === "ArrowDown" ){
+      this.avanzar();
+    }
 
     console.log(event.key)
   }
@@ -500,5 +507,43 @@ export class PresentVerbAprenderComponent implements OnInit {
       this.autocompletar();
     }
   }
+
+  // devolverse 10 ejemplos atras si es posible o maximo 10 ejemplos
+  devolverse() {
+    if (this.numero_examples >= 10) {
+      this.numero_examples -= 10;
+    } else {
+      this.numero_examples = 0;
+    }
+    this.audioService.detener();
+    this.autocompletar();
+
+    //quitar negrita a todas las filas
+    const rows = document.querySelectorAll('tr');
+    rows.forEach(row => {
+      row.style.fontWeight = 'normal';
+    });
+
+  }
+
+  //avanar 10 ejemplos adelante si es posible o maximo 10 ejemplos
+  avanzar() {
+    if (this.numero_examples + 10 < this.examples.length) {
+      this.numero_examples += 10;
+    } else {
+      this.numero_examples = this.examples.length - 1;
+    }
+    this.audioService.detener();
+    this.autocompletar();
+
+    //qu
+    //itar negrita a todas las filas
+    const rows = document.querySelectorAll('tr');
+    rows.forEach(row => {
+      row.style.fontWeight = 'normal';
+    });
+  }
+
+
 
 }

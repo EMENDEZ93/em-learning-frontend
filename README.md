@@ -32,3 +32,6 @@ firebase login
 firebase projects:list
 ng build
 firebase deploy
+
+
+nvm use 14.21.3

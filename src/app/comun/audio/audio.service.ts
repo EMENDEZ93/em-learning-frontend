@@ -25,6 +25,7 @@ export class AudioService {
     // Definir el evento onend para detectar cuando termina la reproducción
     this.reproductor.onend = (event) => {
       //console.log("Reproducción terminada");
+      
       // Llamar a la función callback cuando termine la reproducción
       callback();
     };
