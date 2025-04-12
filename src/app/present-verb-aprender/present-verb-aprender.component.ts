@@ -377,6 +377,53 @@ export class PresentVerbAprenderComponent implements OnInit {
     }
   }
 
+  autocompletarDevolverse() {
+    if (this.numero_examples >= 0 && this.numero_examples < this.examples.length) {
+      
+      const speakFast = this.examples[this.numero_examples].speakFast;
+
+      if (speakFast !== 'NO_APLICA' && speakFast !== '' && speakFast !== null && speakFast !== undefined) {
+        //this.audioService.reproducir(speakFast);
+        this.reproducirCallBak_(speakFast);
+
+      } else {
+        //this.audioService.reproducir(this.examples[this.numero_examples].english);
+        this.reproducirCallBak_(this.examples[this.numero_examples].english);
+      }
+  
+      // Restablecer el color de fondo de todas las celdas a negro
+      this.resetRowColors();
+  
+      const row = document.getElementById(`fila_${this.numero_examples}`);
+      const row_fonetica = document.getElementById(`fila_${this.numero_examples}_fonetica`);
+      const row_spanish = document.getElementById(`fila_${this.numero_examples}_spanish`);
+      if (row) {
+        row.style.backgroundColor = '#022802';
+        row.style.fontWeight = 'bold';
+        row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      if (row_fonetica) {
+        row_fonetica.style.backgroundColor = '#022802';
+      }
+
+      if (row_spanish) {    
+        row_spanish.style.backgroundColor = '#022802';
+      }
+
+      //this.numero_examples++;
+    } else {
+      this.verboEntrada = this.usuario.sistema.hojaSeleccionado.aprender.english[
+        this.usuario.sistema.hojaSeleccionado.aprender.indiceVerboRetrocesoTemporal
+      ];
+  
+      this.validarVerboEntredaConVerboPorAprender(this.verboEntrada);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      this.resetRowColors();
+      const row = document.getElementById('th_main');
+      row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }
+
   private resetRowColors(): void {
     const rows = document.querySelectorAll('tr');
     rows.forEach(row => {
@@ -503,45 +550,28 @@ export class PresentVerbAprenderComponent implements OnInit {
   }
 
   accionPostReproduccion() {
-    if (this.numero_examples < this.examples.length) {
+    /*if (this.numero_examples < this.examples.length) {
       this.autocompletar();
-    }
+    }*/
   }
 
   // devolverse 10 ejemplos atras si es posible o maximo 10 ejemplos
   devolverse() {
-    if (this.numero_examples >= 10) {
-      this.numero_examples -= 10;
-    } else {
-      this.numero_examples = 0;
-    }
+    /*if (this.numero_examples >= 10) {
+      this.numero_examples -= 1;
+    }*/
+    this.numero_examples -= 1;
+
     this.audioService.detener();
-    this.autocompletar();
-
-    //quitar negrita a todas las filas
-    const rows = document.querySelectorAll('tr');
-    rows.forEach(row => {
-      row.style.fontWeight = 'normal';
-    });
-
+    this.autocompletarDevolverse();
   }
 
   //avanar 10 ejemplos adelante si es posible o maximo 10 ejemplos
   avanzar() {
-    if (this.numero_examples + 10 < this.examples.length) {
-      this.numero_examples += 10;
-    } else {
-      this.numero_examples = this.examples.length - 1;
-    }
+    
+    this.numero_examples += 1;
     this.audioService.detener();
-    this.autocompletar();
-
-    //qu
-    //itar negrita a todas las filas
-    const rows = document.querySelectorAll('tr');
-    rows.forEach(row => {
-      row.style.fontWeight = 'normal';
-    });
+    this.autocompletarDevolverse();
   }
 
 
